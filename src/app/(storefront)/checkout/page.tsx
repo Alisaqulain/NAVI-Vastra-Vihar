@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
+import { MapPin, CreditCard, User, ShieldCheck } from "lucide-react";
 import { Breadcrumbs } from "@/components/storefront/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,7 +32,6 @@ function CheckoutForm() {
     phone: session?.user.phone ?? "",
     addressLine1: "",
     addressLine2: "",
-    city: "",
     state: "",
     pincode: "",
   });
@@ -46,10 +46,7 @@ function CheckoutForm() {
         const disc =
           coupon.discountType === "fixed"
             ? coupon.discountValue
-            : Math.min(
-                (subtotal * coupon.discountValue) / 100,
-                coupon.maximumDiscount ?? Infinity
-              );
+            : Math.min((subtotal * coupon.discountValue) / 100, coupon.maximumDiscount ?? Infinity);
         setDiscount(disc);
       });
     }
@@ -63,7 +60,7 @@ function CheckoutForm() {
       toast.error("Your cart is empty");
       return;
     }
-    if (!form.fullName || !form.email || !form.phone || !form.addressLine1 || !form.city || !form.state || !form.pincode) {
+    if (!form.fullName || !form.email || !form.phone || !form.addressLine1 || !form.state || !form.pincode) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -91,7 +88,7 @@ function CheckoutForm() {
         phone: form.phone,
         addressLine1: form.addressLine1,
         addressLine2: form.addressLine2,
-        city: form.city,
+        city: form.addressLine2 || form.state,
         state: form.state,
         pincode: form.pincode,
         country: "India",
@@ -116,103 +113,115 @@ function CheckoutForm() {
 
   if (items.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
+      <div className="container-premium py-16 text-center">
         <h1 className="font-serif text-2xl text-navy mb-4">Nothing to checkout</h1>
-        <Button asChild variant="emerald">
-          <Link href="/shop">Browse Collection</Link>
+        <Button asChild variant="emerald" className="rounded-full">
+          <Link href="/shop">Browse Sarees</Link>
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 lg:py-12">
+    <div className="container-premium py-6 sm:py-10 lg:py-12">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Cart", href: "/cart" }, { label: "Checkout" }]} />
-      <h1 className="font-serif text-3xl text-navy mt-4 mb-8">Checkout</h1>
+      <h1 className="font-serif text-2xl sm:text-3xl text-navy mt-4 mb-6 sm:mb-8">Secure Checkout</h1>
 
-      <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <section className="p-6 rounded-lg border border-beige bg-cream-light space-y-4">
-            <h2 className="font-serif text-xl text-navy">Contact Information</h2>
+      <form onSubmit={handleSubmit} className="grid lg:grid-cols-5 gap-6 lg:gap-8">
+        <div className="lg:col-span-3 space-y-5 sm:space-y-6">
+          <section className="premium-card p-5 sm:p-6 space-y-4">
+            <div className="flex items-center gap-2 text-navy">
+              <User className="h-5 w-5 text-emerald" />
+              <h2 className="font-serif text-lg sm:text-xl">Contact Information</h2>
+            </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
                 <Label htmlFor="fullName">Full Name *</Label>
-                <Input id="fullName" required value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
+                <Input id="fullName" required value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
               </div>
               <div>
                 <Label htmlFor="email">Email *</Label>
-                <Input id="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                <Input id="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
               </div>
               <div>
                 <Label htmlFor="phone">Phone *</Label>
-                <Input id="phone" type="tel" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                <Input id="phone" type="tel" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
               </div>
             </div>
           </section>
 
-          <section className="p-6 rounded-lg border border-beige bg-cream-light space-y-4">
-            <h2 className="font-serif text-xl text-navy">Delivery Address</h2>
+          <section className="premium-card p-5 sm:p-6 space-y-4">
+            <div className="flex items-center gap-2 text-navy">
+              <MapPin className="h-5 w-5 text-emerald" />
+              <h2 className="font-serif text-lg sm:text-xl">Delivery Address</h2>
+            </div>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="addressLine1">Address Line 1 *</Label>
-                <Input id="addressLine1" required value={form.addressLine1} onChange={(e) => setForm({ ...form, addressLine1: e.target.value })} />
+                <Label htmlFor="addressLine1">Full Address *</Label>
+                <Input id="addressLine1" required placeholder="House no., street, area, landmark" value={form.addressLine1} onChange={(e) => setForm({ ...form, addressLine1: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
               </div>
               <div>
-                <Label htmlFor="addressLine2">Address Line 2</Label>
-                <Input id="addressLine2" value={form.addressLine2} onChange={(e) => setForm({ ...form, addressLine2: e.target.value })} />
+                <Label htmlFor="addressLine2">Locality / Landmark</Label>
+                <Input id="addressLine2" placeholder="Optional" value={form.addressLine2} onChange={(e) => setForm({ ...form, addressLine2: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
               </div>
-              <div className="grid sm:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="city">City *</Label>
-                  <Input id="city" required value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} />
-                </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="state">State *</Label>
-                  <Input id="state" required value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} />
+                  <Input id="state" required placeholder="e.g. Delhi" value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
                 </div>
                 <div>
                   <Label htmlFor="pincode">Pincode *</Label>
-                  <Input id="pincode" required value={form.pincode} onChange={(e) => setForm({ ...form, pincode: e.target.value })} />
+                  <Input id="pincode" required placeholder="110001" value={form.pincode} onChange={(e) => setForm({ ...form, pincode: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
                 </div>
               </div>
             </div>
           </section>
 
-          <section className="p-6 rounded-lg border border-beige bg-cream-light space-y-4">
-            <h2 className="font-serif text-xl text-navy">Payment Method</h2>
-            <p className="text-sm text-navy/60">Payment gateway integration ready — currently using mock payment.</p>
-            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-3">
+          <section className="premium-card p-5 sm:p-6 space-y-4">
+            <div className="flex items-center gap-2 text-navy">
+              <CreditCard className="h-5 w-5 text-emerald" />
+              <h2 className="font-serif text-lg sm:text-xl">Payment Method</h2>
+            </div>
+            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2.5">
               {[
-                { value: "upi", label: "UPI (Google Pay, PhonePe, Paytm)" },
-                { value: "card", label: "Credit / Debit Card" },
-                { value: "netbanking", label: "Net Banking" },
-                { value: "cod", label: "Cash on Delivery" },
+                { value: "upi", label: "UPI", desc: "Google Pay, PhonePe, Paytm" },
+                { value: "card", label: "Card", desc: "Credit / Debit Card" },
+                { value: "netbanking", label: "Net Banking", desc: "All major banks" },
+                { value: "cod", label: "Cash on Delivery", desc: "Pay when you receive" },
               ].map((method) => (
-                <div key={method.value} className="flex items-center space-x-3 border border-beige rounded-md p-4">
+                <div
+                  key={method.value}
+                  className={`flex items-center gap-3 rounded-xl border p-4 transition-colors cursor-pointer ${
+                    paymentMethod === method.value ? "border-emerald bg-emerald/5" : "border-beige hover:border-gold/40"
+                  }`}
+                >
                   <RadioGroupItem value={method.value} id={method.value} />
-                  <Label htmlFor={method.value} className="cursor-pointer flex-1">{method.label}</Label>
+                  <Label htmlFor={method.value} className="cursor-pointer flex-1">
+                    <span className="font-medium block">{method.label}</span>
+                    <span className="text-xs text-navy/50">{method.desc}</span>
+                  </Label>
                 </div>
               ))}
             </RadioGroup>
           </section>
         </div>
 
-        <div className="lg:col-span-1">
-          <div className="sticky top-24 p-6 rounded-lg border border-beige bg-cream-light space-y-4">
-            <h2 className="font-serif text-xl text-navy">Order Summary</h2>
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+        <div className="lg:col-span-2">
+          <div className="premium-card p-5 sm:p-6 space-y-4 lg:sticky lg:top-24">
+            <h2 className="font-serif text-lg sm:text-xl text-navy">Order Summary</h2>
+            <div className="space-y-3 max-h-56 overflow-y-auto pr-1">
               {items.map((item) => {
                 if (!item.product) return null;
                 return (
                   <div key={`${item.productId}-${item.size}`} className="flex gap-3">
-                    <div className="relative h-16 w-14 shrink-0 rounded overflow-hidden">
+                    <div className="relative h-16 w-14 shrink-0 rounded-lg overflow-hidden border border-beige">
                       <Image src={item.product.images[0]} alt="" fill className="object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium line-clamp-2">{item.product.name}</p>
-                      <p className="text-xs text-navy/60">Qty: {item.quantity}</p>
+                      <p className="text-xs text-navy/50">Qty: {item.quantity}</p>
                     </div>
-                    <p className="text-sm font-medium">{formatPrice(getEffectivePrice(item.product) * item.quantity)}</p>
+                    <p className="text-sm font-semibold shrink-0">{formatPrice(getEffectivePrice(item.product) * item.quantity)}</p>
                   </div>
                 );
               })}
@@ -220,14 +229,17 @@ function CheckoutForm() {
             <Separator />
             <div className="space-y-2 text-sm">
               <div className="flex justify-between"><span className="text-navy/60">Subtotal</span><span>{formatPrice(subtotal)}</span></div>
-              <div className="flex justify-between"><span className="text-navy/60">Shipping</span><span>{shipping === 0 ? "Free" : formatPrice(shipping)}</span></div>
+              <div className="flex justify-between"><span className="text-navy/60">Shipping</span><span className={shipping === 0 ? "text-emerald font-medium" : ""}>{shipping === 0 ? "Free" : formatPrice(shipping)}</span></div>
               {discount > 0 && <div className="flex justify-between text-emerald"><span>Discount</span><span>-{formatPrice(discount)}</span></div>}
               <Separator />
-              <div className="flex justify-between font-semibold text-lg"><span>Total</span><span>{formatPrice(total)}</span></div>
+              <div className="flex justify-between font-semibold text-lg pt-1"><span>Total</span><span>{formatPrice(total)}</span></div>
             </div>
-            <Button type="submit" variant="emerald" className="w-full" size="lg" disabled={loading}>
+            <Button type="submit" variant="emerald" className="w-full rounded-full h-12 text-base" size="lg" disabled={loading}>
               {loading ? "Processing..." : "Place Order"}
             </Button>
+            <p className="flex items-center justify-center gap-1.5 text-xs text-navy/50">
+              <ShieldCheck className="h-3.5 w-3.5" /> Secure & encrypted checkout
+            </p>
           </div>
         </div>
       </form>
@@ -237,7 +249,7 @@ function CheckoutForm() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div className="container mx-auto px-4 py-12 text-center">Loading checkout...</div>}>
+    <Suspense fallback={<div className="container-premium py-12 text-center text-navy/60">Loading checkout...</div>}>
       <CheckoutForm />
     </Suspense>
   );

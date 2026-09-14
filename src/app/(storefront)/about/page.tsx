@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { PolicyLayout } from "@/components/storefront/PolicyLayout";
+import { SITE_IMAGES } from "@/lib/constants/images";
 
 export default function AboutPage() {
   return (
     <PolicyLayout title="About Us">
       <div className="relative h-64 rounded-lg overflow-hidden mb-8">
         <Image
-          src="https://images.unsplash.com/photo-1610037129814-458c63926063?w=1200&q=80"
+          src={SITE_IMAGES.about}
           alt="NAVI Vastra Vihar saree heritage"
           fill
           className="object-cover"

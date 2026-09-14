@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { ProductImage } from "@/components/ui/product-image";
 import { Heart, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield } from "lucide-react";
 import { Product, Review } from "@/lib/models";
 import { formatPrice, getEffectivePrice, getDiscountPercent, cn } from "@/lib/utils";
@@ -44,7 +44,7 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
     <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
       <div className="space-y-4">
         <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-beige-light">
-          <Image
+          <ProductImage
             src={product.images[selectedImage]}
             alt={product.name}
             fill
@@ -68,7 +68,7 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
                   selectedImage === i ? "border-emerald" : "border-transparent"
                 )}
               >
-                <Image src={img} alt="" fill className="object-cover" sizes="64px" />
+                <ProductImage src={img} alt="" fill className="object-cover" sizes="64px" />
               </button>
             ))}
           </div>

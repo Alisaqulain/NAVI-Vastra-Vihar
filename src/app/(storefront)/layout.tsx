@@ -8,7 +8,7 @@ import { StorefrontProviders } from "@/components/storefront/providers";
 export default function StorefrontLayout({ children }: { children: React.ReactNode }) {
   return (
     <StorefrontProviders>
-      <div className="flex min-h-screen flex-col pb-16 lg:pb-0">
+      <div className="flex min-h-screen flex-col pb-[60px] lg:pb-0">
         <AnnouncementBar />
         <Navbar />
         <main className="flex-1">{children}</main>

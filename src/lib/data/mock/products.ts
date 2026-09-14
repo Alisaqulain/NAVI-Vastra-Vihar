@@ -1,12 +1,11 @@
 import { Product } from "@/lib/models";
-
-const img = (id: string) => `https://images.unsplash.com/${id}?w=800&q=80`;
+import { getProductImages } from "@/lib/constants/images";
 
 const base = (overrides: Partial<Product> & Pick<Product, "id" | "name" | "slug" | "price" | "sku">): Product => ({
   categoryId: "cat-sarees",
   description: "A beautifully crafted saree from NAVI Vastra Vihar's handloom collection.",
   shortDescription: "Premium handloom saree",
-  images: [img("photo-1610037129814-458c63926063")],
+  images: getProductImages(overrides.id),
   sizes: ["Free Size"],
   colors: [{ name: "Gold", hex: "#C9A962" }],
   stockQuantity: 10,
@@ -28,7 +27,6 @@ export const products: Product[] = [
     description: "Exquisite Banarasi silk saree featuring intricate zari work in royal gold motifs. Handwoven by master artisans in Varanasi.",
     shortDescription: "Handwoven Banarasi silk with gold zari border",
     price: 24999, salePrice: 19999,
-    images: [img("photo-1610037129814-458c63926063"), img("photo-1583391733981-9a17e7a5661d")],
     colors: [{ name: "Gold", hex: "#C9A962" }, { name: "Maroon", hex: "#6B1B2A" }],
     sku: "NV-SR-001", featured: true, bestseller: true,
     specifications: { Fabric: "Pure Banarasi Silk", Weave: "Handloom", Border: "Zari", Blouse: "Included", Care: "Dry clean only" },
@@ -39,7 +37,6 @@ export const products: Product[] = [
     description: "Authentic Kanjeevaram silk saree with traditional temple border design. Rich emerald green body with contrasting gold zari pallu.",
     shortDescription: "Authentic Kanjeevaram with temple border",
     price: 32999, salePrice: 28999,
-    images: [img("photo-1583391733981-9a17e7a5661d"), img("photo-1610037129814-458c63926063")],
     colors: [{ name: "Emerald", hex: "#1F6B5C" }, { name: "Navy", hex: "#1B2A4A" }],
     sku: "NV-SR-002", featured: true, bestseller: true, newArrival: true,
     specifications: { Fabric: "Pure Kanjeevaram Silk", Origin: "Kanchipuram", Border: "Temple Zari", Care: "Dry clean only" },
@@ -50,7 +47,6 @@ export const products: Product[] = [
     description: "Breathable handloom cotton saree with traditional indigo block print. Perfect for daily wear and casual gatherings.",
     shortDescription: "Handloom cotton with indigo block print",
     price: 3499, salePrice: 2799,
-    images: [img("photo-1596870230752-f7cc744e274a")],
     colors: [{ name: "Indigo", hex: "#1B2A4A" }, { name: "White", hex: "#F7F3EB" }],
     sku: "NV-SR-003", bestseller: true,
     specifications: { Fabric: "Handloom Cotton", Print: "Block Print", Care: "Hand wash cold" },
@@ -77,7 +73,6 @@ export const products: Product[] = [
     description: "Sheer organza saree adorned with delicate pearl and sequin embroidery.",
     shortDescription: "Organza with pearl and sequin work",
     price: 18999, salePrice: 15999, stockQuantity: 6, featured: true, newArrival: true, sku: "NV-SR-006",
-    images: [img("photo-1599737367085-492f80f7807b")],
     colors: [{ name: "Blush", hex: "#E8C4C4" }, { name: "Ivory", hex: "#F7F3EB" }],
   }),
   base({
@@ -102,7 +97,6 @@ export const products: Product[] = [
     description: "Magnificent red Banarasi bridal saree with heavy gold zari and brocade work.",
     shortDescription: "Red Banarasi bridal saree with zari",
     price: 54999, salePrice: 47999, stockQuantity: 3, featured: true, bestseller: true, sku: "NV-SR-009",
-    images: [img("photo-1599737367085-492f80f7807b")],
     colors: [{ name: "Royal Red", hex: "#8B1A1A" }],
     specifications: { Fabric: "Pure Banarasi Silk", Work: "Zari Brocade", Occasion: "Bridal", Care: "Dry clean only" },
   }),
@@ -185,7 +179,6 @@ export const products: Product[] = [
     description: "Exclusive Diwali collection saree in rich maroon with gold zari and matching blouse.",
     shortDescription: "Diwali special maroon silk saree",
     price: 14999, salePrice: 11999, featured: true, bestseller: true, newArrival: true, sku: "NV-SR-019",
-    images: [img("photo-1601925260368-ae2f83cf8b7f")],
     colors: [{ name: "Maroon", hex: "#6B1B2A" }],
   }),
   base({
@@ -267,7 +260,6 @@ export const products: Product[] = [
     description: "Contemporary designer net saree with sequin work, perfect for cocktail and evening events.",
     shortDescription: "Designer net cocktail saree",
     price: 16999, salePrice: 13999, newArrival: true, sku: "NV-SR-029",
-    images: [img("photo-1599737367085-492f80f7807b")],
     colors: [{ name: "Black", hex: "#0F1A2E" }],
   }),
   base({

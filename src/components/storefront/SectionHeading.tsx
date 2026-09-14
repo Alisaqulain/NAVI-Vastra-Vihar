@@ -6,21 +6,29 @@ interface SectionHeadingProps {
   title: string;
   viewAllHref?: string;
   viewAllLabel?: string;
+  light?: boolean;
 }
 
-export function SectionHeading({ subtitle, title, viewAllHref, viewAllLabel = "View All" }: SectionHeadingProps) {
+export function SectionHeading({ subtitle, title, viewAllHref, viewAllLabel = "View All", light }: SectionHeadingProps) {
   return (
-    <div className="flex items-end justify-between mb-8">
+    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
       <div>
         {subtitle && (
-          <p className="text-emerald text-sm tracking-[0.2em] uppercase mb-1">{subtitle}</p>
+          <p className={`text-sm tracking-[0.2em] uppercase mb-2 ${light ? "text-gold" : "text-emerald"}`}>
+            {subtitle}
+          </p>
         )}
-        <h2 className="font-serif text-3xl sm:text-4xl text-navy">{title}</h2>
+        <div className="gold-line mb-3" />
+        <h2 className={`font-serif text-2xl sm:text-3xl lg:text-4xl ${light ? "text-cream" : "text-navy"}`}>
+          {title}
+        </h2>
       </div>
       {viewAllHref && (
         <Link
           href={viewAllHref}
-          className="hidden sm:flex items-center gap-1 text-sm text-emerald hover:text-emerald-light transition-colors"
+          className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0 ${
+            light ? "text-gold hover:text-gold-light" : "text-emerald hover:text-emerald-light"
+          }`}
         >
           {viewAllLabel} <ArrowRight className="h-4 w-4" />
         </Link>

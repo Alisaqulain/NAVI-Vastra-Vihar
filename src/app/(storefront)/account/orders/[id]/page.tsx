@@ -96,7 +96,7 @@ export default function OrderDetailPage() {
               <p className="font-medium">{order.shippingAddress.fullName}</p>
               <p className="mt-2">{order.shippingAddress.addressLine1}</p>
               {order.shippingAddress.addressLine2 && <p>{order.shippingAddress.addressLine2}</p>}
-              <p>{order.shippingAddress.city}, {order.shippingAddress.state} — {order.shippingAddress.pincode}</p>
+              <p>{order.shippingAddress.state} — {order.shippingAddress.pincode}</p>
               <p className="mt-2">{order.shippingAddress.phone}</p>
             </CardContent>
           </Card>

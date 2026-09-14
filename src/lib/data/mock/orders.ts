@@ -1,4 +1,5 @@
 import { Order } from "@/lib/models";
+import { getProductImage } from "@/lib/constants/images";
 
 export const orders: Order[] = [
   {
@@ -10,7 +11,7 @@ export const orders: Order[] = [
     customerPhone: "+91 9876543211",
     items: [{
       id: "oi-001", productId: "prod-001", productName: "Banarasi Silk Saree - Royal Gold",
-      productImage: "https://images.unsplash.com/photo-1610037129814-458c63926063?w=800&q=80",
+      productImage: getProductImage("prod-001"),
       sku: "NV-SR-001", size: "Free Size", color: "Gold", quantity: 1, price: 24999, salePrice: 19999,
     }],
     shippingAddress: {
@@ -38,7 +39,7 @@ export const orders: Order[] = [
     customerPhone: "+91 9876543212",
     items: [{
       id: "oi-002", productId: "prod-030", productName: "Bridal Kanjeevaram - Gold Red",
-      productImage: "https://images.unsplash.com/photo-1599737367085-492f80f7807b?w=800&q=80",
+      productImage: getProductImage("prod-030"),
       sku: "NV-SR-030", size: "Free Size", color: "Red", quantity: 1, price: 65999, salePrice: 58999,
     }],
     shippingAddress: {
@@ -64,10 +65,10 @@ export const orders: Order[] = [
     customerPhone: "+91 9876543213",
     items: [
       { id: "oi-003", productId: "prod-003", productName: "Handloom Cotton Saree - Indigo Block Print",
-        productImage: "https://images.unsplash.com/photo-1596870230752-f7cc744e274a?w=800&q=80",
+        productImage: getProductImage("prod-003"),
         sku: "NV-SR-003", size: "Free Size", color: "Indigo", quantity: 2, price: 3499, salePrice: 2799 },
       { id: "oi-004", productId: "prod-013", productName: "Kota Doria Cotton Saree",
-        productImage: "https://images.unsplash.com/photo-1617629644389-bda4d5f2c6c8?w=800&q=80",
+        productImage: getProductImage("prod-013"),
         sku: "NV-SR-013", size: "Free Size", color: "White", quantity: 1, price: 4499, salePrice: 3799 },
     ],
     shippingAddress: {
@@ -92,7 +93,7 @@ export const orders: Order[] = [
     customerPhone: "+91 9876543215",
     items: [{
       id: "oi-005", productId: "prod-019", productName: "Diwali Special Silk Saree",
-      productImage: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800&q=80",
+      productImage: getProductImage("prod-019"),
       sku: "NV-SR-019", size: "Free Size", color: "Maroon", quantity: 1, price: 14999, salePrice: 11999,
     }],
     shippingAddress: {
@@ -113,7 +114,7 @@ export const orders: Order[] = [
     customerPhone: "+91 9876543211",
     items: [{
       id: "oi-006", productId: "prod-002", productName: "Kanjeevaram Temple Border Saree",
-      productImage: "https://images.unsplash.com/photo-1583391733981-9a17e7a5661d?w=800&q=80",
+      productImage: getProductImage("prod-002"),
       sku: "NV-SR-002", size: "Free Size", color: "Emerald", quantity: 1, price: 32999, salePrice: 28999,
     }],
     shippingAddress: {
@@ -137,7 +138,7 @@ export const orders: Order[] = [
     customerPhone: "+91 9876543212",
     items: [{
       id: "oi-007", productId: "prod-026", productName: "Kanjeevaram Emerald Festive Saree",
-      productImage: "https://images.unsplash.com/photo-1596870230752-f7cc744e274a?w=800&q=80",
+      productImage: getProductImage("prod-026"),
       sku: "NV-SR-026", size: "Free Size", color: "Emerald", quantity: 1, price: 34999, salePrice: 29999,
     }],
     shippingAddress: {

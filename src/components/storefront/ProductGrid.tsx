@@ -12,20 +12,22 @@ export function ProductGrid({ products, columns = 4, className }: ProductGridPro
   const gridCols = {
     2: "grid-cols-2",
     3: "grid-cols-2 md:grid-cols-3",
-    4: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+    4: "grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
   };
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-16">
-        <p className="font-serif text-2xl text-navy mb-2">No products found</p>
-        <p className="text-navy/60">Try adjusting your filters or browse our collections.</p>
+      <div className="text-center py-20 px-6 premium-card bg-cream-light/80">
+        <p className="font-serif text-2xl sm:text-3xl text-navy mb-2">No sarees found</p>
+        <p className="text-navy/55 text-sm sm:text-base max-w-md mx-auto">
+          Try adjusting your filters or browse our full collection.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className={cn("grid gap-4 sm:gap-6", gridCols[columns], className)}>
+    <div className={cn("grid gap-5 sm:gap-7 lg:gap-8", gridCols[columns], className)}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

@@ -60,7 +60,7 @@ export default function AddressesPage() {
                   {addr.addressLine1}
                   {addr.addressLine2 && `, ${addr.addressLine2}`}
                   <br />
-                  {addr.city}, {addr.state} — {addr.pincode}
+                  {addr.state} — {addr.pincode}
                   <br />
                   {addr.phone}
                 </p>

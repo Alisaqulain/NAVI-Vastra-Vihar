@@ -12,7 +12,10 @@ export function CategoryCard({ category, className }: CategoryCardProps) {
   return (
     <Link
       href={`/shop?category=${category.slug}`}
-      className={cn("group relative block overflow-hidden rounded-xl aspect-[4/5]", className)}
+      className={cn(
+        "group relative block overflow-hidden rounded-xl sm:rounded-2xl aspect-[3/4] sm:aspect-[4/5] shadow-md hover:shadow-xl transition-shadow duration-300",
+        className
+      )}
     >
       <Image
         src={category.image}
@@ -21,10 +24,11 @@ export function CategoryCard({ category, className }: CategoryCardProps) {
         className="object-cover transition-transform duration-700 group-hover:scale-110"
         sizes="(max-width: 640px) 50vw, 25vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-        <h3 className="font-serif text-xl sm:text-2xl text-cream mb-1">{category.name}</h3>
-        <p className="text-cream/70 text-xs sm:text-sm">{category.productCount} pieces</p>
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-navy/10" />
+      <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/40 rounded-xl sm:rounded-2xl transition-colors" />
+      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-5">
+        <h3 className="font-serif text-base sm:text-xl lg:text-2xl text-cream mb-0.5">{category.name}</h3>
+        <p className="text-cream/60 text-[10px] sm:text-xs">{category.productCount} sarees</p>
       </div>
     </Link>
   );
