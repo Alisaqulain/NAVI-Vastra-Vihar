@@ -24,11 +24,11 @@ export function CategoryCard({ category, className }: CategoryCardProps) {
         className="object-cover transition-transform duration-700 group-hover:scale-110"
         sizes="(max-width: 640px) 50vw, 25vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-navy/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/25 to-transparent" />
       <div className="absolute inset-0 border-2 border-transparent group-hover:border-gold/40 rounded-xl sm:rounded-2xl transition-colors" />
       <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-5">
         <h3 className="font-serif text-base sm:text-xl lg:text-2xl text-cream mb-0.5">{category.name}</h3>
-        <p className="text-cream/60 text-[10px] sm:text-xs">{category.productCount} sarees</p>
+        <p className="text-cream/55 text-[10px] sm:text-xs tracking-wide">{category.productCount} styles</p>
       </div>
     </Link>
   );

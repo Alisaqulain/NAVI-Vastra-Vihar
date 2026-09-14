@@ -4,13 +4,13 @@ import { Instagram, Facebook, Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const shopLinks = [
-  { label: "All Sarees", href: "/shop?category=sarees" },
-  { label: "Silk Sarees", href: "/shop?category=silk-sarees" },
-  { label: "Banarasi Sarees", href: "/shop?category=banarasi-sarees" },
-  { label: "Kanjeevaram Sarees", href: "/shop?category=kanjeevaram-sarees" },
-  { label: "Wedding Sarees", href: "/shop?category=wedding-sarees" },
-  { label: "Festive Sarees", href: "/shop?category=festive-sarees" },
   { label: "New Arrivals", href: "/shop?category=new-arrivals" },
+  { label: "Sarees", href: "/shop?category=sarees" },
+  { label: "Lehengas", href: "/shop?category=lehengas" },
+  { label: "Suits", href: "/shop?category=suits" },
+  { label: "Kurtis", href: "/shop?category=kurtis" },
+  { label: "Dupattas", href: "/shop?category=dupattas" },
+  { label: "Festive Wear", href: "/shop?category=festive-wear" },
   { label: "Best Sellers", href: "/shop?category=best-sellers" },
 ];
 
@@ -25,36 +25,36 @@ const helpLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-navy text-cream mt-auto">
-      <div className="container mx-auto px-4 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          <div className="space-y-4">
+    <footer className="bg-charcoal text-cream mt-auto">
+      <div className="container-premium py-14 lg:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+          <div className="space-y-5 lg:col-span-1">
             <div className="flex items-center gap-3">
-              <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" width={56} height={56} className="rounded-full" />
+              <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" width={52} height={52} className="rounded-full" />
               <div>
-                <span className="font-serif text-2xl font-semibold block">NAVI</span>
-                <span className="text-xs tracking-[0.2em] text-gold uppercase">Vastra Vihar</span>
+                <span className="font-serif text-xl tracking-wide block">NAVI</span>
+                <span className="text-[10px] tracking-[0.25em] text-gold/80 uppercase">Vastra Vihar</span>
               </div>
             </div>
-            <p className="text-cream/70 text-sm leading-relaxed">
-              Premium saree boutique since 1978. From Banarasi silks to Kanjeevaram weaves, every saree is a story of heritage handloom artistry.
+            <p className="text-cream/60 text-sm leading-relaxed max-w-xs">
+              Premium Indian ethnic fashion since 1978. Sarees, lehengas, suits and kurtis crafted for the modern woman who honours tradition.
             </p>
             <div className="flex gap-3">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-navy-light hover:bg-emerald transition-colors">
-                <Instagram className="h-4 w-4" />
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2.5 rounded-full border border-cream/10 hover:border-gold/40 transition-colors">
+                <Instagram className="h-4 w-4" strokeWidth={1.5} />
               </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-navy-light hover:bg-emerald transition-colors">
-                <Facebook className="h-4 w-4" />
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2.5 rounded-full border border-cream/10 hover:border-gold/40 transition-colors">
+                <Facebook className="h-4 w-4" strokeWidth={1.5} />
               </a>
             </div>
           </div>
 
           <div>
-            <h3 className="font-serif text-lg mb-4 text-gold">Shop Sarees</h3>
-            <ul className="space-y-2">
+            <h3 className="text-[11px] tracking-[0.2em] uppercase text-gold mb-5">Shop</h3>
+            <ul className="space-y-2.5">
               {shopLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-cream/70 hover:text-cream transition-colors">
+                  <Link href={link.href} className="text-sm text-cream/65 hover:text-cream transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -63,11 +63,11 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-serif text-lg mb-4 text-gold">Customer Care</h3>
-            <ul className="space-y-2">
+            <h3 className="text-[11px] tracking-[0.2em] uppercase text-gold mb-5">Help</h3>
+            <ul className="space-y-2.5">
               {helpLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-cream/70 hover:text-cream transition-colors">
+                  <Link href={link.href} className="text-sm text-cream/65 hover:text-cream transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -76,30 +76,28 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-serif text-lg mb-4 text-gold">Visit Us</h3>
-            <ul className="space-y-3 text-sm text-cream/70">
-              <li className="flex gap-2">
-                <MapPin className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                <span>42, MG Road, Connaught Place, New Delhi — 110001</span>
+            <h3 className="text-[11px] tracking-[0.2em] uppercase text-gold mb-5">Visit Us</h3>
+            <ul className="space-y-4 text-sm text-cream/65">
+              <li className="flex gap-3">
+                <MapPin className="h-4 w-4 text-gold shrink-0 mt-0.5" strokeWidth={1.5} />
+                <span>464, Veena Complex, Basaveshwar Nagar, Bengaluru 560079</span>
               </li>
-              <li className="flex gap-2">
-                <Phone className="h-4 w-4 text-gold shrink-0" />
-                <a href="tel:+911124567890" className="hover:text-cream">+91 11 2456 7890</a>
+              <li className="flex gap-3">
+                <Phone className="h-4 w-4 text-gold shrink-0" strokeWidth={1.5} />
+                <span>+91 80 2991 9953</span>
               </li>
-              <li className="flex gap-2">
-                <Mail className="h-4 w-4 text-gold shrink-0" />
-                <a href="mailto:hello@navivastravihar.com" className="hover:text-cream">hello@navivastravihar.com</a>
+              <li className="flex gap-3">
+                <Mail className="h-4 w-4 text-gold shrink-0" strokeWidth={1.5} />
+                <span>info@navivastravihar.com</span>
               </li>
             </ul>
-            <p className="text-xs text-cream/50 mt-4">Mon–Sat: 10 AM – 8 PM | Sun: 11 AM – 6 PM</p>
           </div>
         </div>
 
-        <Separator className="my-8 bg-navy-light" />
-
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream/50">
-          <p>&copy; {new Date().getFullYear()} NAVI Vastra Vihar. All rights reserved.</p>
-          <p>Saree Shop • Handloom Elegance • Since 1978</p>
+        <Separator className="my-10 bg-cream/10" />
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-cream/40">
+          <p>© {new Date().getFullYear()} NAVI Vastra Vihar. All rights reserved.</p>
+          <p>Crafted with heritage · Delivered with care</p>
         </div>
       </div>
     </footer>

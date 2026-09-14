@@ -77,8 +77,6 @@ function filterProducts(items: Product[], filters?: ProductFilters): Product[] {
       result = result.filter((p) => p.newArrival);
     } else if (filters.categoryId === "cat-best-sellers") {
       result = result.filter((p) => p.bestseller);
-    } else if (filters.categoryId === "cat-sarees") {
-      // All products are sarees — no additional filter
     } else {
       result = result.filter(
         (p) => p.categoryId === filters.categoryId || p.subcategoryId === filters.categoryId
@@ -93,6 +91,15 @@ function filterProducts(items: Product[], filters?: ProductFilters): Product[] {
   }
   if (filters?.colors?.length) {
     result = result.filter((p) => filters.colors!.some((c) => p.colors.some((pc) => pc.name === c)));
+  }
+  if (filters?.fabrics?.length) {
+    result = result.filter((p) => filters.fabrics!.some((f) => p.fabric.toLowerCase().includes(f.toLowerCase())));
+  }
+  if (filters?.availability === "in_stock") {
+    result = result.filter((p) => p.stockQuantity > 0);
+  }
+  if (filters?.availability === "out_of_stock") {
+    result = result.filter((p) => p.stockQuantity === 0);
   }
   if (filters?.minPrice !== undefined) {
     result = result.filter((p) => (p.salePrice ?? p.price) >= filters.minPrice!);

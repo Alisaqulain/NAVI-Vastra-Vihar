@@ -3,114 +3,162 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Heart, ShoppingBag, User, Menu } from "lucide-react";
+import { Search, Heart, ShoppingBag, User, Menu, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cart-context";
 import { useWishlist } from "@/context/wishlist-context";
 import { useAuth } from "@/context/auth-context";
 import { SearchDialog } from "./SearchDialog";
+import { CartDrawer } from "./CartDrawer";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
-  { label: "All Sarees", href: "/shop?category=sarees" },
-  { label: "Silk Sarees", href: "/shop?category=silk-sarees" },
-  { label: "Banarasi", href: "/shop?category=banarasi-sarees" },
-  { label: "Kanjeevaram", href: "/shop?category=kanjeevaram-sarees" },
-  { label: "Wedding", href: "/shop?category=wedding-sarees" },
-  { label: "Festive", href: "/shop?category=festive-sarees" },
+  { label: "New Arrivals", href: "/shop?category=new-arrivals" },
+  { label: "Sarees", href: "/shop?category=sarees" },
+  { label: "Lehengas", href: "/shop?category=lehengas" },
+  { label: "Suits", href: "/shop?category=suits" },
+  { label: "Kurtis", href: "/shop?category=kurtis" },
+  { label: "Dupattas", href: "/shop?category=dupattas" },
+  { label: "Festive Wear", href: "/shop?category=festive-wear" },
+  { label: "Party Wear", href: "/shop?category=party-wear" },
+  { label: "Best Sellers", href: "/shop?category=best-sellers" },
 ];
 
 export function Navbar() {
   const { itemCount } = useCart();
   const { items: wishlistItems } = useWishlist();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, session, logout } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-beige">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+      <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-beige/60">
+        <div className="container-premium">
+          <div className="flex items-center justify-between h-16 lg:h-[72px]">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Open menu">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80">
-                <nav className="flex flex-col gap-4 mt-8">
+              <SheetContent side="left" className="w-[min(100vw,320px)] bg-cream overflow-y-auto">
+                <div className="mt-8 mb-6">
+                  <Image src="/logo.jpeg" alt="NAVI" width={48} height={48} className="rounded-full mb-3" />
+                  <p className="font-serif text-xl text-charcoal">NAVI Vastra Vihar</p>
+                </div>
+                <nav className="flex flex-col gap-1">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="font-serif text-lg text-navy hover:text-emerald transition-colors"
+                      className="py-3 text-sm font-medium text-charcoal/80 hover:text-wine border-b border-beige/40 transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
                     </Link>
                   ))}
-                  <Link href="/shop?category=new-arrivals" className="text-navy/70 hover:text-emerald" onClick={() => setMobileMenuOpen(false)}>New Arrivals</Link>
-                  <Link href="/about" className="text-navy/70 hover:text-emerald" onClick={() => setMobileMenuOpen(false)}>About</Link>
-                  <Link href="/contact" className="text-navy/70 hover:text-emerald" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+                  <Link href="/about" className="py-3 text-sm text-charcoal/60 hover:text-wine" onClick={() => setMobileMenuOpen(false)}>About</Link>
+                  <Link href="/contact" className="py-3 text-sm text-charcoal/60 hover:text-wine" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
                 </nav>
               </SheetContent>
             </Sheet>
 
             <Link href="/" className="flex items-center gap-3 shrink-0">
-              <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" width={48} height={48} className="rounded-full" />
+              <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" width={44} height={44} className="rounded-full" />
               <div className="hidden sm:block">
-                <span className="font-serif text-xl font-semibold text-navy leading-none block">NAVI</span>
-                <span className="text-[10px] tracking-[0.25em] text-emerald uppercase">Vastra Vihar</span>
+                <span className="font-serif text-lg font-medium text-charcoal leading-none block tracking-wide">NAVI</span>
+                <span className="text-[9px] tracking-[0.3em] text-charcoal/50 uppercase">Vastra Vihar</span>
               </div>
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {navLinks.map((link) => (
+            <nav className="hidden xl:flex items-center gap-5">
+              {navLinks.slice(0, 7).map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-navy/80 hover:text-emerald transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all hover:after:w-full"
+                  className="text-[13px] font-medium text-charcoal/75 hover:text-wine transition-colors link-underline pb-0.5"
                 >
                   {link.label}
                 </Link>
               ))}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-0.5 text-[13px] font-medium text-charcoal/75 hover:text-wine transition-colors outline-none">
+                  More <ChevronDown className="h-3.5 w-3.5" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-[160px]">
+                  {navLinks.slice(7).map((link) => (
+                    <DropdownMenuItem key={link.href} asChild>
+                      <Link href={link.href}>{link.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </nav>
 
-            <div className="flex items-center gap-1 sm:gap-2">
-              <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)}>
-                <Search className="h-5 w-5" />
+            <div className="flex items-center gap-0.5 sm:gap-1">
+              <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)} aria-label="Search">
+                <Search className="h-[18px] w-[18px]" strokeWidth={1.5} />
               </Button>
-              <Button variant="ghost" size="icon" asChild className="hidden sm:flex relative">
+              <Button variant="ghost" size="icon" asChild className="hidden sm:flex relative" aria-label="Wishlist">
                 <Link href="/account/wishlist">
-                  <Heart className="h-5 w-5" />
+                  <Heart className="h-[18px] w-[18px]" strokeWidth={1.5} />
                   {wishlistItems.length > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-emerald text-cream text-[10px] flex items-center justify-center">
+                    <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-wine text-cream text-[10px] flex items-center justify-center">
                       {wishlistItems.length}
                     </span>
                   )}
                 </Link>
               </Button>
-              <Button variant="ghost" size="icon" asChild className="relative">
-                <Link href="/cart">
-                  <ShoppingBag className="h-5 w-5" />
-                  {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-gold text-navy text-[10px] font-bold flex items-center justify-center">
-                      {itemCount}
-                    </span>
+              <Button variant="ghost" size="icon" className="relative" onClick={() => setCartOpen(true)} aria-label="Shopping bag">
+                <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                {itemCount > 0 && (
+                  <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-gold text-charcoal text-[10px] font-semibold flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" aria-label="Account">
+                    <User className="h-[18px] w-[18px]" strokeWidth={1.5} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-[180px]">
+                  {isAuthenticated ? (
+                    <>
+                      <DropdownMenuItem disabled className="text-xs text-charcoal/50">
+                        {session?.user.firstName} {session?.user.lastName}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild><Link href="/account">My Account</Link></DropdownMenuItem>
+                      <DropdownMenuItem asChild><Link href="/account/orders">Orders</Link></DropdownMenuItem>
+                      <DropdownMenuItem asChild><Link href="/account/wishlist">Wishlist</Link></DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={logout}>Sign Out</DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuItem asChild><Link href="/account/login">Sign In</Link></DropdownMenuItem>
+                      <DropdownMenuItem asChild><Link href="/account/register">Create Account</Link></DropdownMenuItem>
+                    </>
                   )}
-                </Link>
-              </Button>
-              <Button variant="ghost" size="icon" asChild>
-                <Link href={isAuthenticated ? "/account" : "/account/login"}>
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
       </header>
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+      <CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
     </>
   );
 }

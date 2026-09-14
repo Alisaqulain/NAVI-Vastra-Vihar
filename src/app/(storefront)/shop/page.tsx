@@ -33,6 +33,8 @@ async function ShopContent({
     subcategoryId: subcategory?.id,
     sizes: searchParams.sizes?.split(",").filter(Boolean),
     colors: searchParams.colors?.split(",").filter(Boolean),
+    fabrics: searchParams.fabrics?.split(",").filter(Boolean),
+    availability: searchParams.availability as ProductFilters["availability"],
     minPrice: searchParams.minPrice ? Number(searchParams.minPrice) : undefined,
     maxPrice: searchParams.maxPrice ? Number(searchParams.maxPrice) : undefined,
     sortBy: (searchParams.sort as ProductFilters["sortBy"]) ?? "featured",

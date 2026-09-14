@@ -1,20 +1,30 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-navy: #1b2a4a;
-  --color-navy-light: #2a3f6b;
-  --color-navy-dark: #0f1a2e;
-  --color-emerald: #1f6b5c;
-  --color-emerald-light: #2d8a78;
-  --color-emerald-dark: #154a40;
-  --color-gold: #c9a962;
-  --color-gold-light: #d4bc7e;
-  --color-gold-dark: #a88b4a;
-  --color-cream: #f7f3eb;
-  --color-cream-dark: #ede6d8;
-  --color-cream-light: #fdfbf7;
+  /* Primary palette — premium wine & ivory */
+  --color-wine: #6b1b2a;
+  --color-wine-light: #8b2940;
+  --color-wine-dark: #4a121f;
+  --color-charcoal: #2a2a2a;
+  --color-charcoal-light: #3d3d3d;
+  --color-ivory: #faf8f4;
+  --color-ivory-dark: #f0ebe3;
+
+  /* Legacy tokens (mapped for compatibility) */
+  --color-navy: #2a2a2a;
+  --color-navy-light: #3d3d3d;
+  --color-navy-dark: #1a1a1a;
+  --color-emerald: #6b1b2a;
+  --color-emerald-light: #8b2940;
+  --color-emerald-dark: #4a121f;
+  --color-gold: #b8956a;
+  --color-gold-light: #cdb088;
+  --color-gold-dark: #96784f;
+  --color-cream: #faf8f4;
+  --color-cream-dark: #f0ebe3;
+  --color-cream-light: #fdfcf9;
   --color-beige: #e8dfd0;
-  --color-beige-light: #f0e9de;
+  --color-beige-light: #f2ece2;
 }
 
 @layer base {
@@ -28,50 +38,53 @@
   }
 
   body {
-    @apply bg-cream text-navy antialiased;
+    @apply bg-cream text-charcoal antialiased;
     font-feature-settings: "kern" 1, "liga" 1;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-serif tracking-tight;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight text-charcoal;
   }
 
   ::selection {
-    @apply bg-gold/30 text-navy;
+    @apply bg-gold/25 text-charcoal;
   }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .safe-area-pb {
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
+  .text-balance { text-wrap: balance; }
+  .safe-area-pb { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
   .premium-card {
-    @apply rounded-2xl border border-beige/80 bg-cream-light shadow-[0_2px_20px_rgba(27,42,74,0.06)] transition-all duration-300;
+    @apply bg-cream-light transition-all duration-500;
+    box-shadow: 0 1px 0 rgba(42, 42, 42, 0.04);
   }
 
   .premium-card:hover {
-    @apply shadow-[0_8px_30px_rgba(27,42,74,0.1)] border-gold/30;
+    box-shadow: 0 12px 40px rgba(42, 42, 42, 0.08);
   }
 
   .gold-line {
-    @apply h-px w-12 bg-gradient-to-r from-gold to-transparent;
+    @apply h-px w-10 bg-gold/70;
   }
 
   .section-padding {
-    @apply py-12 sm:py-16 lg:py-20;
+    @apply py-14 sm:py-20 lg:py-24;
+  }
+
+  .section-padding-sm {
+    @apply py-10 sm:py-14 lg:py-16;
   }
 
   .container-premium {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1400px];
+  }
+
+  .editorial-heading {
+    @apply font-serif text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight;
+  }
+
+  .link-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-wine after:transition-all hover:after:w-full;
   }
 }

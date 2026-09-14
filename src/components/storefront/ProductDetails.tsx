@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ProductImage } from "@/components/ui/product-image";
-import { Heart, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield } from "lucide-react";
+import { Heart, Minus, Plus, ShoppingBag, Truck, RotateCcw, Shield, Star } from "lucide-react";
 import { Product, Review } from "@/lib/models";
 import { formatPrice, getEffectivePrice, getDiscountPercent, cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name ?? "");
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
 
@@ -33,12 +35,18 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
 
   const handleAddToCart = () => {
     addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor });
-    toast.success("Added to cart", { description: `${quantity} × ${product.name}` });
+    toast.success("Added to bag", { description: `${quantity} × ${product.name}` });
   };
 
-  const avgRating = reviews.length
+  const handleBuyNow = () => {
+    addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor });
+    router.push("/checkout");
+  };
+
+  const displayRating = reviews.length
     ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
-    : 0;
+    : product.rating;
+  const reviewCount = reviews.length || product.reviewCount;
 
   return (
     <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
@@ -77,12 +85,17 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
 
       <div className="space-y-6">
         <div>
-          <p className="text-sm text-navy/50 mb-1">SKU: {product.sku}</p>
-          <h1 className="font-serif text-3xl sm:text-4xl text-navy mb-2">{product.name}</h1>
-          {reviews.length > 0 && (
-            <p className="text-sm text-navy/60">
-              ★ {avgRating.toFixed(1)} ({reviews.length} reviews)
-            </p>
+          <p className="text-[11px] uppercase tracking-wider text-charcoal/45 mb-2">{product.fabric} · SKU {product.sku}</p>
+          <h1 className="font-serif text-3xl sm:text-4xl text-charcoal mb-3 leading-tight">{product.name}</h1>
+          {displayRating > 0 && (
+            <div className="flex items-center gap-2 text-sm text-charcoal/60">
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className={cn("h-3.5 w-3.5", i < Math.round(displayRating) ? "fill-gold text-gold" : "text-beige")} />
+                ))}
+              </div>
+              <span>{displayRating.toFixed(1)} ({reviewCount} reviews)</span>
+            </div>
           )}
         </div>
 
@@ -151,19 +164,24 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
           </span>
         </div>
 
-        <div className="flex gap-3">
-          <Button variant="emerald" size="lg" className="flex-1" disabled={!inStock} onClick={handleAddToCart}>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button variant="emerald" size="lg" className="flex-1 rounded-full h-12" disabled={!inStock} onClick={handleAddToCart}>
             <ShoppingBag className="h-4 w-4 mr-2" /> Add to Bag
+          </Button>
+          <Button variant="gold" size="lg" className="flex-1 rounded-full h-12" disabled={!inStock} onClick={handleBuyNow}>
+            Buy Now
           </Button>
           <Button
             variant="outline"
             size="lg"
+            className="rounded-full h-12 w-12 sm:w-12 p-0 shrink-0"
             onClick={() => {
               toggleItem(product.id);
               toast.success(isInWishlist(product.id) ? "Removed from wishlist" : "Added to wishlist");
             }}
+            aria-label="Add to wishlist"
           >
-            <Heart className={cn("h-4 w-4", isInWishlist(product.id) && "fill-emerald text-emerald")} />
+            <Heart className={cn("h-4 w-4", isInWishlist(product.id) && "fill-wine text-wine")} />
           </Button>
         </div>
 

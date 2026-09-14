@@ -29,17 +29,17 @@ export function MobileNav() {
               href={href}
               className={cn(
                 "flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1 rounded-lg transition-colors relative",
-                isActive ? "text-emerald" : "text-navy/45 active:text-emerald"
+                isActive ? "text-wine" : "text-charcoal/45 active:text-wine"
               )}
             >
               <Icon className={cn("h-5 w-5", isActive && "stroke-[2.5]")} />
               <span className="text-[10px] font-medium">{label}</span>
               {href === "/cart" && itemCount > 0 && (
-                <span className="absolute top-0 right-2 h-4 min-w-4 px-1 rounded-full bg-gold text-navy text-[9px] font-bold flex items-center justify-center">
+                <span className="absolute top-0 right-2 h-4 min-w-4 px-1 rounded-full bg-gold text-charcoal text-[9px] font-bold flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
-              {isActive && <span className="absolute -bottom-0.5 h-0.5 w-5 rounded-full bg-emerald" />}
+              {isActive && <span className="absolute -bottom-0.5 h-0.5 w-5 rounded-full bg-wine" />}
             </Link>
           );
         })}

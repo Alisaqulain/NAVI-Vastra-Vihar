@@ -53,9 +53,12 @@ export interface Product {
   images: string[];
   sizes: string[];
   colors: { name: string; hex: string }[];
+  fabric: string;
   sku: string;
   stockQuantity: number;
   lowStockThreshold: number;
+  rating: number;
+  reviewCount: number;
   status: "active" | "inactive";
   featured: boolean;
   bestseller: boolean;
@@ -219,6 +222,8 @@ export interface ProductFilters {
   subcategoryId?: string;
   sizes?: string[];
   colors?: string[];
+  fabrics?: string[];
+  availability?: "in_stock" | "out_of_stock";
   minPrice?: number;
   maxPrice?: number;
   sortBy?: "featured" | "newest" | "price_asc" | "price_desc" | "bestselling";

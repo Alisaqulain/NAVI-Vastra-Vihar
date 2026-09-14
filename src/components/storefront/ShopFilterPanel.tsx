@@ -8,7 +8,8 @@ import { Slider } from "@/components/ui/slider";
 import { formatPrice, cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
-const ALL_SIZES = ["Free Size"];
+const ALL_SIZES = ["Free Size", "XS", "S", "M", "L", "XL", "XXL"];
+const FABRICS = ["Silk", "Cotton", "Georgette", "Banarasi", "Handloom", "Net", "Linen", "Velvet"];
 
 const FILTER_COLORS: { name: string; hex: string }[] = [
   { name: "Gold", hex: "#C9A962" },
@@ -43,6 +44,8 @@ export function ShopFilterPanel({ categories, maxPrice }: ShopFilterPanelProps) 
   const currentSearch = searchParams.get("search") ?? "";
   const currentSizes = searchParams.get("sizes")?.split(",").filter(Boolean) ?? [];
   const currentColors = searchParams.get("colors")?.split(",").filter(Boolean) ?? [];
+  const currentFabrics = searchParams.get("fabrics")?.split(",").filter(Boolean) ?? [];
+  const currentAvailability = searchParams.get("availability") ?? "";
   const minPrice = Number(searchParams.get("minPrice") ?? 0);
   const maxPriceFilter = Number(searchParams.get("maxPrice") ?? maxPrice);
 
@@ -152,6 +155,47 @@ export function ShopFilterPanel({ categories, maxPrice }: ShopFilterPanelProps) 
               </button>
             );
           })}
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Fabric">
+        <div className="flex flex-wrap gap-2">
+          {FABRICS.map((fabric) => (
+            <button
+              key={fabric}
+              onClick={() => toggleArrayParam("fabrics", fabric, currentFabrics)}
+              className={cn(
+                "px-3 py-1.5 text-xs rounded-full border transition-all",
+                currentFabrics.includes(fabric)
+                  ? "bg-wine text-cream border-wine"
+                  : "border-beige bg-cream-light text-charcoal/75 hover:border-wine/30"
+              )}
+            >
+              {fabric}
+            </button>
+          ))}
+        </div>
+      </FilterSection>
+
+      <FilterSection title="Availability">
+        <div className="flex flex-wrap gap-2">
+          {[
+            { value: "in_stock", label: "In Stock" },
+            { value: "out_of_stock", label: "Out of Stock" },
+          ].map(({ value, label }) => (
+            <button
+              key={value}
+              onClick={() => updateParams({ availability: currentAvailability === value ? null : value })}
+              className={cn(
+                "px-3 py-1.5 text-xs rounded-full border transition-all",
+                currentAvailability === value
+                  ? "bg-wine text-cream border-wine"
+                  : "border-beige bg-cream-light text-charcoal/75 hover:border-wine/30"
+              )}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </FilterSection>
 
