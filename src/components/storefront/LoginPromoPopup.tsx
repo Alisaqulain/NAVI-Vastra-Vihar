@@ -42,7 +42,7 @@ export function LoginPromoPopup() {
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && close()}>
-      <DialogContent className="max-w-sm sm:max-w-md p-0 overflow-hidden gap-0 border-gold/25 [&>button.right-4]:hidden">
+      <DialogContent className="w-[calc(100vw-1.5rem)] max-w-sm sm:max-w-md p-0 overflow-hidden gap-0 border-gold/25 [&>button.right-4]:hidden max-h-[90dvh] overflow-y-auto">
         <div className="relative h-36 sm:h-40">
           <Image src={SITE_IMAGES.hero.secondary} alt="" fill className="object-cover" sizes="400px" />
           <div className="absolute inset-0 bg-navy/55" />

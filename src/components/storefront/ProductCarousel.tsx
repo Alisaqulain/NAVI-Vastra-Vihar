@@ -50,7 +50,7 @@ export function ProductCarousel({
     >
       <div
         ref={scrollRef}
-        className="flex gap-5 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
+        className="flex gap-3.5 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2 -mx-3.5 px-3.5 sm:mx-0 sm:px-0"
         style={{ scrollbarWidth: "none" }}
       >
         {products.map((product) => (
@@ -58,7 +58,7 @@ export function ProductCarousel({
             key={product.id}
             data-auto-scroll-item
             className={cn(
-              "snap-start shrink-0 w-[72vw] sm:w-[280px] lg:w-[300px]",
+              "snap-start shrink-0 w-[46vw] min-w-[148px] max-w-[200px] sm:w-[280px] sm:max-w-none lg:w-[300px]",
               premium3d &&
                 "transition-[transform,box-shadow] duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(27,42,74,0.12)]"
             )}

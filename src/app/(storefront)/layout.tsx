@@ -9,7 +9,7 @@ import { CookieConsent } from "@/components/storefront/CookieConsent";
 export default function StorefrontLayout({ children }: { children: React.ReactNode }) {
   return (
     <StorefrontProviders>
-      <div className="flex min-h-screen flex-col pb-[60px] lg:pb-0">
+      <div className="flex min-h-screen flex-col pb-mobile-nav">
         <StorefrontHeader />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -19,8 +19,8 @@ export function MobileNav() {
   const { itemCount } = useCart();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-cream/95 backdrop-blur-lg border-t border-beige/80 safe-area-pb shadow-[0_-4px_20px_rgba(27,42,74,0.08)]">
-      <div className="flex items-center justify-around h-[60px] px-1">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-cream/98 backdrop-blur-lg border-t border-beige/80 safe-area-pb shadow-[0_-4px_24px_rgba(27,42,74,0.1)]">
+      <div className="flex items-center justify-around min-h-[3.75rem] px-0.5 pt-1">
         {navItems.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href || (href !== "/" && pathname.startsWith(href));
           return (
@@ -28,7 +28,7 @@ export function MobileNav() {
               key={href}
               href={href}
               className={cn(
-                "flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1 rounded-lg transition-colors relative",
+                "flex flex-col items-center justify-center gap-0.5 min-w-[3.25rem] min-h-[3rem] py-1 rounded-lg transition-colors relative active:scale-95",
                 isActive ? "text-emerald" : "text-navy/45 active:text-emerald"
               )}
             >

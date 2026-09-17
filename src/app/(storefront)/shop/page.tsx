@@ -88,7 +88,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     <>
       {category && <ShopCategoryHero category={category} />}
 
-      <div className="container-premium py-8 lg:py-12">
+      <div className="container-premium py-5 sm:py-8 lg:py-12">
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },

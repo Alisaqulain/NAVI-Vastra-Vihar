@@ -85,13 +85,15 @@ export function Navbar({ compact = false }: NavbarProps) {
               </SheetContent>
             </Sheet>
 
-            <Link href="/" className="flex items-center gap-2.5 shrink-0 min-w-[120px]">
-              <div className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-full overflow-hidden ring-1 ring-gold/45">
+            <Link href="/" className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden lg:flex-none">
+              <div className="relative h-9 w-9 sm:h-11 sm:w-11 rounded-full overflow-hidden ring-1 ring-gold/45 shrink-0">
                 <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" fill className="object-cover" sizes="44px" />
               </div>
-              <div className="hidden sm:block">
-                <span className="font-serif text-lg sm:text-xl text-navy leading-none tracking-wide">NAVI</span>
-                <span className="block text-[8px] tracking-[0.28em] text-navy/45 uppercase mt-0.5">Vastra Vihar</span>
+              <div className="min-w-0 lg:block">
+                <span className="font-serif text-base sm:text-xl text-navy leading-none tracking-wide block truncate">NAVI</span>
+                <span className="text-[7px] sm:text-[8px] tracking-[0.22em] sm:tracking-[0.28em] text-navy/45 uppercase mt-0.5 hidden min-[360px]:block truncate">
+                  Vastra Vihar
+                </span>
               </div>
             </Link>
 
@@ -108,10 +110,10 @@ export function Navbar({ compact = false }: NavbarProps) {
               <Search className="h-5 w-5" />
             </Button>
 
-            <div className="flex items-center gap-0.5 sm:gap-1 shrink-0 ml-auto md:ml-0">
+            <div className="flex items-center gap-0 shrink-0 ml-auto md:ml-0">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" aria-label="Account">
+                  <Button variant="ghost" size="icon" className="hidden sm:flex h-10 w-10" aria-label="Account">
                     <User className="h-[18px] w-[18px]" strokeWidth={1.5} />
                   </Button>
                 </DropdownMenuTrigger>
@@ -144,7 +146,7 @@ export function Navbar({ compact = false }: NavbarProps) {
                   )}
                 </Link>
               </Button>
-              <Button variant="ghost" size="icon" className="relative" onClick={() => setCartOpen(true)} aria-label="Bag">
+              <Button variant="ghost" size="icon" className="relative h-10 w-10" onClick={() => setCartOpen(true)} aria-label="Bag">
                 <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.5} />
                 {itemCount > 0 && (
                   <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-gold text-navy text-[10px] font-bold flex items-center justify-center">
@@ -154,6 +156,17 @@ export function Navbar({ compact = false }: NavbarProps) {
               </Button>
             </div>
           </div>
+        </div>
+
+        <div className="md:hidden container-premium pb-3 -mt-1">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            className="flex w-full items-center gap-2 rounded-full bg-cream-dark/90 border border-beige/80 px-4 py-2.5 text-sm text-navy/45"
+          >
+            <Search className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+            <span className="truncate text-left">Search sarees, lehengas & more</span>
+          </button>
         </div>
 
         {/* Nav row — desktop */}

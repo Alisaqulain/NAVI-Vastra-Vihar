@@ -22,7 +22,7 @@ export function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-3 sm:p-4 lg:bottom-4 lg:left-4 lg:right-4 lg:max-w-none pointer-events-none">
+    <div className="fixed bottom-[calc(3.75rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-50 p-3 sm:p-4 lg:bottom-4 lg:left-4 lg:right-4 lg:max-w-none pointer-events-none">
       <div className="pointer-events-auto mx-auto max-w-6xl bg-cream-light border border-beige shadow-[0_-4px_40px_rgba(27,42,74,0.12)] rounded-none lg:rounded-2xl px-4 py-4 sm:px-6 sm:py-5 flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8">
         <p className="text-xs sm:text-sm text-navy/70 leading-relaxed flex-1">
           We use cookies to personalize your experience and improve our site. By continuing, you agree to our{" "}

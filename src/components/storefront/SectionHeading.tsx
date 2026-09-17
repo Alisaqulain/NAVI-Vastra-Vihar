@@ -11,7 +11,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ subtitle, title, viewAllHref, viewAllLabel = "View All", light }: SectionHeadingProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-10">
       <div>
         {subtitle && (
           <p className={`text-sm tracking-[0.2em] uppercase mb-2 ${light ? "text-gold" : "text-emerald"}`}>

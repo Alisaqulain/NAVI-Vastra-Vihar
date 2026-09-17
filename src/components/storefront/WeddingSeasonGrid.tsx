@@ -52,7 +52,7 @@ export function WeddingSeasonGrid() {
   };
 
   return (
-    <section className="relative section-padding-sm overflow-visible">
+    <section className="relative section-padding-sm overflow-x-hidden">
       <div
         className="absolute inset-0 bg-navy"
         style={{
@@ -65,19 +65,19 @@ export function WeddingSeasonGrid() {
       <div className="container-premium relative z-10">
         <div className="text-center mb-6 sm:mb-10">
           <p className="font-serif text-cream/70 text-lg sm:text-xl mb-1">Weaves for the</p>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-gold tracking-[0.15em] uppercase">
+          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-gold tracking-[0.08em] sm:tracking-[0.15em] uppercase px-2">
             Wedding Season
           </h2>
         </div>
 
         <div
-          className="relative mx-auto max-w-5xl px-8 sm:px-14 py-6 sm:py-10 overflow-visible"
+          className="relative mx-auto max-w-5xl px-1 sm:px-10 lg:px-14 py-4 sm:py-10 overflow-visible"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={() => setPaused(false)}
         >
-          <div className="relative h-[min(78vw,460px)] sm:h-[500px] [perspective:2000px] [perspective-origin:50%_40%] overflow-visible">
+          <div className="relative h-[min(88vw,380px)] sm:h-[460px] lg:h-[500px] [perspective:1600px] sm:[perspective:2000px] [perspective-origin:50%_42%] overflow-visible">
             <div className="relative h-full w-full [transform-style:preserve-3d] overflow-visible">
               {looks.map((item, i) => {
                 const offset = offsetFromActive(i, active, looks.length);
@@ -90,7 +90,7 @@ export function WeddingSeasonGrid() {
                 return (
                   <div
                     key={item.label}
-                    className="absolute left-1/2 top-[42%] w-[54%] max-w-[320px] aspect-[3/4] will-change-transform"
+                    className="absolute left-1/2 top-[44%] w-[68%] max-w-[240px] sm:w-[54%] sm:max-w-[320px] aspect-[3/4] will-change-transform"
                     style={{
                       transform,
                       opacity,
@@ -126,7 +126,7 @@ export function WeddingSeasonGrid() {
             type="button"
             variant="outline"
             size="icon"
-            className="absolute left-0 sm:left-2 top-[42%] z-50 -translate-y-1/2 h-11 w-11 rounded-full border-gold/40 bg-navy/60 text-gold hover:bg-navy/80"
+            className="absolute left-0 sm:left-2 top-[44%] z-50 -translate-y-1/2 h-9 w-9 sm:h-11 sm:w-11 rounded-full border-gold/40 bg-navy/70 text-gold hover:bg-navy/80"
             onClick={() => go(-1)}
             aria-label="Previous look"
           >
@@ -136,7 +136,7 @@ export function WeddingSeasonGrid() {
             type="button"
             variant="outline"
             size="icon"
-            className="absolute right-0 sm:right-2 top-[42%] z-50 -translate-y-1/2 h-11 w-11 rounded-full border-gold/40 bg-navy/60 text-gold hover:bg-navy/80"
+            className="absolute right-0 sm:right-2 top-[44%] z-50 -translate-y-1/2 h-9 w-9 sm:h-11 sm:w-11 rounded-full border-gold/40 bg-navy/70 text-gold hover:bg-navy/80"
             onClick={() => go(1)}
             aria-label="Next look"
           >

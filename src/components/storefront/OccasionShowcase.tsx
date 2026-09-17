@@ -152,9 +152,9 @@ export function OccasionShowcase() {
         {/* Mobile */}
         <div className="grid grid-cols-1 gap-4 md:hidden">
           <OccasionTile item={featured} tall className="aspect-[4/5]" imageSizes="100vw" />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
             {rest.map((item) => (
-              <OccasionTile key={item.label} item={item} className="aspect-[3/4]" imageSizes="50vw" />
+              <OccasionTile key={item.label} item={item} className="aspect-[4/5] sm:aspect-[3/4]" imageSizes="50vw" />
             ))}
           </div>
         </div>

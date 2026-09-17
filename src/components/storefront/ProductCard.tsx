@@ -107,7 +107,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </div>
         <div className="space-y-1.5 px-0.5">
           <p className="text-[10px] uppercase tracking-wider text-charcoal/40">{product.fabric}</p>
-          <h3 className="font-medium text-navy line-clamp-2 group-hover:text-emerald transition-colors text-sm leading-snug min-h-[2.5rem]">
+          <h3 className="font-medium text-navy line-clamp-2 group-hover:text-emerald transition-colors text-xs sm:text-sm leading-snug min-h-[2.25rem] sm:min-h-[2.5rem]">
             {product.name}
           </h3>
           <div className="flex items-baseline gap-2">
