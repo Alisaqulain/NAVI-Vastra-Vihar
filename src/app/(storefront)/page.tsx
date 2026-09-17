@@ -1,17 +1,20 @@
 import { Category } from "@/lib/models";
 import { productRepository, categoryRepository, reviewRepository } from "@/lib/repositories";
-import { HeroBanner } from "@/components/storefront/HeroBanner";
+import { AnimatedHeroSlider } from "@/components/storefront/AnimatedHeroSlider";
+import { ScrollReveal } from "@/components/storefront/ScrollReveal";
 import { BrandStory } from "@/components/storefront/BrandStory";
 import { SectionHeading } from "@/components/storefront/SectionHeading";
 import { ProductCarousel } from "@/components/storefront/ProductCarousel";
 import { ProductGrid } from "@/components/storefront/ProductGrid";
-import { CategoryCard } from "@/components/storefront/CategoryCard";
+import { CategoryAutoSlider } from "@/components/storefront/CategoryAutoSlider";
 import { PromoBanner } from "@/components/storefront/PromoBanner";
 import { ReviewCard } from "@/components/storefront/ReviewCard";
 import { InstagramGallery } from "@/components/storefront/InstagramGallery";
 import { Newsletter } from "@/components/storefront/Newsletter";
 import { WhyNavi } from "@/components/storefront/WhyNavi";
 import { OccasionGrid } from "@/components/storefront/OccasionGrid";
+import { ShopByTrend } from "@/components/storefront/ShopByTrend";
+import { WeddingSeasonGrid } from "@/components/storefront/WeddingSeasonGrid";
 
 export default async function HomePage() {
   const [newArrivals, bestSellers, featured, categories] = await Promise.all([
@@ -38,34 +41,42 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroBanner />
+      <AnimatedHeroSlider />
 
+      <div id="home-content">
+      <ScrollReveal variant="fade-up">
+        <ShopByTrend />
+      </ScrollReveal>
+
+      <ScrollReveal variant="fade-up" delayMs={80}>
       <section className="section-padding-sm border-b border-beige/40">
         <div className="container-premium">
           <SectionHeading subtitle="Just Arrived" title="New Arrivals" viewAllHref="/shop?category=new-arrivals" />
-          <ProductCarousel products={newArrivals.data} />
+          <ProductCarousel products={newArrivals.data} premium3d />
         </div>
       </section>
+      </ScrollReveal>
 
-      <section className="section-padding-sm">
-        <div className="container-premium">
-          <SectionHeading subtitle="Collections" title="Shop by Category" viewAllHref="/shop" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
-            {shopCategories.slice(0, 8).map((cat) => (
-              <CategoryCard key={cat.id} category={cat} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <ScrollReveal variant="scale-up">
+        <CategoryAutoSlider categories={shopCategories} />
+      </ScrollReveal>
 
+      <ScrollReveal variant="fade-up" delayMs={100}>
       <section className="section-padding-sm bg-ivory-dark/40">
         <div className="container-premium">
           <SectionHeading subtitle="Most Loved" title="Best Sellers" viewAllHref="/shop?category=best-sellers" />
-          <ProductCarousel products={bestSellers.data} />
+          <ProductCarousel products={bestSellers.data} premium3d />
         </div>
       </section>
+      </ScrollReveal>
 
-      <OccasionGrid />
+      <ScrollReveal variant="slide-left">
+        <WeddingSeasonGrid />
+      </ScrollReveal>
+
+      <ScrollReveal variant="slide-right">
+        <OccasionGrid />
+      </ScrollReveal>
 
       <section className="section-padding-sm">
         <div className="container-premium">
@@ -124,9 +135,12 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <ScrollReveal variant="fade-up">
       <section className="container-premium pb-14 sm:pb-20">
         <Newsletter />
       </section>
+      </ScrollReveal>
+      </div>
     </>
   );
 }

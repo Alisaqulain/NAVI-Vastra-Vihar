@@ -22,10 +22,11 @@ export function getProductImage(productId: string, width = 800): string {
   return unsplash(SAREE_PHOTOS[idx], width);
 }
 
-export function getProductImages(productId: string): string[] {
+export function getProductImages(productId: string, count = 6): string[] {
   const idx = hashId(productId) % SAREE_PHOTOS.length;
-  const secondary = (idx + 2) % SAREE_PHOTOS.length;
-  return [unsplash(SAREE_PHOTOS[idx]), unsplash(SAREE_PHOTOS[secondary])];
+  return Array.from({ length: count }, (_, i) =>
+    unsplash(SAREE_PHOTOS[(idx + i) % SAREE_PHOTOS.length], 800)
+  );
 }
 
 export const SITE_IMAGES = {

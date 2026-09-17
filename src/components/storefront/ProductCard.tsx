@@ -60,14 +60,14 @@ export function ProductCard({ product, className }: ProductCardProps) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <div className="relative aspect-[3/4] overflow-hidden mb-3 sm:mb-4 bg-ivory-dark">
+        <div className="relative aspect-[3/4] overflow-hidden mb-3 sm:mb-4 bg-cream-dark rounded-2xl">
           <ProductImage
             src={product.images[0]}
             alt={product.name}
             fill
             className={cn(
               "object-cover object-top transition-all duration-700",
-              hovered && product.images.length > 1 ? "opacity-0 scale-105" : "opacity-100 group-hover:scale-[1.03]"
+              hovered && product.images.length > 1 ? "opacity-0 scale-[1.02]" : "opacity-100 group-hover:scale-[1.02]"
             )}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
@@ -78,7 +78,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               fill
               className={cn(
                 "object-cover object-top transition-all duration-700",
-                hovered ? "opacity-100 scale-[1.03]" : "opacity-0"
+                hovered ? "opacity-100 scale-[1.02]" : "opacity-0"
               )}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
