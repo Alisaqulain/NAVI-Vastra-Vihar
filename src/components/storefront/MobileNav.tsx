@@ -29,7 +29,7 @@ export function MobileNav() {
               href={href}
               className={cn(
                 "flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1 rounded-lg transition-colors relative",
-                isActive ? "text-wine" : "text-charcoal/45 active:text-wine"
+                isActive ? "text-emerald" : "text-navy/45 active:text-emerald"
               )}
             >
               <Icon className={cn("h-5 w-5", isActive && "stroke-[2.5]")} />
@@ -39,7 +39,7 @@ export function MobileNav() {
                   {itemCount}
                 </span>
               )}
-              {isActive && <span className="absolute -bottom-0.5 h-0.5 w-5 rounded-full bg-wine" />}
+              {isActive && <span className="absolute -bottom-0.5 h-0.5 w-5 rounded-full bg-gold" />}
             </Link>
           );
         })}

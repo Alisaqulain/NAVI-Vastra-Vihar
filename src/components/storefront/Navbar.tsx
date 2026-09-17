@@ -41,7 +41,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-beige/60">
+      <header className="sticky top-0 z-40 bg-cream-light/95 backdrop-blur-md border-b border-beige/80 shadow-[0_1px_0_rgba(201,169,98,0.15)]">
         <div className="container-premium">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -60,23 +60,25 @@ export function Navbar() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="py-3 text-sm font-medium text-charcoal/80 hover:text-wine border-b border-beige/40 transition-colors"
+                      className="py-3 text-sm font-medium text-navy/80 hover:text-emerald border-b border-beige/40 transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}
                     </Link>
                   ))}
-                  <Link href="/about" className="py-3 text-sm text-charcoal/60 hover:text-wine" onClick={() => setMobileMenuOpen(false)}>About</Link>
-                  <Link href="/contact" className="py-3 text-sm text-charcoal/60 hover:text-wine" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+                  <Link href="/about" className="py-3 text-sm text-navy/60 hover:text-emerald" onClick={() => setMobileMenuOpen(false)}>About</Link>
+                  <Link href="/contact" className="py-3 text-sm text-navy/60 hover:text-emerald" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
                 </nav>
               </SheetContent>
             </Sheet>
 
-            <Link href="/" className="flex items-center gap-3 shrink-0">
-              <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" width={44} height={44} className="rounded-full" />
+            <Link href="/" className="flex items-center gap-3 shrink-0 group">
+              <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-full ring-1 ring-gold/40 group-hover:ring-gold/70 transition-all overflow-hidden shadow-sm">
+                <Image src="/logo.jpeg" alt="NAVI Vastra Vihar" fill className="object-cover" sizes="48px" />
+              </div>
               <div className="hidden sm:block">
-                <span className="font-serif text-lg font-medium text-charcoal leading-none block tracking-wide">NAVI</span>
-                <span className="text-[9px] tracking-[0.3em] text-charcoal/50 uppercase">Vastra Vihar</span>
+                <span className="font-serif text-lg font-semibold text-navy leading-none block tracking-wide">NAVI</span>
+                <span className="text-[9px] tracking-[0.28em] text-emerald uppercase">Vastra Vihar</span>
               </div>
             </Link>
 
@@ -85,13 +87,13 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[13px] font-medium text-charcoal/75 hover:text-wine transition-colors link-underline pb-0.5"
+                  className="text-[13px] font-medium text-navy/75 hover:text-emerald transition-colors link-underline pb-0.5"
                 >
                   {link.label}
                 </Link>
               ))}
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-0.5 text-[13px] font-medium text-charcoal/75 hover:text-wine transition-colors outline-none">
+                <DropdownMenuTrigger className="flex items-center gap-0.5 text-[13px] font-medium text-navy/75 hover:text-emerald transition-colors outline-none">
                   More <ChevronDown className="h-3.5 w-3.5" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="min-w-[160px]">
@@ -112,7 +114,7 @@ export function Navbar() {
                 <Link href="/account/wishlist">
                   <Heart className="h-[18px] w-[18px]" strokeWidth={1.5} />
                   {wishlistItems.length > 0 && (
-                    <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-wine text-cream text-[10px] flex items-center justify-center">
+                    <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-emerald text-cream text-[10px] flex items-center justify-center">
                       {wishlistItems.length}
                     </span>
                   )}
@@ -121,7 +123,7 @@ export function Navbar() {
               <Button variant="ghost" size="icon" className="relative" onClick={() => setCartOpen(true)} aria-label="Shopping bag">
                 <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={1.5} />
                 {itemCount > 0 && (
-                  <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-gold text-charcoal text-[10px] font-semibold flex items-center justify-center">
+                  <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-gold text-navy text-[10px] font-semibold flex items-center justify-center">
                     {itemCount}
                   </span>
                 )}

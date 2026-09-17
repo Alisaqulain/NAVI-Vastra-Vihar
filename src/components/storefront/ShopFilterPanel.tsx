@@ -167,8 +167,8 @@ export function ShopFilterPanel({ categories, maxPrice }: ShopFilterPanelProps) 
               className={cn(
                 "px-3 py-1.5 text-xs rounded-full border transition-all",
                 currentFabrics.includes(fabric)
-                  ? "bg-wine text-cream border-wine"
-                  : "border-beige bg-cream-light text-charcoal/75 hover:border-wine/30"
+                  ? "bg-emerald text-cream border-emerald"
+                  : "border-beige bg-cream-light text-navy/75 hover:border-emerald/30"
               )}
             >
               {fabric}
@@ -189,8 +189,8 @@ export function ShopFilterPanel({ categories, maxPrice }: ShopFilterPanelProps) 
               className={cn(
                 "px-3 py-1.5 text-xs rounded-full border transition-all",
                 currentAvailability === value
-                  ? "bg-wine text-cream border-wine"
-                  : "border-beige bg-cream-light text-charcoal/75 hover:border-wine/30"
+                  ? "bg-emerald text-cream border-emerald"
+                  : "border-beige bg-cream-light text-navy/75 hover:border-emerald/30"
               )}
             >
               {label}

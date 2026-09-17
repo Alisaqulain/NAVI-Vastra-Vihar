@@ -25,7 +25,7 @@ const helpLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-charcoal text-cream mt-auto">
+    <footer className="bg-navy text-cream mt-auto border-t border-gold/10">
       <div className="container-premium py-14 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           <div className="space-y-5 lg:col-span-1">

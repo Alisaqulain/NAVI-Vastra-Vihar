@@ -1,30 +1,27 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Primary palette — premium wine & ivory */
-  --color-wine: #6b1b2a;
-  --color-wine-light: #8b2940;
-  --color-wine-dark: #4a121f;
-  --color-charcoal: #2a2a2a;
-  --color-charcoal-light: #3d3d3d;
-  --color-ivory: #faf8f4;
-  --color-ivory-dark: #f0ebe3;
-
-  /* Legacy tokens (mapped for compatibility) */
-  --color-navy: #2a2a2a;
-  --color-navy-light: #3d3d3d;
-  --color-navy-dark: #1a1a1a;
-  --color-emerald: #6b1b2a;
-  --color-emerald-light: #8b2940;
-  --color-emerald-dark: #4a121f;
-  --color-gold: #b8956a;
-  --color-gold-light: #cdb088;
-  --color-gold-dark: #96784f;
-  --color-cream: #faf8f4;
-  --color-cream-dark: #f0ebe3;
-  --color-cream-light: #fdfcf9;
+  /* NAVI logo palette */
+  --color-navy: #1b2a4a;
+  --color-navy-light: #2a3f6b;
+  --color-navy-dark: #0f1a2e;
+  --color-emerald: #1f6b5c;
+  --color-emerald-light: #2d8a78;
+  --color-emerald-dark: #154a40;
+  --color-gold: #c9a962;
+  --color-gold-light: #d4bc7e;
+  --color-gold-dark: #a88b4a;
+  --color-cream: #f7f3eb;
+  --color-cream-dark: #ede6d8;
+  --color-cream-light: #fdfbf7;
   --color-beige: #e8dfd0;
-  --color-beige-light: #f2ece2;
+  --color-beige-light: #f0e9de;
+
+  /* Aliases used in components */
+  --color-wine: #6b1b2a;
+  --color-charcoal: #1b2a4a;
+  --color-ivory: #f7f3eb;
+  --color-ivory-dark: #ede6d8;
 }
 
 @layer base {
@@ -38,16 +35,16 @@
   }
 
   body {
-    @apply bg-cream text-charcoal antialiased;
+    @apply bg-cream text-navy antialiased;
     font-feature-settings: "kern" 1, "liga" 1;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight text-charcoal;
+    @apply font-serif tracking-tight text-navy;
   }
 
   ::selection {
-    @apply bg-gold/25 text-charcoal;
+    @apply bg-gold/30 text-navy;
   }
 }
 
@@ -56,16 +53,25 @@
   .safe-area-pb { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
   .premium-card {
-    @apply bg-cream-light transition-all duration-500;
-    box-shadow: 0 1px 0 rgba(42, 42, 42, 0.04);
+    @apply bg-cream-light transition-all duration-500 border border-beige/50;
+    box-shadow: 0 2px 24px rgba(27, 42, 74, 0.06);
   }
 
   .premium-card:hover {
-    box-shadow: 0 12px 40px rgba(42, 42, 42, 0.08);
+    box-shadow: 0 12px 40px rgba(27, 42, 74, 0.1);
+    @apply border-gold/35;
   }
 
   .gold-line {
-    @apply h-px w-10 bg-gold/70;
+    @apply h-px w-12 bg-gradient-to-r from-gold to-transparent;
+  }
+
+  .logo-ring {
+    @apply rounded-full ring-2 ring-gold/60 ring-offset-2 ring-offset-cream shadow-[0_4px_24px_rgba(201,169,98,0.25)];
+  }
+
+  .mandala-glow {
+    background-image: radial-gradient(circle at 50% 0%, rgba(201, 169, 98, 0.12) 0%, transparent 55%);
   }
 
   .section-padding {
@@ -81,10 +87,10 @@
   }
 
   .editorial-heading {
-    @apply font-serif text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight;
+    @apply font-serif text-3xl sm:text-4xl lg:text-5xl leading-[1.1] tracking-tight text-navy;
   }
 
   .link-underline {
-    @apply relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-wine after:transition-all hover:after:w-full;
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-emerald after:transition-all hover:after:w-full;
   }
 }

@@ -4,6 +4,7 @@ import { Navbar } from "@/components/storefront/Navbar";
 import { Footer } from "@/components/storefront/Footer";
 import { MobileNav } from "@/components/storefront/MobileNav";
 import { StorefrontProviders } from "@/components/storefront/providers";
+import { WelcomePromoPopup } from "@/components/storefront/WelcomePromoPopup";
 
 export default function StorefrontLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export default function StorefrontLayout({ children }: { children: React.ReactNo
         <Footer />
         <MobileNav />
       </div>
+      <WelcomePromoPopup />
       <Toaster position="top-center" richColors closeButton />
     </StorefrontProviders>
   );

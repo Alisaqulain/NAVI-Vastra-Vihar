@@ -93,7 +93,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </div>
           <div className="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
             <Button size="icon" variant="outline" className="h-8 w-8 rounded-full bg-cream/95 border-beige/80 shadow-sm" onClick={handleWishlist} aria-label="Wishlist">
-              <Heart className={cn("h-3.5 w-3.5", isInWishlist(product.id) && "fill-wine text-wine")} />
+              <Heart className={cn("h-3.5 w-3.5", isInWishlist(product.id) && "fill-emerald text-emerald")} />
             </Button>
             <Button size="icon" variant="outline" className="h-8 w-8 rounded-full bg-cream/95 border-beige/80 shadow-sm" onClick={handleQuickView} aria-label="Quick view">
               <Eye className="h-3.5 w-3.5" />
@@ -107,7 +107,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </div>
         <div className="space-y-1.5 px-0.5">
           <p className="text-[10px] uppercase tracking-wider text-charcoal/40">{product.fabric}</p>
-          <h3 className="font-medium text-charcoal line-clamp-2 group-hover:text-wine transition-colors text-sm leading-snug min-h-[2.5rem]">
+          <h3 className="font-medium text-navy line-clamp-2 group-hover:text-emerald transition-colors text-sm leading-snug min-h-[2.5rem]">
             {product.name}
           </h3>
           <div className="flex items-baseline gap-2">

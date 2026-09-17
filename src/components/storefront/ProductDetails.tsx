@@ -181,7 +181,7 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
             }}
             aria-label="Add to wishlist"
           >
-            <Heart className={cn("h-4 w-4", isInWishlist(product.id) && "fill-wine text-wine")} />
+            <Heart className={cn("h-4 w-4", isInWishlist(product.id) && "fill-emerald text-emerald")} />
           </Button>
         </div>
 
