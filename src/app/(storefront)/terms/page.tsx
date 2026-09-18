@@ -14,7 +14,7 @@ export default function TermsPage() {
       <h2 className="font-serif text-xl text-navy mt-6 mb-3">Limitation of Liability</h2>
       <p>NAVI Vastra Vihar shall not be liable for indirect, incidental, or consequential damages arising from the use of our products or website. Our liability is limited to the purchase price of the product in question.</p>
       <h2 className="font-serif text-xl text-navy mt-6 mb-3">Governing Law</h2>
-      <p>These terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in New Delhi.</p>
+      <p>These terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in Bengaluru, Karnataka.</p>
     </PolicyLayout>
   );
 }

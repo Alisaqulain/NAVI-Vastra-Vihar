@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Store, Bell, Shield, Palette } from "lucide-react";
 import { toast } from "sonner";
+import { BUSINESS } from "@/lib/constants/business";
 
 export default function AdminSettingsPage() {
   const handleSave = () => toast.success("Settings saved (placeholder)");
@@ -44,11 +45,15 @@ export default function AdminSettingsPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="phone">Contact Phone</Label>
-              <Input id="phone" defaultValue="+91 9876543210" />
+              <Input id="phone" defaultValue={BUSINESS.phoneDisplay} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="address">Store Address</Label>
-              <Textarea id="address" defaultValue="123 Heritage Lane, Varanasi, Uttar Pradesh 221001" rows={2} />
+              <Textarea id="address" defaultValue={BUSINESS.addressFull} rows={3} />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="gstin">GSTIN</Label>
+              <Input id="gstin" defaultValue={BUSINESS.gstin} readOnly className="bg-cream-dark/50" />
             </div>
           </CardContent>
         </Card>

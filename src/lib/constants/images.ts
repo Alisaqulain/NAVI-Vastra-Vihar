@@ -10,7 +10,7 @@ export const SAREE_PHOTOS = [
 export const PLACEHOLDER_IMAGE = "/logo.jpeg";
 
 export function unsplash(photoId: string, width = 800): string {
-  return `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&q=80`;
+  return `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&h=${Math.round(width * 1.25)}&q=85`;
 }
 
 function hashId(id: string): number {

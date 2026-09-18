@@ -157,6 +157,25 @@
   .hero-copy-enter {
     animation: hero-copy-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
+
+  .glass-panel {
+    @apply bg-cream-light/80 backdrop-blur-md border border-beige/70 shadow-[0_8px_32px_rgba(27,42,74,0.06)];
+  }
+
+  .social-3d-chip {
+    @apply inline-flex items-center gap-2 px-3.5 py-2.5 rounded-full border border-cream/15 bg-navy-light/50 text-cream/90;
+    @apply transition-all duration-300 hover:border-gold/50 hover:text-gold hover:-translate-y-0.5;
+    @apply hover:shadow-[0_8px_24px_rgba(201,169,98,0.2)];
+  }
+
+  .contact-action-chip {
+    @apply flex flex-col items-center justify-center gap-1.5 min-h-[4.5rem] rounded-2xl border border-beige/80 bg-cream-light;
+    @apply text-navy transition-all duration-300 active:scale-[0.98] hover:border-emerald/40 hover:shadow-md hover:-translate-y-0.5;
+  }
+
+  .card-elevate {
+    @apply transition-transform duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(27,42,74,0.1)];
+  }
 }
 
 @keyframes hero-ken-burns {
@@ -186,4 +205,17 @@
   to {
     transform: scale(1.1);
   }
+}
+
+@keyframes hero-bg-ken {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.hero-bg-ken {
+  animation: hero-bg-ken 14s ease-in-out infinite alternate;
 }

@@ -14,7 +14,7 @@ export default function AboutPage() {
         />
       </div>
       <p>
-        Founded in 1978, <strong>NAVI Vastra Vihar</strong> began as a dedicated saree shop in the heart of Old Delhi.
+        Founded in 1978, <strong>NAVI Vastra Vihar</strong> began as a dedicated saree shop built on handloom heritage and trusted weaver relationships.
         What started with a passion for Banarasi silks and Kanjeevaram weaves has grown into one of India&apos;s most trusted
         names in premium sarees.
       </p>
@@ -31,7 +31,7 @@ export default function AboutPage() {
       </p>
       <h2 className="font-serif text-xl text-navy mt-8 mb-4">Saree Shop • Handloom Elegance • Since 1978</h2>
       <p>
-        From our flagship store in Connaught Place, New Delhi, to our online boutique, NAVI Vastra Vihar continues to celebrate
+        From our boutique in Sahakarnagar, Bengaluru, to our online store, NAVI Vastra Vihar continues to celebrate
         the art of Indian saree weaving. We invite you to discover sarees that honour tradition while embracing contemporary grace.
       </p>
     </PolicyLayout>

@@ -14,7 +14,7 @@ export default function ReturnPolicyPage() {
         <li>Innerwear and intimate apparel</li>
       </ul>
       <h2 className="font-serif text-xl text-navy mt-6 mb-3">How to Initiate a Return</h2>
-      <p>Email hello@navivastravihar.com with your order number and reason for return. Our team will arrange a pickup within 2–3 business days. Alternatively, you may drop off the item at our Connaught Place store.</p>
+      <p>Email info@navivastravihar.com with your order number and reason for return. Our team will arrange a pickup within 2–3 business days. Alternatively, you may drop off the item at our Sahakarnagar, Bengaluru store.</p>
       <h2 className="font-serif text-xl text-navy mt-6 mb-3">Refunds</h2>
       <p>Refunds are processed within 5–7 business days after we receive and inspect the returned item. The amount will be credited to your original payment method. COD orders receive refunds via bank transfer.</p>
       <h2 className="font-serif text-xl text-navy mt-6 mb-3">Exchanges</h2>

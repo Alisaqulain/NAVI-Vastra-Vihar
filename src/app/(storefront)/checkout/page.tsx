@@ -167,7 +167,7 @@ function CheckoutForm() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="state">State *</Label>
-                  <Input id="state" required placeholder="e.g. Delhi" value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
+                  <Input id="state" required placeholder="e.g. Karnataka" value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="mt-1.5 h-11 rounded-lg" />
                 </div>
                 <div>
                   <Label htmlFor="pincode">Pincode *</Label>
