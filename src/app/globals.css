@@ -8,9 +8,9 @@
   --color-emerald: #1f6b5c;
   --color-emerald-light: #2d8a78;
   --color-emerald-dark: #154a40;
-  --color-gold: #c9a962;
-  --color-gold-light: #d4bc7e;
-  --color-gold-dark: #a88b4a;
+  --color-gold: #d4af52;
+  --color-gold-light: #e4c878;
+  --color-gold-dark: #b8923a;
   --color-cream: #f7f3eb;
   --color-cream-dark: #ede6d8;
   --color-cream-light: #fdfbf7;
@@ -18,7 +18,9 @@
   --color-beige-light: #f0e9de;
 
   /* Aliases used in components */
-  --color-wine: #6b1b2a;
+  --color-wine: #7a1f35;
+  --color-wine-light: #a83255;
+  --color-wine-dark: #5c1528;
   --color-charcoal: #1b2a4a;
   --color-ivory: #f7f3eb;
   --color-ivory-dark: #ede6d8;
@@ -82,7 +84,45 @@
   }
 
   .gold-line {
-    @apply h-px w-12 bg-gradient-to-r from-gold to-transparent;
+    @apply h-0.5 w-14 rounded-full bg-gradient-to-r from-wine via-gold to-gold-light;
+  }
+
+  .text-accent-gradient {
+    @apply bg-gradient-to-r from-wine via-gold-dark to-gold bg-clip-text text-transparent;
+  }
+
+  .hero-luxury-card {
+    @apply relative rounded-2xl sm:rounded-3xl border border-gold/30 bg-cream-light/94 backdrop-blur-xl;
+    box-shadow:
+      0 24px 64px rgba(92, 21, 40, 0.14),
+      0 0 0 1px rgba(212, 175, 82, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  }
+
+  .hero-luxury-card::before {
+    content: "";
+    @apply absolute left-0 top-6 bottom-6 w-1 rounded-full bg-gradient-to-b from-wine via-gold to-emerald;
+  }
+
+  .hero-warm-vignette {
+    background:
+      linear-gradient(to top, rgba(92, 21, 40, 0.82) 0%, rgba(27, 42, 74, 0.35) 42%, transparent 72%),
+      linear-gradient(to right, rgba(15, 26, 46, 0.55) 0%, transparent 48%),
+      radial-gradient(ellipse 80% 60% at 85% 40%, rgba(212, 175, 82, 0.18) 0%, transparent 55%);
+  }
+
+  .btn-gold-premium {
+    @apply bg-gradient-to-r from-gold-dark via-gold to-gold-light text-navy-dark font-semibold;
+    box-shadow: 0 6px 24px rgba(212, 175, 82, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .btn-gold-premium:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 8px 28px rgba(212, 175, 82, 0.55);
+  }
+
+  .pill-trust {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium border;
   }
 
   .logo-ring {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Sparkles, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE_IMAGES, unsplash, SAREE_PHOTOS } from "@/lib/constants/images";
+import { SITE_IMAGES, HERO_LOCAL } from "@/lib/constants/images";
 import { useAutoAdvance } from "@/hooks/use-auto-advance";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +33,7 @@ const SLIDES = [
   },
   {
     id: "everyday",
-    image: unsplash(SAREE_PHOTOS[4], 1400),
+    image: HERO_LOCAL.everyday,
     title: "Everyday Elegance",
     subtitle: "Light georgette & cotton for office to evening.",
     cta: { label: "New Arrivals", href: "/shop?category=new-arrivals" },
@@ -47,7 +47,7 @@ export function AnimatedHeroSlider() {
 
   return (
     <section
-      className="relative h-[min(78dvh,680px)] sm:h-[min(82dvh,740px)] lg:h-[min(88vh,820px)] overflow-hidden bg-navy-dark"
+      className="relative h-[min(78dvh,680px)] sm:h-[min(82dvh,740px)] lg:h-[min(88vh,820px)] overflow-hidden bg-wine-dark"
       onTouchStart={() => setPaused(true)}
       onTouchEnd={() => setPaused(false)}
     >
@@ -67,7 +67,7 @@ export function AnimatedHeroSlider() {
                 alt=""
                 fill
                 priority={i === 0}
-                className="object-cover object-[68%_28%] sm:object-[72%_32%] lg:object-[78%_center]"
+                className="object-cover object-[68%_28%] sm:object-[72%_32%] lg:object-[78%_center] saturate-[1.05]"
                 sizes="100vw"
               />
             </div>
@@ -75,45 +75,52 @@ export function AnimatedHeroSlider() {
         </div>
       ))}
 
-      {/* Light vignette — keep photo visible across the frame */}
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/85 via-navy/20 to-navy/10 pointer-events-none z-[1]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/55 via-transparent to-navy/15 pointer-events-none z-[1] lg:from-navy-dark/45" />
-      <div className="absolute inset-0 mandala-glow pointer-events-none z-[1] opacity-70" />
+      <div className="absolute inset-0 hero-warm-vignette pointer-events-none z-[1]" />
+      <div
+        className="absolute inset-0 pointer-events-none z-[1] opacity-40 mix-blend-soft-light"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 20% 80%, rgba(212,175,82,0.35) 0%, transparent 45%)",
+        }}
+      />
 
       <div className="container-premium relative z-10 h-full flex items-end lg:items-center pb-6 sm:pb-8 lg:py-10">
-        <div className="w-full grid lg:grid-cols-12 gap-6 lg:gap-8 items-end lg:items-center">
-          {/* Glass content card — fills left without a huge empty dark zone */}
+        <div className="w-full grid lg:grid-cols-12 gap-6 lg:gap-10 items-end lg:items-center">
           <div className="lg:col-span-5 xl:col-span-4">
-            <div className="rounded-2xl sm:rounded-3xl border border-cream/10 bg-navy/55 backdrop-blur-md shadow-[0_24px_60px_rgba(0,0,0,0.35)] p-5 sm:p-7 lg:p-8">
-              <Link href="/" className="inline-flex items-center gap-2.5 mb-4 sm:mb-5">
-                <div className="relative h-9 w-9 sm:h-10 sm:w-10 rounded-full overflow-hidden ring-1 ring-gold/55 shrink-0">
-                  <Image src="/logo.jpeg" alt="NAVI" fill className="object-cover" sizes="40px" priority />
+            <div className="hero-luxury-card pl-6 sm:pl-8 pr-5 sm:pr-7 py-5 sm:py-7 lg:py-8">
+              <Link href="/" className="inline-flex items-center gap-3 mb-4 sm:mb-5 group">
+                <div className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-full overflow-hidden logo-ring ring-offset-cream-light shrink-0">
+                  <Image src="/logo.jpeg" alt="NAVI" fill className="object-cover" sizes="44px" priority />
                 </div>
                 <div>
-                  <p className="font-serif text-base sm:text-lg text-cream leading-none">NAVI</p>
-                  <p className="text-[8px] sm:text-[9px] tracking-[0.28em] text-gold uppercase mt-0.5">Vastra Vihar</p>
+                  <p className="font-serif text-lg sm:text-xl text-navy leading-none group-hover:text-wine transition-colors">
+                    NAVI
+                  </p>
+                  <p className="text-[8px] sm:text-[9px] tracking-[0.32em] text-accent-gradient uppercase mt-1 font-medium">
+                    Vastra Vihar
+                  </p>
                 </div>
               </Link>
 
               <div key={slide.id} className="hero-copy-enter">
-                <p className="text-gold text-[10px] tracking-[0.3em] uppercase mb-2">
-                  Slide {String(active + 1).padStart(2, "0")} / {String(SLIDES.length).padStart(2, "0")}
+                <p className="text-[10px] tracking-[0.28em] uppercase mb-2 font-semibold text-accent-gradient">
+                  {String(active + 1).padStart(2, "0")} · Collection {String(SLIDES.length).padStart(2, "0")}
                 </p>
-                <h1 className="font-serif text-xl min-[380px]:text-2xl sm:text-3xl lg:text-4xl text-cream leading-snug mb-2 text-balance">
+                <h1 className="font-serif text-xl min-[380px]:text-2xl sm:text-3xl lg:text-[2.35rem] text-navy leading-snug mb-2.5 text-balance">
                   {slide.title}
                 </h1>
-                <p className="text-cream/80 text-sm sm:text-[15px] leading-relaxed mb-5">{slide.subtitle}</p>
-                <Button asChild size="lg" variant="gold" className="rounded-full w-full sm:w-auto px-8 h-11">
+                <p className="text-navy/65 text-sm sm:text-[15px] leading-relaxed mb-6">{slide.subtitle}</p>
+                <Button asChild size="lg" variant="gold" className="rounded-full w-full sm:w-auto px-9 h-11 sm:h-12">
                   <Link href={slide.cta.href}>{slide.cta.label}</Link>
                 </Button>
               </div>
 
-              <div className="flex items-center justify-between sm:justify-start gap-2 mt-5 sm:mt-6 pt-5 border-t border-cream/10">
+              <div className="flex items-center justify-between sm:justify-start gap-2 mt-6 pt-5 border-t border-beige/80">
                 <Button
                   type="button"
                   variant="outline"
                   size="icon"
-                  className="rounded-full border-cream/25 text-cream bg-navy/40 h-9 w-9 shrink-0"
+                  className="rounded-full border-gold/40 text-navy bg-cream hover:bg-gold/15 h-9 w-9 shrink-0"
                   onClick={() => go(-1)}
                   aria-label="Previous slide"
                 >
@@ -128,7 +135,9 @@ export function AnimatedHeroSlider() {
                       onClick={() => goTo(i)}
                       className={cn(
                         "h-1.5 rounded-full transition-all duration-500",
-                        i === active ? "w-7 bg-gold" : "w-2 bg-cream/35"
+                        i === active
+                          ? "w-8 bg-gradient-to-r from-wine via-gold to-gold-light"
+                          : "w-2 bg-navy/15 hover:bg-gold/40"
                       )}
                     />
                   ))}
@@ -137,7 +146,7 @@ export function AnimatedHeroSlider() {
                   type="button"
                   variant="outline"
                   size="icon"
-                  className="rounded-full border-cream/25 text-cream bg-navy/40 h-9 w-9 shrink-0"
+                  className="rounded-full border-gold/40 text-navy bg-cream hover:bg-gold/15 h-9 w-9 shrink-0"
                   onClick={() => go(1)}
                   aria-label="Next slide"
                 >
@@ -146,36 +155,40 @@ export function AnimatedHeroSlider() {
               </div>
             </div>
 
-            <div className="hidden sm:flex flex-wrap gap-x-4 gap-y-1 mt-4 text-[11px] text-cream/65">
-              <span className="inline-flex items-center gap-1">
-                <Sparkles className="h-3 w-3 text-gold" /> Since 1978
+            <div className="hidden sm:flex flex-wrap gap-2 mt-4">
+              <span className="pill-trust bg-cream-light/95 text-wine border-wine/15 shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-gold" /> Heritage since 1978
               </span>
-              <span className="inline-flex items-center gap-1">
-                <Truck className="h-3 w-3 text-emerald-light" /> Free shipping ₹5,000+
+              <span className="pill-trust bg-cream-light/95 text-emerald-dark border-emerald/20 shadow-sm">
+                <Truck className="h-3.5 w-3.5 text-emerald" /> Free ship ₹5,000+
               </span>
             </div>
           </div>
 
-          {/* Right: slide previews — uses open space on desktop */}
           <div className="hidden lg:flex lg:col-span-7 xl:col-span-8 justify-end items-center">
-            <div className="flex gap-3">
+            <div className="flex gap-3 xl:gap-4 p-3 rounded-2xl bg-navy/25 backdrop-blur-sm border border-gold/20">
               {SLIDES.map((s, i) => (
                 <button
                   key={s.id}
                   type="button"
                   onClick={() => goTo(i)}
                   className={cn(
-                    "relative w-[72px] xl:w-[88px] aspect-[3/4] rounded-xl overflow-hidden border-2 transition-all duration-300 shadow-lg",
+                    "relative w-[76px] xl:w-[92px] aspect-[3/4] rounded-xl overflow-hidden transition-all duration-300",
                     i === active
-                      ? "border-gold scale-105 ring-2 ring-gold/30"
-                      : "border-cream/20 opacity-75 hover:opacity-100 hover:border-gold/40"
+                      ? "ring-2 ring-gold scale-[1.04] shadow-[0_12px_32px_rgba(212,175,82,0.35)]"
+                      : "ring-1 ring-cream/30 opacity-80 hover:opacity-100 hover:ring-gold/50"
                   )}
                   aria-label={s.title}
                 >
-                  <Image src={s.image} alt="" fill className="object-cover object-center" sizes="88px" />
-                  <div className="absolute inset-0 bg-navy/25" />
-                  <span className="absolute bottom-1 left-0 right-0 text-[9px] text-cream/90 text-center px-0.5 truncate">
-                    {i + 1}
+                  <Image src={s.image} alt="" fill className="object-cover object-center" sizes="92px" />
+                  <div
+                    className={cn(
+                      "absolute inset-0 transition-colors",
+                      i === active ? "bg-gradient-to-t from-wine/70 to-transparent" : "bg-navy/30"
+                    )}
+                  />
+                  <span className="absolute bottom-2 left-0 right-0 text-[10px] font-medium text-cream text-center px-1 leading-tight">
+                    {s.title.split(" ").slice(0, 2).join(" ")}
                   </span>
                 </button>
               ))}
@@ -184,7 +197,10 @@ export function AnimatedHeroSlider() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/20 via-gold/60 to-gold/20 z-10" aria-hidden />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-1 z-10 bg-gradient-to-r from-wine via-gold to-emerald opacity-90"
+        aria-hidden
+      />
     </section>
   );
 }

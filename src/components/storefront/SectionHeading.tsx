@@ -14,7 +14,11 @@ export function SectionHeading({ subtitle, title, viewAllHref, viewAllLabel = "V
     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-10">
       <div>
         {subtitle && (
-          <p className={`text-sm tracking-[0.2em] uppercase mb-2 ${light ? "text-gold" : "text-emerald"}`}>
+          <p
+            className={`text-xs sm:text-sm tracking-[0.22em] uppercase mb-2 font-semibold ${
+              light ? "text-gold-light" : "text-accent-gradient"
+            }`}
+          >
             {subtitle}
           </p>
         )}

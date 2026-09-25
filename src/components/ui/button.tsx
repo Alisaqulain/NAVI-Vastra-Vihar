@@ -12,7 +12,7 @@ const buttonVariants = cva(
         emerald: "bg-emerald text-cream hover:bg-emerald-light",
         outline: "border border-navy/20 bg-transparent hover:bg-cream-dark text-navy",
         ghost: "hover:bg-cream-dark text-navy",
-        gold: "bg-gold text-navy hover:bg-gold-light",
+        gold: "btn-gold-premium text-navy-dark hover:brightness-105",
         destructive: "bg-red-600 text-white hover:bg-red-700",
         link: "text-emerald underline-offset-4 hover:underline",
       },

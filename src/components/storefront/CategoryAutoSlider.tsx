@@ -42,8 +42,8 @@ export function CategoryAutoSlider({ categories }: CategoryAutoSliderProps) {
                 className={cn(
                   "snap-start shrink-0 px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 border",
                   i === active
-                    ? "bg-emerald text-cream border-emerald shadow-md"
-                    : "bg-cream text-navy/70 border-beige active:border-emerald/40"
+                    ? "bg-gradient-to-r from-wine to-emerald text-cream border-transparent shadow-[0_4px_16px_rgba(122,31,53,0.35)]"
+                    : "bg-cream text-navy/70 border-beige hover:border-gold/50 hover:text-navy"
                 )}
               >
                 {cat.name}
@@ -76,7 +76,7 @@ export function CategoryAutoSlider({ categories }: CategoryAutoSliderProps) {
                 />
               </div>
             ))}
-            <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-wine-dark/88 via-navy/30 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
               <p className="text-gold text-[10px] tracking-[0.25em] uppercase mb-1.5 sm:mb-2">Featured</p>
               <h3 className="font-serif text-2xl sm:text-4xl text-cream leading-tight">{current.name}</h3>
@@ -93,8 +93,8 @@ export function CategoryAutoSlider({ categories }: CategoryAutoSliderProps) {
                 className={cn(
                   "group relative aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden text-left border transition-all duration-300",
                   i === active
-                    ? "border-emerald ring-2 ring-emerald/30 shadow-lg"
-                    : "border-beige/80 opacity-90 hover:opacity-100 hover:border-gold/40"
+                    ? "border-gold ring-2 ring-gold/40 shadow-[0_8px_24px_rgba(212,175,82,0.25)]"
+                    : "border-beige/80 opacity-90 hover:opacity-100 hover:border-wine/30"
                 )}
               >
                 <Image src={cat.image} alt={cat.name} fill className="object-cover object-top" sizes="200px" />
@@ -123,7 +123,7 @@ export function CategoryAutoSlider({ categories }: CategoryAutoSliderProps) {
               onClick={() => goTo(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300",
-                i === active ? "w-8 bg-emerald" : "w-2 bg-navy/15"
+                i === active ? "w-8 bg-gradient-to-r from-wine to-gold" : "w-2 bg-navy/15"
               )}
             />
           ))}

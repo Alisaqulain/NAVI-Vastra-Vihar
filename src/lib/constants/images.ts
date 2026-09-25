@@ -1,10 +1,10 @@
 /** Verified working Unsplash saree photo IDs (404-safe as of 2025) */
 export const SAREE_PHOTOS = [
   "photo-1732381917488-39f31539cd4f", // blue & gold wedding saree
-  "photo-1734527224906-92eaabc0f665", // yellow saree portrait
+  "photo-1728562870256-cac40eabacb5", // blue festive saree (stage)
   "photo-1735331467260-0153c5fbd31d", // red & green saree
   "photo-1706685481823-b8f1a1c11fca", // traditional fashion saree
-  "photo-1718104561384-c51083b9ace8", // heritage saree on stairs
+  "photo-1706685481823-b8f1a1c11fca", // traditional saree portrait
 ] as const;
 
 export const PLACEHOLDER_IMAGE = "/logo.jpeg";
@@ -29,11 +29,17 @@ export function getProductImages(productId: string, count = 6): string[] {
   );
 }
 
+/** Bundled hero assets (avoids Unsplash timeouts in Next.js image optimizer) */
+export const HERO_LOCAL = {
+  festive: "/hero/festive.jpg",
+  everyday: "/hero/everyday.jpg",
+} as const;
+
 export const SITE_IMAGES = {
   hero: {
     mobile: unsplash(SAREE_PHOTOS[0], 1200),
     main: unsplash(SAREE_PHOTOS[0], 1200),
-    secondary: unsplash(SAREE_PHOTOS[1], 800),
+    secondary: HERO_LOCAL.festive,
     accent: unsplash(SAREE_PHOTOS[2], 800),
   },
   brand: {

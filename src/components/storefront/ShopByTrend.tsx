@@ -38,7 +38,7 @@ export function ShopByTrend() {
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/75 via-navy/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-wine-dark/80 via-navy/25 to-gold/5" />
               <div
                 className={`absolute bottom-0 left-0 right-0 p-4 sm:p-8 text-cream ${align === "right" ? "md:text-right" : ""}`}
               >
