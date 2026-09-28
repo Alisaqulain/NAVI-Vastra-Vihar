@@ -68,10 +68,10 @@ export function CategoryAutoSlider({ categories }: CategoryAutoSliderProps) {
               >
                 <Image
                   src={cat.image}
-                  alt={cat.name}
+                  alt={`${cat.name} — shop at NAVI Vastra Vihar`}
                   fill
-                  className="object-cover object-top"
-                  sizes="100vw"
+                  className="object-cover object-[center_22%] sm:object-top"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                   priority={i === 0}
                 />
               </div>
@@ -97,7 +97,13 @@ export function CategoryAutoSlider({ categories }: CategoryAutoSliderProps) {
                     : "border-beige/80 opacity-90 hover:opacity-100 hover:border-wine/30"
                 )}
               >
-                <Image src={cat.image} alt={cat.name} fill className="object-cover object-top" sizes="200px" />
+                <Image
+                  src={cat.image}
+                  alt={`${cat.name} collection preview`}
+                  fill
+                  className="object-cover object-[center_20%]"
+                  sizes="(max-width: 1024px) 33vw, 200px"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
                 <p className="absolute bottom-0 left-0 right-0 p-3 font-serif text-sm text-cream">{cat.name}</p>
               </button>

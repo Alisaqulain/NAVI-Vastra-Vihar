@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { SITE_IMAGES } from "@/lib/constants/images";
+import { SITE_IMAGES, CATALOG_IMAGES } from "@/lib/constants/images";
 import { BUSINESS } from "@/lib/constants/business";
 
 const whatsappUrl = `https://wa.me/${BUSINESS.phoneTel.replace(/\D/g, "")}`;
@@ -30,7 +30,14 @@ export default function ContactPage() {
   return (
     <div className="pb-4">
       <div className="relative min-h-[200px] sm:min-h-[240px] bg-navy overflow-hidden">
-        <Image src={SITE_IMAGES.contact.hero} alt="" fill className="object-cover opacity-35" sizes="100vw" />
+        <Image
+          src={SITE_IMAGES.contact.hero}
+          alt="NAVI Vastra Vihar boutique — premium sarees Bengaluru"
+          fill
+          className="object-cover object-[60%_30%] opacity-35"
+          sizes="100vw"
+          priority
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/50" />
         <div className="container-premium relative z-10 flex flex-col justify-end min-h-[200px] sm:min-h-[240px] pb-8 pt-6">
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
@@ -65,13 +72,13 @@ export default function ContactPage() {
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-md col-span-2 sm:col-span-1 card-elevate">
-                <Image src={SITE_IMAGES.contact.gallery1} alt="NAVI collection" fill className="object-cover" sizes="400px" />
+                <Image src={SITE_IMAGES.contact.gallery1} alt={CATALOG_IMAGES[4].alt} fill className="object-cover object-top" sizes="(max-width:640px) 100vw, 400px" />
               </div>
               <div className="relative aspect-square rounded-2xl overflow-hidden shadow-md card-elevate">
                 <Image src="/logo.jpeg" alt="NAVI" fill className="object-cover" sizes="200px" />
               </div>
               <div className="relative aspect-square rounded-2xl overflow-hidden shadow-md card-elevate">
-                <Image src={SITE_IMAGES.contact.gallery2} alt="Saree detail" fill className="object-cover" sizes="200px" />
+                <Image src={SITE_IMAGES.contact.gallery2} alt={CATALOG_IMAGES[0].alt} fill className="object-cover object-top" sizes="200px" />
               </div>
             </div>
 

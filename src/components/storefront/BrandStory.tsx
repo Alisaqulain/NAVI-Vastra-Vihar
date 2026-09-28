@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SITE_IMAGES } from "@/lib/constants/images";
+import { SITE_IMAGES, catalogAlt } from "@/lib/constants/images";
 
 export function BrandStory() {
   return (
@@ -12,7 +12,7 @@ export function BrandStory() {
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg col-span-2 sm:col-span-1">
               <Image
                 src={SITE_IMAGES.brand.weave}
-                alt="Handloom weaving"
+                alt={catalogAlt(13)}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 25vw"
@@ -30,7 +30,7 @@ export function BrandStory() {
             <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg">
               <Image
                 src={SITE_IMAGES.brand.detail}
-                alt="Banarasi saree detail"
+                alt={catalogAlt(1)}
                 fill
                 className="object-cover"
                 sizes="200px"

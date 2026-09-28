@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
-import { SITE_IMAGES, unsplash, SAREE_PHOTOS } from "@/lib/constants/images";
+import { SITE_IMAGES, catalogSrc } from "@/lib/constants/images";
 import { cn } from "@/lib/utils";
 
 const occasions = [
@@ -23,7 +23,7 @@ const occasions = [
     label: "Wedding Sarees",
     tagline: "Banarasi & silk classics",
     href: "/shop?category=sarees",
-    image: unsplash(SAREE_PHOTOS[2], 900),
+    image: catalogSrc(2),
   },
   {
     label: "Party Wear",
@@ -35,7 +35,7 @@ const occasions = [
     label: "Engagement Edit",
     tagline: "Pastels & delicate zari",
     href: "/shop?category=party-wear",
-    image: unsplash(SAREE_PHOTOS[0], 900),
+    image: catalogSrc(9),
   },
   {
     label: "Everyday Kurtis",

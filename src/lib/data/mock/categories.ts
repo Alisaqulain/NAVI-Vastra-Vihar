@@ -1,7 +1,7 @@
 import { Category } from "@/lib/models";
-import { SITE_IMAGES, unsplash, SAREE_PHOTOS } from "@/lib/constants/images";
+import { SITE_IMAGES, catalogSrc } from "@/lib/constants/images";
 
-const catImg = (i: number) => unsplash(SAREE_PHOTOS[i % SAREE_PHOTOS.length]);
+const catImg = (i: number) => catalogSrc(i);
 
 export const categories: Category[] = [
   {

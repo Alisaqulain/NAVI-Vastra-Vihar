@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { PolicyLayout } from "@/components/storefront/PolicyLayout";
-import { SITE_IMAGES } from "@/lib/constants/images";
+import { SITE_IMAGES, CATALOG_IMAGES } from "@/lib/constants/images";
 
 export default function AboutPage() {
   return (
@@ -8,7 +8,8 @@ export default function AboutPage() {
       <div className="relative h-64 rounded-lg overflow-hidden mb-8">
         <Image
           src={SITE_IMAGES.about}
-          alt="NAVI Vastra Vihar saree heritage"
+          alt={CATALOG_IMAGES[3].alt}
+          sizes="(max-width: 768px) 100vw, 800px"
           fill
           className="object-cover"
         />

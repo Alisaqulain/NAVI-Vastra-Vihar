@@ -5,53 +5,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Sparkles, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE_IMAGES, HERO_LOCAL } from "@/lib/constants/images";
+import { HERO_SLIDES } from "@/lib/constants/images";
 import { useAutoAdvance } from "@/hooks/use-auto-advance";
 import { cn } from "@/lib/utils";
 
-const SLIDES = [
-  {
-    id: "heritage",
-    image: SITE_IMAGES.hero.main,
-    title: "Timeless Heritage Sarees",
-    subtitle: "Handloom silks, zari & navy weaves — curated since 1978.",
-    cta: { label: "Shop Collection", href: "/shop" },
-  },
-  {
-    id: "festive",
-    image: SITE_IMAGES.hero.secondary,
-    title: "Festive Season Edit",
-    subtitle: "Pujo, Diwali & weddings — drapes for every celebration.",
-    cta: { label: "Shop Festive", href: "/shop?category=festive-wear" },
-  },
-  {
-    id: "bridal",
-    image: SITE_IMAGES.hero.accent,
-    title: "Bridal & Lehengas",
-    subtitle: "Ceremony-ready looks with master-quality finish.",
-    cta: { label: "Shop Lehengas", href: "/shop?category=lehengas" },
-  },
-  {
-    id: "everyday",
-    image: HERO_LOCAL.everyday,
-    title: "Everyday Elegance",
-    subtitle: "Light georgette & cotton for office to evening.",
-    cta: { label: "New Arrivals", href: "/shop?category=new-arrivals" },
-  },
-] as const;
-
 export function AnimatedHeroSlider() {
   const [paused, setPaused] = useState(false);
-  const { active, go, goTo } = useAutoAdvance(SLIDES.length, undefined, paused);
-  const slide = SLIDES[active];
+  const { active, go, goTo } = useAutoAdvance(HERO_SLIDES.length, undefined, paused);
+  const slide = HERO_SLIDES[active];
 
   return (
     <section
       className="relative h-[min(78dvh,680px)] sm:h-[min(82dvh,740px)] lg:h-[min(88vh,820px)] overflow-hidden bg-wine-dark"
       onTouchStart={() => setPaused(true)}
       onTouchEnd={() => setPaused(false)}
+      aria-roledescription="carousel"
+      aria-label="Featured collections"
     >
-      {SLIDES.map((s, i) => (
+      {HERO_SLIDES.map((s, i) => (
         <div
           key={s.id}
           className={cn(
@@ -64,10 +35,11 @@ export function AnimatedHeroSlider() {
             <div className={cn("absolute inset-0", i === active && "hero-bg-ken")}>
               <Image
                 src={s.image}
-                alt=""
+                alt={i === active ? s.imageAlt : ""}
                 fill
                 priority={i === 0}
-                className="object-cover object-[68%_28%] sm:object-[72%_32%] lg:object-[78%_center] saturate-[1.05]"
+                className="object-cover saturate-[1.03]"
+                style={{ objectPosition: s.objectPosition }}
                 sizes="100vw"
               />
             </div>
@@ -79,8 +51,7 @@ export function AnimatedHeroSlider() {
       <div
         className="absolute inset-0 pointer-events-none z-[1] opacity-40 mix-blend-soft-light"
         style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 80%, rgba(212,175,82,0.35) 0%, transparent 45%)",
+          backgroundImage: "radial-gradient(circle at 20% 80%, rgba(212,175,82,0.35) 0%, transparent 45%)",
         }}
       />
 
@@ -90,7 +61,7 @@ export function AnimatedHeroSlider() {
             <div className="hero-luxury-card pl-6 sm:pl-8 pr-5 sm:pr-7 py-5 sm:py-7 lg:py-8">
               <Link href="/" className="inline-flex items-center gap-3 mb-4 sm:mb-5 group">
                 <div className="relative h-10 w-10 sm:h-11 sm:w-11 rounded-full overflow-hidden logo-ring ring-offset-cream-light shrink-0">
-                  <Image src="/logo.jpeg" alt="NAVI" fill className="object-cover" sizes="44px" priority />
+                  <Image src="/logo.jpeg" alt="NAVI Vastra Vihar logo" fill className="object-cover" sizes="44px" priority />
                 </div>
                 <div>
                   <p className="font-serif text-lg sm:text-xl text-navy leading-none group-hover:text-wine transition-colors">
@@ -104,7 +75,7 @@ export function AnimatedHeroSlider() {
 
               <div key={slide.id} className="hero-copy-enter">
                 <p className="text-[10px] tracking-[0.28em] uppercase mb-2 font-semibold text-accent-gradient">
-                  {String(active + 1).padStart(2, "0")} · Collection {String(SLIDES.length).padStart(2, "0")}
+                  {String(active + 1).padStart(2, "0")} · Collection {String(HERO_SLIDES.length).padStart(2, "0")}
                 </p>
                 <h1 className="font-serif text-xl min-[380px]:text-2xl sm:text-3xl lg:text-[2.35rem] text-navy leading-snug mb-2.5 text-balance">
                   {slide.title}
@@ -127,11 +98,12 @@ export function AnimatedHeroSlider() {
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
                 <div className="flex gap-1.5 flex-1 justify-center sm:flex-none sm:justify-start">
-                  {SLIDES.map((s, i) => (
+                  {HERO_SLIDES.map((s, i) => (
                     <button
                       key={s.id}
                       type="button"
-                      aria-label={`Slide ${i + 1}`}
+                      aria-label={`Slide ${i + 1}: ${s.title}`}
+                      aria-current={i === active ? "true" : undefined}
                       onClick={() => goTo(i)}
                       className={cn(
                         "h-1.5 rounded-full transition-all duration-500",
@@ -167,7 +139,7 @@ export function AnimatedHeroSlider() {
 
           <div className="hidden lg:flex lg:col-span-7 xl:col-span-8 justify-end items-center">
             <div className="flex gap-3 xl:gap-4 p-3 rounded-2xl bg-navy/25 backdrop-blur-sm border border-gold/20">
-              {SLIDES.map((s, i) => (
+              {HERO_SLIDES.map((s, i) => (
                 <button
                   key={s.id}
                   type="button"
@@ -180,7 +152,14 @@ export function AnimatedHeroSlider() {
                   )}
                   aria-label={s.title}
                 >
-                  <Image src={s.image} alt="" fill className="object-cover object-center" sizes="92px" />
+                  <Image
+                    src={s.image}
+                    alt=""
+                    fill
+                    className="object-cover object-top"
+                    sizes="92px"
+                    unoptimized
+                  />
                   <div
                     className={cn(
                       "absolute inset-0 transition-colors",

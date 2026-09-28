@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ProductImage } from "@/components/ui/product-image";
 import Link from "next/link";
-import { Heart, ShoppingBag, Eye } from "lucide-react";
+import { Heart, ShoppingBag, Eye, Star } from "lucide-react";
 import { Product } from "@/lib/models";
 import { formatPrice, getEffectivePrice, getDiscountPercent, cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -54,9 +54,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   return (
     <>
+      <article className={cn("flex flex-col", className)}>
       <Link
         href={`/product/${product.slug}`}
-        className={cn("group block", className)}
+        className="group block flex-1"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -110,14 +111,31 @@ export function ProductCard({ product, className }: ProductCardProps) {
           <h3 className="font-medium text-navy line-clamp-2 group-hover:text-emerald transition-colors text-xs sm:text-sm leading-snug min-h-[2.25rem] sm:min-h-[2.5rem]">
             {product.name}
           </h3>
-          <div className="flex items-baseline gap-2">
-            <span className="font-semibold text-charcoal text-sm tabular-nums">{formatPrice(price)}</span>
+          <div className="flex items-center gap-1.5 text-[11px] text-navy/50">
+            <Star className="h-3 w-3 fill-gold text-gold shrink-0" />
+            <span className="tabular-nums font-medium text-navy/70">{product.rating.toFixed(1)}</span>
+            <span className="text-navy/35">({product.reviewCount})</span>
+          </div>
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span className="font-semibold text-charcoal text-base sm:text-lg tabular-nums">{formatPrice(price)}</span>
             {hasDiscount && (
               <span className="text-xs text-charcoal/35 line-through tabular-nums">{formatPrice(product.price)}</span>
             )}
           </div>
         </div>
       </Link>
+      {inStock && (
+        <Button
+          type="button"
+          variant="emerald"
+          size="sm"
+          className="mt-2 w-full rounded-full h-9 text-xs sm:text-sm sm:hidden"
+          onClick={handleQuickAdd}
+        >
+          Add to bag
+        </Button>
+      )}
+      </article>
       <QuickViewDialog product={product} open={quickView} onOpenChange={setQuickView} />
     </>
   );

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SITE_IMAGES } from "@/lib/constants/images";
+import { SITE_IMAGES, CATALOG_IMAGES } from "@/lib/constants/images";
 
 const trends = [
   {
@@ -8,6 +8,7 @@ const trends = [
     subtitle: "Celebrate every ceremony in exquisite style",
     href: "/shop?category=sarees",
     image: SITE_IMAGES.hero.accent,
+    imageAlt: CATALOG_IMAGES[0].alt,
     align: "left" as const,
   },
   {
@@ -15,6 +16,7 @@ const trends = [
     subtitle: "Pujo, Diwali & celebrations — curated drapes",
     href: "/shop?category=festive-wear",
     image: SITE_IMAGES.hero.secondary,
+    imageAlt: CATALOG_IMAGES[4].alt,
     align: "right" as const,
   },
 ];
@@ -25,7 +27,7 @@ export function ShopByTrend() {
       <div className="container-premium">
         <h2 className="font-serif text-2xl sm:text-4xl text-navy text-center mb-6 sm:mb-14">Shop By Trend</h2>
         <div className="grid md:grid-cols-2 gap-3 sm:gap-6">
-          {trends.map(({ title, subtitle, href, image, align }) => (
+          {trends.map(({ title, subtitle, href, image, imageAlt, align }) => (
             <Link
               key={title}
               href={href}
@@ -33,9 +35,9 @@ export function ShopByTrend() {
             >
               <Image
                 src={image}
-                alt={title}
+                alt={imageAlt}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                className="object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-wine-dark/80 via-navy/25 to-gold/5" />

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { SITE_IMAGES } from "@/lib/constants/images";
+import { SITE_IMAGES, catalogAlt } from "@/lib/constants/images";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -24,7 +24,7 @@ export function Newsletter() {
       <div className="absolute inset-0 hidden sm:block">
         <Image
           src={SITE_IMAGES.newsletter}
-          alt=""
+          alt={catalogAlt(12)}
           fill
           className="object-cover"
           sizes="100vw"

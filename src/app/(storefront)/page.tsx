@@ -1,146 +1,136 @@
-import { Category } from "@/lib/models";
-import { productRepository, categoryRepository, reviewRepository } from "@/lib/repositories";
-import { AnimatedHeroSlider } from "@/components/storefront/AnimatedHeroSlider";
-import { ScrollReveal } from "@/components/storefront/ScrollReveal";
-import { BrandStory } from "@/components/storefront/BrandStory";
-import { SectionHeading } from "@/components/storefront/SectionHeading";
-import { ProductCarousel } from "@/components/storefront/ProductCarousel";
-import { ProductGrid } from "@/components/storefront/ProductGrid";
-import { CategoryAutoSlider } from "@/components/storefront/CategoryAutoSlider";
-import { PromoBanner } from "@/components/storefront/PromoBanner";
-import { ReviewCard } from "@/components/storefront/ReviewCard";
-import { InstagramGallery } from "@/components/storefront/InstagramGallery";
-import { Newsletter } from "@/components/storefront/Newsletter";
-import { WhyNavi } from "@/components/storefront/WhyNavi";
-import { OccasionGrid } from "@/components/storefront/OccasionGrid";
-import { ShopByTrend } from "@/components/storefront/ShopByTrend";
-import { WeddingSeasonGrid } from "@/components/storefront/WeddingSeasonGrid";
-
-export default async function HomePage() {
-  const [newArrivals, bestSellers, featured, categories] = await Promise.all([
-    productRepository.findAll({ newArrival: true, limit: 8 }),
-    productRepository.findAll({ bestseller: true, limit: 8 }),
-    productRepository.findAll({ featured: true, limit: 4 }),
-    categoryRepository.findAll(),
-  ]);
-
-  const shopCategories = categories.filter(
-    (c: Category) => !["cat-new-arrivals", "cat-best-sellers"].includes(c.id)
-  );
-
-  const [{ data: sarees }, { data: lehengas }, { data: festive }] = await Promise.all([
-    productRepository.findAll({ categoryId: "cat-sarees", limit: 4 }),
-    productRepository.findAll({ categoryId: "cat-lehengas", limit: 4 }),
-    productRepository.findAll({ categoryId: "cat-festive", limit: 4 }),
-  ]);
-
-  const allReviews = await Promise.all(
-    ["prod-001", "prod-013", "prod-008", "prod-040"].map((id) => reviewRepository.findByProductId(id))
-  );
-  const reviews = allReviews.flat().slice(0, 4);
-
-  return (
-    <>
-      <AnimatedHeroSlider />
-
-      <div id="home-content">
-      <ScrollReveal variant="fade-up">
-        <ShopByTrend />
-      </ScrollReveal>
-
-      <ScrollReveal variant="fade-up" delayMs={80}>
-      <section className="section-padding-sm border-b border-beige/40">
-        <div className="container-premium">
-          <SectionHeading subtitle="Just Arrived" title="New Arrivals" viewAllHref="/shop?category=new-arrivals" />
-          <ProductCarousel products={newArrivals.data} premium3d />
-        </div>
-      </section>
-      </ScrollReveal>
-
-      <ScrollReveal variant="scale-up">
-        <CategoryAutoSlider categories={shopCategories} />
-      </ScrollReveal>
-
-      <ScrollReveal variant="fade-up" delayMs={100}>
-      <section className="section-padding-sm bg-ivory-dark/40">
-        <div className="container-premium">
-          <SectionHeading subtitle="Most Loved" title="Best Sellers" viewAllHref="/shop?category=best-sellers" />
-          <ProductCarousel products={bestSellers.data} premium3d />
-        </div>
-      </section>
-      </ScrollReveal>
-
-      <ScrollReveal variant="slide-left">
-        <WeddingSeasonGrid />
-      </ScrollReveal>
-
-      <ScrollReveal variant="slide-right">
-        <OccasionGrid />
-      </ScrollReveal>
-
-      <section className="section-padding-sm">
-        <div className="container-premium">
-          <SectionHeading subtitle="Featured Edit" title="Curated for You" viewAllHref="/shop" />
-          <ProductGrid products={featured.data} columns={4} />
-        </div>
-      </section>
-
-      <section className="section-padding-sm border-y border-beige/40">
-        <div className="container-premium">
-          <SectionHeading subtitle="Pure Luxury" title="Silk Sarees" viewAllHref="/shop?category=sarees" />
-          <ProductGrid products={sarees} columns={4} />
-        </div>
-      </section>
-
-      <section className="section-padding-sm">
-        <div className="container-premium">
-          <SectionHeading subtitle="Bridal & Festive" title="Lehenga Collection" viewAllHref="/shop?category=lehengas" />
-          <ProductGrid products={lehengas} columns={4} />
-        </div>
-      </section>
-
-      <section className="container-premium section-padding-sm pt-0">
-        <PromoBanner
-          title="Festive Season Edit"
-          subtitle="Up to 20% off on sarees, lehengas and suits. Code FESTIVE20."
-          ctaLabel="Shop Festive Wear"
-          ctaHref="/shop?category=festive-wear"
-        />
-      </section>
-
-      <section className="section-padding-sm bg-ivory-dark/40">
-        <div className="container-premium">
-          <SectionHeading subtitle="Celebrate" title="Festive Collection" viewAllHref="/shop?category=festive-wear" />
-          <ProductGrid products={festive} columns={4} />
-        </div>
-      </section>
-
-      <BrandStory />
-      <WhyNavi />
-
-      <section className="section-padding-sm border-t border-beige/40">
-        <div className="container-premium">
-          <SectionHeading subtitle="Testimonials" title="Loved by Women Across India" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-            {reviews.map((review) => (
-              <ReviewCard key={review.id} review={review} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding-sm">
-        <div className="container-premium">
-          <InstagramGallery />
-        </div>
-      </section>
-
-      <ScrollReveal variant="fade-up">
-      <section className="container-premium pb-14 sm:pb-20">
-        <Newsletter />
-      </section>
-      </ScrollReveal>
-      </div>
-    </>
-  );
-}
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Category } from "@/lib/models";
+import { productRepository, categoryRepository, reviewRepository } from "@/lib/repositories";
+import { CommerceHero } from "@/components/storefront/CommerceHero";
+import { StoreTrustBar } from "@/components/storefront/StoreTrustBar";
+import { CategoryShopGrid } from "@/components/storefront/CategoryShopGrid";
+import { DealStrip } from "@/components/storefront/DealStrip";
+import { WeddingSeasonGrid } from "@/components/storefront/WeddingSeasonGrid";
+import { ScrollReveal } from "@/components/storefront/ScrollReveal";
+import { SectionHeading } from "@/components/storefront/SectionHeading";
+import { ProductGrid } from "@/components/storefront/ProductGrid";
+import { PromoBanner } from "@/components/storefront/PromoBanner";
+import { ReviewCard } from "@/components/storefront/ReviewCard";
+import { Newsletter } from "@/components/storefront/Newsletter";
+import { WhyNavi } from "@/components/storefront/WhyNavi";
+import { Button } from "@/components/ui/button";
+import { DEFAULT_OG_IMAGE, CATALOG_IMAGES } from "@/lib/constants/images";
+
+export const metadata: Metadata = {
+  title: "Shop Premium Sarees, Lehengas & Festive Wear Online",
+  description:
+    "Buy sarees, lehengas, suits and kurtis online at NAVI Vastra Vihar Bengaluru. Free shipping ₹5,000+. Easy returns. Code FESTIVE20.",
+  openGraph: {
+    title: "NAVI Vastra Vihar — Online Ethnic Wear Store",
+    description: "Modern online shopping for premium Indian fashion since 1978.",
+    images: [{ url: DEFAULT_OG_IMAGE, alt: CATALOG_IMAGES[3].alt }],
+  },
+};
+
+export default async function HomePage() {
+  const [newArrivals, bestSellers, featured, categories, allHighlight] = await Promise.all([
+    productRepository.findAll({ newArrival: true, limit: 8 }),
+    productRepository.findAll({ bestseller: true, limit: 8 }),
+    productRepository.findAll({ featured: true, limit: 8 }),
+    categoryRepository.findAll(),
+    productRepository.findAll({ limit: 12 }),
+  ]);
+
+  const shopCategories = categories.filter(
+    (c: Category) => !["cat-new-arrivals", "cat-best-sellers"].includes(c.id)
+  );
+
+  const allReviews = await Promise.all(
+    ["prod-001", "prod-013", "prod-008", "prod-040"].map((id) => reviewRepository.findByProductId(id))
+  );
+  const reviews = allReviews.flat().slice(0, 4);
+
+  return (
+    <>
+      <CommerceHero />
+      <StoreTrustBar />
+
+      <ScrollReveal variant="fade-up">
+        <CategoryShopGrid categories={shopCategories} />
+      </ScrollReveal>
+
+      <DealStrip />
+
+      <ScrollReveal variant="scale-up">
+        <WeddingSeasonGrid />
+      </ScrollReveal>
+
+      <ScrollReveal variant="fade-up" delayMs={60}>
+        <section className="section-padding-sm border-b border-beige/40">
+          <div className="container-premium">
+            <SectionHeading subtitle="Trending" title="Best Sellers" viewAllHref="/shop?category=best-sellers" />
+            <ProductGrid products={bestSellers.data} columns={4} />
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal variant="fade-up" delayMs={80}>
+        <section className="section-padding-sm bg-ivory-dark/35">
+          <div className="container-premium">
+            <SectionHeading subtitle="Fresh drops" title="New Arrivals" viewAllHref="/shop?category=new-arrivals" />
+            <ProductGrid products={newArrivals.data} columns={4} />
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal variant="fade-in">
+        <section className="container-premium section-padding-sm pt-0">
+          <PromoBanner
+            title="Wedding & festive edit"
+            subtitle="Sarees, lehengas and suits for every function. Apply FESTIVE20 at checkout."
+            ctaLabel="Browse collection"
+            ctaHref="/shop"
+          />
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal variant="slide-right">
+        <section className="section-padding-sm">
+          <div className="container-premium">
+            <SectionHeading subtitle="Editor's pick" title="Featured Products" viewAllHref="/shop" />
+            <ProductGrid products={featured.data.length ? featured.data : allHighlight.data.slice(0, 8)} columns={4} />
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal variant="fade-up">
+        <WhyNavi />
+      </ScrollReveal>
+
+      <section className="section-padding-sm border-t border-beige/40 bg-cream-light/50">
+        <div className="container-premium">
+          <SectionHeading subtitle="Reviews" title="What customers say" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {reviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="container-premium pb-6 sm:pb-8">
+        <div className="rounded-2xl sm:rounded-3xl bg-navy text-center px-6 py-10 sm:py-12">
+          <h2 className="font-serif text-2xl sm:text-3xl text-cream mb-2">Ready to shop?</h2>
+          <p className="text-cream/65 text-sm sm:text-base max-w-md mx-auto mb-6">
+            Browse 50+ styles with filters for fabric, size and price. Delivered across India.
+          </p>
+          <Button asChild variant="gold" size="lg" className="rounded-full px-10 h-12">
+            <Link href="/shop">Go to shop</Link>
+          </Button>
+        </div>
+      </section>
+
+      <ScrollReveal variant="fade-up">
+        <section className="container-premium pb-14 sm:pb-20">
+          <Newsletter />
+        </section>
+      </ScrollReveal>
+    </>
+  );
+}

@@ -97,6 +97,10 @@ export function Navbar({ compact = false }: NavbarProps) {
               </div>
             </Link>
 
+            <Button asChild variant="emerald" className="hidden lg:inline-flex rounded-full h-9 px-5 text-xs font-semibold tracking-wide shrink-0">
+              <Link href="/shop">Shop all</Link>
+            </Button>
+
             <button
               type="button"
               onClick={() => setSearchOpen(true)}

@@ -1,78 +1,171 @@
-/** Verified working Unsplash saree photo IDs (404-safe as of 2025) */
-export const SAREE_PHOTOS = [
-  "photo-1732381917488-39f31539cd4f", // blue & gold wedding saree
-  "photo-1728562870256-cac40eabacb5", // blue festive saree (stage)
-  "photo-1735331467260-0153c5fbd31d", // red & green saree
-  "photo-1706685481823-b8f1a1c11fca", // traditional fashion saree
-  "photo-1706685481823-b8f1a1c11fca", // traditional saree portrait
+/** Real NAVI Vastra Vihar catalog photography (public/) */
+export const CATALOG_IMAGES = [
+  {
+    src: "/NPD_6077.jpg",
+    alt: "Black silk saree with gold zari and orange blouse — premium wedding saree at NAVI Vastra Vihar Bengaluru",
+  },
+  {
+    src: "/NPD_6176.jpg",
+    alt: "Full-length black and gold Banarasi-style saree with traditional zari work — NAVI Vastra Vihar",
+  },
+  {
+    src: "/NPD_6185.jpg",
+    alt: "Black silk saree with gold border draped at heritage stone corridor — NAVI ethnic wear",
+  },
+  {
+    src: "/NPD_6216.jpg",
+    alt: "Mother and daughter in navy silk saree and emerald lehenga — festive family collection NAVI Vastra Vihar",
+  },
+  {
+    src: "/NPD_6264.jpg",
+    alt: "Mustard yellow saree with chocolate brown gold border — handpicked silk saree NAVI Bengaluru",
+  },
+  {
+    src: "/NPD_6285.jpg",
+    alt: "Pastel striped organza saree with scalloped border — designer party wear saree NAVI Vastra Vihar",
+  },
+  {
+    src: "/NPD_6286.jpg",
+    alt: "Striped chiffon saree with crystal scalloped hem and forest green blouse — NAVI designer sarees",
+  },
+  {
+    src: "/NPD_6289.jpg",
+    alt: "Striped saree and kurta mother-son festive look — NAVI Vastra Vihar ethnic wear",
+  },
+  {
+    src: "/NPD_6295.jpg",
+    alt: "Yellow silk saree with brown border, pallu in motion — NAVI Vastra Vihar silk collection",
+  },
+  {
+    src: "/NPD_6314.jpg",
+    alt: "Multi-color striped embellished saree with olive blouse — NAVI party wear sarees",
+  },
+  {
+    src: "/NPD_6322.jpg",
+    alt: "Coral and grey striped saree with gold beadwork — NAVI Vastra Vihar Bengaluru",
+  },
+  {
+    src: "/NPD_6331.jpg",
+    alt: "Striped designer saree at scenic viewpoint — NAVI Vastra Vihar curated fashion",
+  },
+  {
+    src: "/NPD_6334.jpg",
+    alt: "Mustard yellow saree with brown zari border on rocky landscape — NAVI silk sarees",
+  },
+  {
+    src: "/NPD_6345.jpg",
+    alt: "Golden yellow saree at Nandi Hills — lifestyle silk saree NAVI Vastra Vihar Karnataka",
+  },
+  {
+    src: "/NPD_6350.jpg",
+    alt: "Flowing mustard and brown traditional saree — NAVI Vastra Vihar since 1978",
+  },
 ] as const;
+
+export type CatalogImage = (typeof CATALOG_IMAGES)[number];
 
 export const PLACEHOLDER_IMAGE = "/logo.jpeg";
 
-export function unsplash(photoId: string, width = 800): string {
-  return `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&h=${Math.round(width * 1.25)}&q=85`;
-}
+export const DEFAULT_OG_IMAGE = CATALOG_IMAGES[3].src;
 
 function hashId(id: string): number {
   return id.split("").reduce((a, c) => ((a << 5) - a + c.charCodeAt(0)) | 0, 0) >>> 0;
 }
 
-export function getProductImage(productId: string, width = 800): string {
-  const idx = hashId(productId) % SAREE_PHOTOS.length;
-  return unsplash(SAREE_PHOTOS[idx], width);
+export function catalogAt(index: number): CatalogImage {
+  const i = ((index % CATALOG_IMAGES.length) + CATALOG_IMAGES.length) % CATALOG_IMAGES.length;
+  return CATALOG_IMAGES[i];
+}
+
+export function catalogSrc(index: number): string {
+  return catalogAt(index).src;
+}
+
+export function catalogAlt(index: number): string {
+  return catalogAt(index).alt;
+}
+
+export function getProductImage(productId: string): string {
+  return catalogSrc(hashId(productId));
+}
+
+export function getProductImageAlt(productId: string): string {
+  return catalogAlt(hashId(productId));
 }
 
 export function getProductImages(productId: string, count = 6): string[] {
-  const idx = hashId(productId) % SAREE_PHOTOS.length;
-  return Array.from({ length: count }, (_, i) =>
-    unsplash(SAREE_PHOTOS[(idx + i) % SAREE_PHOTOS.length], 800)
-  );
+  const start = hashId(productId) % CATALOG_IMAGES.length;
+  return Array.from({ length: count }, (_, i) => catalogSrc(start + i));
 }
 
-/** Bundled hero assets (avoids Unsplash timeouts in Next.js image optimizer) */
-export const HERO_LOCAL = {
-  festive: "/hero/festive.jpg",
-  everyday: "/hero/everyday.jpg",
-} as const;
+export const HERO_SLIDES = [
+  {
+    id: "heritage",
+    image: CATALOG_IMAGES[3].src,
+    imageAlt: CATALOG_IMAGES[3].alt,
+    objectPosition: "65% center",
+    title: "Heritage Silk Sarees",
+    subtitle: "Handpicked silks & zari weaves for weddings and festivals.",
+    cta: { label: "Shop sarees", href: "/shop?category=sarees" },
+  },
+  {
+    id: "festive",
+    image: CATALOG_IMAGES[4].src,
+    imageAlt: CATALOG_IMAGES[4].alt,
+    objectPosition: "50% 35%",
+    title: "Festive Season Edit",
+    subtitle: "Pujo, Diwali & weddings — drapes for every celebration.",
+    cta: { label: "Shop Festive", href: "/shop?category=festive-wear" },
+  },
+  {
+    id: "bridal",
+    image: CATALOG_IMAGES[0].src,
+    imageAlt: CATALOG_IMAGES[0].alt,
+    objectPosition: "55% 25%",
+    title: "Bridal & Lehengas",
+    subtitle: "Ceremony-ready looks with master-quality finish.",
+    cta: { label: "Shop Lehengas", href: "/shop?category=lehengas" },
+  },
+  {
+    id: "everyday",
+    image: CATALOG_IMAGES[5].src,
+    imageAlt: CATALOG_IMAGES[5].alt,
+    objectPosition: "50% 30%",
+    title: "Everyday Elegance",
+    subtitle: "Light georgette & cotton for office to evening.",
+    cta: { label: "New Arrivals", href: "/shop?category=new-arrivals" },
+  },
+] as const;
 
 export const SITE_IMAGES = {
   hero: {
-    mobile: unsplash(SAREE_PHOTOS[0], 1200),
-    main: unsplash(SAREE_PHOTOS[0], 1200),
-    secondary: HERO_LOCAL.festive,
-    accent: unsplash(SAREE_PHOTOS[2], 800),
+    mobile: CATALOG_IMAGES[3].src,
+    main: CATALOG_IMAGES[3].src,
+    secondary: CATALOG_IMAGES[4].src,
+    accent: CATALOG_IMAGES[0].src,
   },
   brand: {
-    weave: unsplash(SAREE_PHOTOS[3], 600),
-    detail: unsplash(SAREE_PHOTOS[0], 600),
+    weave: CATALOG_IMAGES[13].src,
+    detail: CATALOG_IMAGES[1].src,
   },
-  about: unsplash(SAREE_PHOTOS[4], 1200),
+  about: CATALOG_IMAGES[3].src,
   contact: {
-    hero: unsplash(SAREE_PHOTOS[0], 1200),
-    gallery1: unsplash(SAREE_PHOTOS[1], 600),
-    gallery2: unsplash(SAREE_PHOTOS[2], 600),
+    hero: CATALOG_IMAGES[3].src,
+    gallery1: CATALOG_IMAGES[4].src,
+    gallery2: CATALOG_IMAGES[0].src,
   },
-  newsletter: unsplash(SAREE_PHOTOS[3], 1200),
-  promo: unsplash(SAREE_PHOTOS[2], 1200),
-  instagram: SAREE_PHOTOS.map((id, i) => ({
-    src: unsplash(id, 400),
-    alt: [
-      "Banarasi wedding saree",
-      "Yellow silk saree",
-      "Festive red saree",
-      "Designer saree look",
-      "Heritage handloom saree",
-    ][i],
-  })),
+  newsletter: CATALOG_IMAGES[12].src,
+  promo: CATALOG_IMAGES[0].src,
+  instagram: CATALOG_IMAGES.slice(0, 8).map(({ src, alt }) => ({ src, alt })),
   categories: {
-    "cat-sarees": unsplash(SAREE_PHOTOS[0]),
-    "cat-lehengas": unsplash(SAREE_PHOTOS[2]),
-    "cat-suits": unsplash(SAREE_PHOTOS[1]),
-    "cat-kurtis": unsplash(SAREE_PHOTOS[4]),
-    "cat-dupattas": unsplash(SAREE_PHOTOS[3]),
-    "cat-festive": unsplash(SAREE_PHOTOS[2]),
-    "cat-party": unsplash(SAREE_PHOTOS[0]),
-    "cat-new-arrivals": unsplash(SAREE_PHOTOS[3]),
-    "cat-best-sellers": unsplash(SAREE_PHOTOS[0]),
+    "cat-sarees": CATALOG_IMAGES[0].src,
+    "cat-lehengas": CATALOG_IMAGES[3].src,
+    "cat-suits": CATALOG_IMAGES[4].src,
+    "cat-kurtis": CATALOG_IMAGES[8].src,
+    "cat-dupattas": CATALOG_IMAGES[6].src,
+    "cat-festive": CATALOG_IMAGES[13].src,
+    "cat-party": CATALOG_IMAGES[5].src,
+    "cat-new-arrivals": CATALOG_IMAGES[11].src,
+    "cat-best-sellers": CATALOG_IMAGES[0].src,
   } as Record<string, string>,
 };
