@@ -6,7 +6,8 @@ import { ProductImage } from "@/components/ui/product-image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { formatPrice, getEffectivePrice, getDiscountPercent } from "@/lib/utils";
+import { getDiscountPercent } from "@/lib/utils";
+import { ProductPriceFromProduct, productHasDiscount } from "@/components/storefront/ProductPrice";
 import { useCart } from "@/context/cart-context";
 import { toast } from "sonner";
 
@@ -21,8 +22,7 @@ export function QuickViewDialog({ product, open, onOpenChange }: QuickViewDialog
 
   if (!product) return null;
 
-  const price = getEffectivePrice(product);
-  const hasDiscount = product.salePrice && product.salePrice < product.price;
+  const hasDiscount = productHasDiscount(product);
   const defaultSize = product.sizes[0];
   const defaultColor = product.colors[0]?.name ?? "Default";
 
@@ -48,9 +48,8 @@ export function QuickViewDialog({ product, open, onOpenChange }: QuickViewDialog
               <DialogTitle className="font-serif text-xl sm:text-2xl text-charcoal leading-snug">{product.name}</DialogTitle>
               <p className="text-xs text-charcoal/50">{product.fabric}</p>
             </DialogHeader>
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-xl font-semibold tabular-nums">{formatPrice(price)}</span>
-              {hasDiscount && <span className="text-sm text-charcoal/40 line-through tabular-nums">{formatPrice(product.price)}</span>}
+            <div className="mb-4">
+              <ProductPriceFromProduct product={product} size="md" />
             </div>
             <p className="text-sm text-charcoal/60 line-clamp-3 mb-6 flex-1">{product.shortDescription}</p>
             <div className="space-y-2 mt-auto">

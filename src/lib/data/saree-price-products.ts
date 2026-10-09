@@ -1,4 +1,5 @@
 import { Product } from "@/lib/models";
+import { computeRetailMrp } from "@/lib/pricing";
 import catalog from "./saree-catalog.json";
 
 export type SareeCatalogEntry = {
@@ -68,16 +69,21 @@ export function buildSareeProducts(): Product[] {
     const id = `saree-${entry.priceLabel}-${code}`.replace(/[^a-zA-Z0-9-_]/g, "-");
     const h = hashNum(id);
 
+    const salePrice = entry.priceMax
+      ? Math.round((entry.price + entry.priceMax) / 2)
+      : entry.price;
+    const listMrp = entry.priceMax ? entry.priceMax : computeRetailMrp(salePrice, h);
+
     return {
       id,
       sku: `NV-SR-${entry.priceLabel}-${code}`.replace(/[^A-Z0-9-]/gi, ""),
       categoryId: "cat-sarees",
-      name: `NAVI Silk Saree ${code} — ${tier}`,
+      name: `NAVI Silk Saree ${code}`,
       slug: slugify(entry),
-      description: `Premium saree from NAVI Vastra Vihar, Bengaluru. Listed at ${tier}. Crafted for weddings, festivals and celebrations. Visit our Sahakarnagar store or order online with pan-India delivery.`,
+      description: `Premium saree from NAVI Vastra Vihar, Bengaluru. Offer price ${formatInr(salePrice)}${entry.priceMax ? ` (range ${tier})` : ""}. Crafted for weddings, festivals and celebrations. Visit our Sahakarnagar store or order online with pan-India delivery.`,
       shortDescription: `Silk saree · ${tier}`,
-      /** Folder name = list price; ranges use minimum tier for filters/checkout base. */
-      price: entry.price,
+      price: listMrp,
+      salePrice,
       images: [entry.path],
       sizes: ["Free Size"],
       colors: [{ name: "As shown", hex: "#1B2A4A" }],

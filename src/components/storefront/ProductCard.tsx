@@ -5,7 +5,8 @@ import { ProductImage } from "@/components/ui/product-image";
 import Link from "next/link";
 import { Heart, ShoppingBag, Eye, Star } from "lucide-react";
 import { Product } from "@/lib/models";
-import { formatPrice, getEffectivePrice, getDiscountPercent, cn } from "@/lib/utils";
+import { getDiscountPercent, cn } from "@/lib/utils";
+import { ProductPriceFromProduct, productHasDiscount } from "@/components/storefront/ProductPrice";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/context/wishlist-context";
@@ -24,8 +25,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const [quickView, setQuickView] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  const price = getEffectivePrice(product);
-  const hasDiscount = product.salePrice && product.salePrice < product.price;
+  const hasDiscount = productHasDiscount(product);
   const defaultSize = product.sizes[0];
   const defaultColor = product.colors[0]?.name ?? "Default";
   const secondaryImage = product.images[1] ?? product.images[0];
@@ -116,12 +116,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             <span className="tabular-nums font-medium text-navy/70">{product.rating.toFixed(1)}</span>
             <span className="text-navy/35">({product.reviewCount})</span>
           </div>
-          <div className="flex items-baseline gap-2 flex-wrap">
-            <span className="font-semibold text-charcoal text-base sm:text-lg tabular-nums">{formatPrice(price)}</span>
-            {hasDiscount && (
-              <span className="text-xs text-charcoal/35 line-through tabular-nums">{formatPrice(product.price)}</span>
-            )}
-          </div>
+          <ProductPriceFromProduct product={product} size="sm" showSave={false} />
         </div>
       </Link>
       {inStock && (

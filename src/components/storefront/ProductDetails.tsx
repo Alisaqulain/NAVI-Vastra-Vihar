@@ -17,7 +17,8 @@ import {
   Gem,
 } from "lucide-react";
 import { Product, Review } from "@/lib/models";
-import { formatPrice, getEffectivePrice, getDiscountPercent, cn } from "@/lib/utils";
+import { getDiscountPercent, cn } from "@/lib/utils";
+import { ProductPriceFromProduct, productHasDiscount } from "@/components/storefront/ProductPrice";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -50,8 +51,7 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
 
-  const price = getEffectivePrice(product);
-  const hasDiscount = product.salePrice && product.salePrice < product.price;
+  const hasDiscount = productHasDiscount(product);
   const inStock = product.stockQuantity > 0;
 
   const handleAddToCart = () => {
@@ -118,13 +118,8 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
               <span>{displayRating.toFixed(1)} ({reviewCount} reviews)</span>
             </div>
           )}
-          <div className="flex items-baseline gap-3 flex-wrap">
-            <span className="text-2xl sm:text-3xl font-semibold text-navy tabular-nums">{formatPrice(price)}</span>
-            {hasDiscount && (
-              <span className="text-lg text-navy/35 line-through tabular-nums">{formatPrice(product.price)}</span>
-            )}
-          </div>
-          <p className="text-xs text-navy/45 mt-2">Taxes included. Shipping calculated at checkout.</p>
+          <ProductPriceFromProduct product={product} size="lg" layout="stack" />
+          <p className="text-xs text-navy/45 mt-3">Inclusive of GST · Shipping at checkout</p>
         </div>
 
         <p className="text-sm text-navy/65 leading-relaxed border-l-2 border-gold/50 pl-4">{product.shortDescription}</p>

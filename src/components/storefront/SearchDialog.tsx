@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { productRepository } from "@/lib/repositories";
 import { Product } from "@/lib/models";
-import { formatPrice, getEffectivePrice } from "@/lib/utils";
+import { ProductPriceFromProduct } from "@/components/storefront/ProductPrice";
 
 interface SearchDialogProps {
   open: boolean;
@@ -73,7 +73,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-navy truncate">{product.name}</p>
-                <p className="text-xs text-navy/50">{formatPrice(getEffectivePrice(product))}</p>
+                <ProductPriceFromProduct product={product} size="sm" showSave={false} className="mt-0.5" />
               </div>
             </Link>
           ))}
