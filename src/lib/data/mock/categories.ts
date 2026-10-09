@@ -10,7 +10,7 @@ export const categories: Category[] = [
     slug: "new-arrivals",
     description: "The latest additions to our curated Indian fashion collection.",
     image: catImg(3),
-    productCount: 14,
+    productCount: 28,
     status: "active",
   },
   {
@@ -19,7 +19,7 @@ export const categories: Category[] = [
     slug: "best-sellers",
     description: "Our most loved pieces, chosen by women across India.",
     image: catImg(0),
-    productCount: 16,
+    productCount: 22,
     status: "active",
   },
   {
@@ -28,7 +28,7 @@ export const categories: Category[] = [
     slug: "sarees",
     description: "Handwoven Banarasi, Kanjeevaram, silk and cotton sarees for every occasion.",
     image: SITE_IMAGES.categories["cat-sarees"] ?? catImg(0),
-    productCount: 12,
+    productCount: 124,
     status: "active",
   },
   {

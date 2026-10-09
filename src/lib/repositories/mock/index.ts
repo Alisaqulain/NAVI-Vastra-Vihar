@@ -77,6 +77,19 @@ function filterProducts(items: Product[], filters?: ProductFilters): Product[] {
       result = result.filter((p) => p.newArrival);
     } else if (filters.categoryId === "cat-best-sellers") {
       result = result.filter((p) => p.bestseller);
+    } else if (filters.categoryId === "cat-festive") {
+      result = result.filter(
+        (p) => p.price >= 14000 || (p.specifications["List price"]?.includes("–") ?? false)
+      );
+    } else if (filters.categoryId === "cat-party") {
+      result = result.filter((p) => {
+        const effective = p.salePrice ?? p.price;
+        return effective >= 5000 && effective < 14000;
+      });
+    } else if (
+      ["cat-lehengas", "cat-suits", "cat-kurtis", "cat-dupattas"].includes(filters.categoryId)
+    ) {
+      result = [];
     } else {
       result = result.filter(
         (p) => p.categoryId === filters.categoryId || p.subcategoryId === filters.categoryId

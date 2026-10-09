@@ -1,64 +1,38 @@
+import { getProductById } from "@/lib/data/mock/products";
+
 /** Real NAVI Vastra Vihar catalog photography (public/) */
 export const CATALOG_IMAGES = [
   {
-    src: "/NPD_6077.jpg",
-    alt: "Black silk saree with gold zari and orange blouse — premium wedding saree at NAVI Vastra Vihar Bengaluru",
+    src: "/14590/NPD_7185.jpg",
+    alt: "Premium silk saree ₹14,590 — NAVI Vastra Vihar Bengaluru",
   },
   {
-    src: "/NPD_6176.jpg",
-    alt: "Full-length black and gold Banarasi-style saree with traditional zari work — NAVI Vastra Vihar",
+    src: "/4995/NPD_7160.jpg",
+    alt: "Silk blend saree ₹4,995 — NAVI Vastra Vihar",
   },
   {
-    src: "/NPD_6185.jpg",
-    alt: "Black silk saree with gold border draped at heritage stone corridor — NAVI ethnic wear",
+    src: "/3750/NPD_7138.jpg",
+    alt: "Cotton silk saree ₹3,750 — NAVI Vastra Vihar",
   },
   {
-    src: "/NPD_6216.jpg",
-    alt: "Mother and daughter in navy silk saree and emerald lehenga — festive family collection NAVI Vastra Vihar",
+    src: "/14000-18000/NPD_7098.jpg",
+    alt: "Premium wedding saree ₹14,000–₹18,000 — NAVI Vastra Vihar",
   },
   {
-    src: "/NPD_6264.jpg",
-    alt: "Mustard yellow saree with chocolate brown gold border — handpicked silk saree NAVI Bengaluru",
+    src: "/7599/NPD_7309.jpg",
+    alt: "Designer saree ₹7,599 — NAVI Vastra Vihar",
   },
   {
-    src: "/NPD_6285.jpg",
-    alt: "Pastel striped organza saree with scalloped border — designer party wear saree NAVI Vastra Vihar",
+    src: "/1750/NPD_7272.jpg",
+    alt: "Everyday saree ₹1,750 — NAVI Vastra Vihar",
   },
   {
-    src: "/NPD_6286.jpg",
-    alt: "Striped chiffon saree with crystal scalloped hem and forest green blouse — NAVI designer sarees",
+    src: "/16990/NPD_7192.jpg",
+    alt: "Bridal silk saree ₹16,990 — NAVI Vastra Vihar",
   },
   {
-    src: "/NPD_6289.jpg",
-    alt: "Striped saree and kurta mother-son festive look — NAVI Vastra Vihar ethnic wear",
-  },
-  {
-    src: "/NPD_6295.jpg",
-    alt: "Yellow silk saree with brown border, pallu in motion — NAVI Vastra Vihar silk collection",
-  },
-  {
-    src: "/NPD_6314.jpg",
-    alt: "Multi-color striped embellished saree with olive blouse — NAVI party wear sarees",
-  },
-  {
-    src: "/NPD_6322.jpg",
-    alt: "Coral and grey striped saree with gold beadwork — NAVI Vastra Vihar Bengaluru",
-  },
-  {
-    src: "/NPD_6331.jpg",
-    alt: "Striped designer saree at scenic viewpoint — NAVI Vastra Vihar curated fashion",
-  },
-  {
-    src: "/NPD_6334.jpg",
-    alt: "Mustard yellow saree with brown zari border on rocky landscape — NAVI silk sarees",
-  },
-  {
-    src: "/NPD_6345.jpg",
-    alt: "Golden yellow saree at Nandi Hills — lifestyle silk saree NAVI Vastra Vihar Karnataka",
-  },
-  {
-    src: "/NPD_6350.jpg",
-    alt: "Flowing mustard and brown traditional saree — NAVI Vastra Vihar since 1978",
+    src: "/6490/NPD_7250.jpg",
+    alt: "Festive saree ₹6,490 — NAVI Vastra Vihar",
   },
 ] as const;
 
@@ -86,6 +60,8 @@ export function catalogAlt(index: number): string {
 }
 
 export function getProductImage(productId: string): string {
+  const product = getProductById(productId);
+  if (product?.images[0]) return product.images[0];
   return catalogSrc(hashId(productId));
 }
 
@@ -94,78 +70,80 @@ export function getProductImageAlt(productId: string): string {
 }
 
 export function getProductImages(productId: string, count = 6): string[] {
+  const primary = getProductImage(productId);
   const start = hashId(productId) % CATALOG_IMAGES.length;
-  return Array.from({ length: count }, (_, i) => catalogSrc(start + i));
+  const extras = Array.from({ length: count - 1 }, (_, i) => catalogSrc(start + i + 1));
+  return [primary, ...extras].slice(0, count);
 }
 
 export const HERO_SLIDES = [
   {
     id: "heritage",
-    image: CATALOG_IMAGES[3].src,
-    imageAlt: CATALOG_IMAGES[3].alt,
+    image: "/14590/NPD_7185.jpg",
+    imageAlt: "Premium silk saree collection at NAVI Vastra Vihar",
     objectPosition: "65% center",
     title: "Heritage Silk Sarees",
-    subtitle: "Handpicked silks & zari weaves for weddings and festivals.",
+    subtitle: "Shop real inventory with prices from ₹1,750 to ₹17,490.",
     cta: { label: "Shop sarees", href: "/shop?category=sarees" },
   },
   {
     id: "festive",
-    image: CATALOG_IMAGES[4].src,
-    imageAlt: CATALOG_IMAGES[4].alt,
+    image: "/4995/NPD_7160.jpg",
+    imageAlt: "Festive saree edit NAVI Vastra Vihar",
     objectPosition: "50% 35%",
     title: "Festive Season Edit",
-    subtitle: "Pujo, Diwali & weddings — drapes for every celebration.",
-    cta: { label: "Shop Festive", href: "/shop?category=festive-wear" },
+    subtitle: "Pujo, Diwali & weddings — priced per piece as in-store.",
+    cta: { label: "Shop festive", href: "/shop?category=festive-wear" },
   },
   {
     id: "bridal",
-    image: CATALOG_IMAGES[0].src,
-    imageAlt: CATALOG_IMAGES[0].alt,
+    image: "/16990/NPD_7192.jpg",
+    imageAlt: "Bridal saree ₹16,990",
     objectPosition: "55% 25%",
-    title: "Bridal & Lehengas",
-    subtitle: "Ceremony-ready looks with master-quality finish.",
-    cta: { label: "Shop Lehengas", href: "/shop?category=lehengas" },
+    title: "Bridal & Premium",
+    subtitle: "Ceremony-ready silks from our premium price tiers.",
+    cta: { label: "Shop premium", href: "/shop?category=festive-wear" },
   },
   {
-    id: "everyday",
-    image: CATALOG_IMAGES[5].src,
-    imageAlt: CATALOG_IMAGES[5].alt,
+    id: "value",
+    image: "/1750/NPD_7272.jpg",
+    imageAlt: "Everyday saree ₹1,750",
     objectPosition: "50% 30%",
-    title: "Everyday Elegance",
-    subtitle: "Light georgette & cotton for office to evening.",
-    cta: { label: "New Arrivals", href: "/shop?category=new-arrivals" },
+    title: "Everyday Value",
+    subtitle: "Beautiful drapes starting at ₹1,750.",
+    cta: { label: "Shop under ₹5,000", href: "/shop?maxPrice=5000" },
   },
 ] as const;
 
 export const SITE_IMAGES = {
   hero: {
-    mobile: CATALOG_IMAGES[3].src,
-    main: CATALOG_IMAGES[3].src,
-    secondary: CATALOG_IMAGES[4].src,
-    accent: CATALOG_IMAGES[0].src,
+    mobile: HERO_SLIDES[0].image,
+    main: HERO_SLIDES[0].image,
+    secondary: HERO_SLIDES[1].image,
+    accent: HERO_SLIDES[2].image,
   },
   brand: {
-    weave: CATALOG_IMAGES[13].src,
-    detail: CATALOG_IMAGES[1].src,
+    weave: "/14000-18000/NPD_7100.jpg",
+    detail: "/17490/NPD_7180.jpg",
   },
-  about: CATALOG_IMAGES[3].src,
+  about: "/14000-18000/NPD_7098.jpg",
   contact: {
-    hero: CATALOG_IMAGES[3].src,
-    gallery1: CATALOG_IMAGES[4].src,
-    gallery2: CATALOG_IMAGES[0].src,
+    hero: "/14590/NPD_7187.jpg",
+    gallery1: "/4995/NPD_7214.jpg",
+    gallery2: "/7599/NPD_7310.jpg",
   },
-  newsletter: CATALOG_IMAGES[12].src,
-  promo: CATALOG_IMAGES[0].src,
-  instagram: CATALOG_IMAGES.slice(0, 8).map(({ src, alt }) => ({ src, alt })),
+  newsletter: "/6490/NPD_7251.jpg",
+  promo: "/16990/NPD_7193.jpg",
+  instagram: CATALOG_IMAGES.map(({ src, alt }) => ({ src, alt })),
   categories: {
-    "cat-sarees": CATALOG_IMAGES[0].src,
-    "cat-lehengas": CATALOG_IMAGES[3].src,
-    "cat-suits": CATALOG_IMAGES[4].src,
-    "cat-kurtis": CATALOG_IMAGES[8].src,
-    "cat-dupattas": CATALOG_IMAGES[6].src,
-    "cat-festive": CATALOG_IMAGES[13].src,
-    "cat-party": CATALOG_IMAGES[5].src,
-    "cat-new-arrivals": CATALOG_IMAGES[11].src,
-    "cat-best-sellers": CATALOG_IMAGES[0].src,
+    "cat-sarees": "/3750/NPD_7140.jpg",
+    "cat-lehengas": "/16990/NPD_7194.jpg",
+    "cat-suits": "/7599/NPD_7315.jpg",
+    "cat-kurtis": "/2849/NPD_7285.jpg",
+    "cat-dupattas": "/4675/NPD_7264.jpg",
+    "cat-festive": "/14590/NPD_7190.jpg",
+    "cat-party": "/5399/NPD_7236.jpg",
+    "cat-new-arrivals": "/1750/NPD_7274.jpg",
+    "cat-best-sellers": "/4995/4995.jpg",
   } as Record<string, string>,
 };
