@@ -4,7 +4,7 @@ type ProductPriceProps = {
   price: number;
   salePrice?: number;
   size?: "sm" | "md" | "lg";
-  layout?: "inline" | "stack";
+  layout?: "inline" | "stack" | "pdp";
   className?: string;
   showSave?: boolean;
 };
@@ -33,6 +33,29 @@ export function ProductPrice({
     md: "text-sm",
     lg: "text-lg",
   }[size];
+
+  if (layout === "pdp") {
+    return (
+      <div className={cn(className)}>
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className={cn("text-emerald-dark tabular-nums tracking-tight", saleClass)}>{formatPrice(effective)}</span>
+          {hasDiscount && (
+            <>
+              <span className={cn("text-navy/40 line-through tabular-nums font-normal", mrpClass)}>
+                {formatPrice(price)}
+              </span>
+              <span className="text-sm font-semibold text-wine tabular-nums">{off}% OFF</span>
+            </>
+          )}
+        </div>
+        {hasDiscount && showSave && (
+          <p className="text-[11px] text-navy/50 mt-1">
+            You save <span className="font-semibold text-emerald">{formatPrice(saved)}</span>
+          </p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={cn(className, layout === "stack" && "space-y-1")}>

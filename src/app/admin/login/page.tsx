@@ -15,8 +15,8 @@ function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") ?? "/admin";
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(ADMIN_CREDENTIALS.email);
+  const [password, setPassword] = useState(ADMIN_CREDENTIALS.password);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,7 +45,7 @@ function AdminLoginForm() {
           <Image src="/logo.jpeg" alt="NAVI" width={48} height={48} className="rounded-full" />
         </div>
         <CardTitle className="font-serif text-2xl">NAVI Admin CRM</CardTitle>
-        <CardDescription>Sign in to manage your saree store</CardDescription>
+        <CardDescription>Add products, prices, images, stock &amp; publish to the live shop</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -75,9 +75,16 @@ function AdminLoginForm() {
             Sign In
           </Button>
         </form>
-        <p className="mt-4 text-center text-xs text-navy/50">
-          Demo: {ADMIN_CREDENTIALS.email} / {ADMIN_CREDENTIALS.password}
-        </p>
+        <div className="mt-5 rounded-lg border border-gold/30 bg-gold/5 p-4 text-center">
+          <p className="text-xs font-semibold uppercase tracking-wider text-navy/60 mb-2">Admin login</p>
+          <p className="text-sm font-mono text-navy">
+            ID: <strong>{ADMIN_CREDENTIALS.email}</strong>
+          </p>
+          <p className="text-sm font-mono text-navy mt-1">
+            Password: <strong>{ADMIN_CREDENTIALS.password}</strong>
+          </p>
+          <p className="text-[10px] text-navy/45 mt-3">URL: /admin/login · Products save to MongoDB</p>
+        </div>
       </CardContent>
     </Card>
   );

@@ -16,6 +16,7 @@ const shopLinks = [
 ];
 
 const helpLinks = [
+  { label: "Store Admin", href: "/admin/login" },
   { label: "Contact Us", href: "/contact" },
   { label: "FAQ", href: "/faq" },
   { label: "Shipping Policy", href: "/shipping-policy" },

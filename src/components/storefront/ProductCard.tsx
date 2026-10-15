@@ -61,7 +61,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <div className="relative aspect-[3/4] overflow-hidden mb-3 sm:mb-4 bg-cream-dark rounded-2xl">
+        <div className="relative aspect-[3/4] overflow-hidden mb-3 sm:mb-4 bg-neutral-50 rounded-sm store-product-card">
           <ProductImage
             src={product.images[0]}
             alt={product.name}
@@ -93,14 +93,14 @@ export function ProductCard({ product, className }: ProductCardProps) {
             {!inStock && <Badge variant="destructive" className="text-[10px]">Sold Out</Badge>}
           </div>
           <div className="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
-            <Button size="icon" variant="outline" className="h-8 w-8 rounded-full bg-cream/95 border-beige/80 shadow-sm" onClick={handleWishlist} aria-label="Wishlist">
+            <Button size="icon" variant="outline" className="h-8 w-8 rounded-sm bg-white/95 border-neutral-200 shadow-sm" onClick={handleWishlist} aria-label="Wishlist">
               <Heart className={cn("h-3.5 w-3.5", isInWishlist(product.id) && "fill-emerald text-emerald")} />
             </Button>
-            <Button size="icon" variant="outline" className="h-8 w-8 rounded-full bg-cream/95 border-beige/80 shadow-sm" onClick={handleQuickView} aria-label="Quick view">
+            <Button size="icon" variant="outline" className="h-8 w-8 rounded-sm bg-white/95 border-neutral-200 shadow-sm" onClick={handleQuickView} aria-label="Quick view">
               <Eye className="h-3.5 w-3.5" />
             </Button>
             {inStock && (
-              <Button size="icon" variant="outline" className="h-8 w-8 rounded-full bg-cream/95 border-beige/80 shadow-sm" onClick={handleQuickAdd} aria-label="Add to bag">
+              <Button size="icon" variant="outline" className="h-8 w-8 rounded-sm bg-white/95 border-neutral-200 shadow-sm" onClick={handleQuickAdd} aria-label="Add to bag">
                 <ShoppingBag className="h-3.5 w-3.5" />
               </Button>
             )}
@@ -124,7 +124,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           type="button"
           variant="emerald"
           size="sm"
-          className="mt-2 w-full rounded-full h-9 text-xs sm:text-sm sm:hidden"
+          className="mt-2 w-full rounded-sm h-9 text-xs sm:text-sm sm:hidden"
           onClick={handleQuickAdd}
         >
           Add to bag

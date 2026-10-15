@@ -19,7 +19,7 @@ export function MobileNav() {
   const { itemCount } = useCart();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-cream/98 backdrop-blur-lg border-t border-beige/80 safe-area-pb shadow-[0_-4px_24px_rgba(27,42,74,0.1)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/98 backdrop-blur-lg border-t border-neutral-200 safe-area-pb shadow-[0_-2px_12px_rgba(27,42,74,0.06)]">
       <div className="flex items-center justify-around min-h-[3.75rem] px-0.5 pt-1">
         {navItems.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href || (href !== "/" && pathname.startsWith(href));

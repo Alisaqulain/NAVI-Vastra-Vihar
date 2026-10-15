@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { productRepository } from "@/lib/repositories";
+import { searchProductsAction } from "@/app/actions/products";
 import { Product } from "@/lib/models";
 import { ProductPriceFromProduct } from "@/components/storefront/ProductPrice";
 
@@ -26,7 +26,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       return;
     }
     setLoading(true);
-    const { data } = await productRepository.findAll({ search: q, limit: 8 });
+    const data = await searchProductsAction(q, 8);
     setResults(data);
     setLoading(false);
   }, []);

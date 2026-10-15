@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/lib/models";
-import { productRepository } from "@/lib/repositories";
+import { getProductByIdAction } from "@/app/actions/products";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { Loader2 } from "lucide-react";
 
@@ -12,7 +12,7 @@ export default function EditProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    productRepository.findById(id).then(setProduct);
+    getProductByIdAction(id).then(setProduct);
   }, [id]);
 
   if (!product) {

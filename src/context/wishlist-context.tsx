@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { Product } from "@/lib/models";
-import { productRepository } from "@/lib/repositories";
+import { getProductByIdAction } from "@/app/actions/products";
 
 const WISHLIST_STORAGE_KEY = "navi_wishlist";
 
@@ -27,7 +27,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       try {
         const ids = JSON.parse(stored) as string[];
-        Promise.all(ids.map((id) => productRepository.findById(id))).then((products) => {
+        Promise.all(ids.map((id) => getProductByIdAction(id))).then((products) => {
           setItems(products.filter(Boolean) as Product[]);
         });
       } catch {
@@ -45,7 +45,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const addItem = useCallback((productId: string) => {
     setItems((prev) => {
       if (prev.some((p) => p.id === productId)) return prev;
-      productRepository.findById(productId).then((product) => {
+      getProductByIdAction(productId).then((product) => {
         if (product) setItems((current) => (current.some((p) => p.id === productId) ? current : [...current, product]));
       });
       return prev;
@@ -61,7 +61,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       if (prev.some((p) => p.id === productId)) {
         return prev.filter((p) => p.id !== productId);
       }
-      productRepository.findById(productId).then((product) => {
+      getProductByIdAction(productId).then((product) => {
         if (product) setItems((current) => [...current, product]);
       });
       return prev;

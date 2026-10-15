@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { productRepository, categoryRepository } from "@/lib/repositories";
+import { categoryRepository } from "@/lib/repositories";
+import { storefrontProductRepository } from "@/lib/repositories/product-storefront.server";
 import { ProductFilters } from "@/lib/models";
 import { Breadcrumbs } from "@/components/storefront/Breadcrumbs";
 import { ShopFilters } from "@/components/storefront/ShopFilters";
@@ -42,7 +43,7 @@ async function ShopContent({
     limit: 12,
   };
 
-  const result = await productRepository.findAll(filters);
+  const result = await storefrontProductRepository.findAll(filters);
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-start gap-8 xl:gap-12">
@@ -85,7 +86,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const maxPrice = 50000;
 
   return (
-    <>
+    <div className="bg-white min-h-screen">
       {category && <ShopCategoryHero category={category} />}
 
       <div className="container-premium py-5 sm:py-8 lg:py-12">
@@ -100,11 +101,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         {!category && (
           <header className="mb-8 lg:mb-10 text-center lg:text-left">
-            <p className="text-emerald text-xs sm:text-sm tracking-[0.25em] uppercase mb-2">Our Collection</p>
-            <div className="gold-line mx-auto lg:mx-0 mb-4" />
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-navy mb-3">Shop All Sarees</h1>
+            <p className="text-navy/45 text-xs sm:text-sm tracking-[0.2em] uppercase mb-2">Our collection</p>
+            <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-navy mb-3">Shop all sarees</h1>
             <p className="text-navy/60 text-sm sm:text-base max-w-2xl mx-auto lg:mx-0">
-              Explore handwoven Banarasi, Kanjeevaram, silk and cotton sarees curated for every occasion.
+              Explore silk, cotton and festive sarees curated for every occasion.
             </p>
           </header>
         )}
@@ -113,6 +113,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           <ShopContent searchParams={params} categories={categories} category={category} maxPrice={maxPrice} />
         </Suspense>
       </div>
-    </>
+    </div>
   );
 }

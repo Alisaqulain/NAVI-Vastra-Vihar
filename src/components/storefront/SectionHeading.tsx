@@ -9,32 +9,31 @@ interface SectionHeadingProps {
   light?: boolean;
 }
 
-export function SectionHeading({ subtitle, title, viewAllHref, viewAllLabel = "View All", light }: SectionHeadingProps) {
+export function SectionHeading({ subtitle, title, viewAllHref, viewAllLabel = "View all", light }: SectionHeadingProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-10">
+    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
       <div>
         {subtitle && (
           <p
-            className={`text-xs sm:text-sm tracking-[0.22em] uppercase mb-2 font-semibold ${
-              light ? "text-gold-light" : "text-accent-gradient"
+            className={`text-[11px] sm:text-xs tracking-[0.2em] uppercase mb-1.5 font-medium ${
+              light ? "text-cream/70" : "text-navy/45"
             }`}
           >
             {subtitle}
           </p>
         )}
-        <div className="gold-line mb-3" />
-        <h2 className={`font-serif text-2xl sm:text-3xl lg:text-4xl ${light ? "text-cream" : "text-navy"}`}>
+        <h2 className={`font-serif text-xl sm:text-2xl lg:text-3xl tracking-tight ${light ? "text-cream" : "text-navy"}`}>
           {title}
         </h2>
       </div>
       {viewAllHref && (
         <Link
           href={viewAllHref}
-          className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0 ${
-            light ? "text-gold hover:text-gold-light" : "text-emerald hover:text-emerald-light"
+          className={`inline-flex items-center gap-1 text-sm font-medium transition-colors shrink-0 border-b border-transparent hover:border-current pb-0.5 ${
+            light ? "text-cream/90 hover:text-cream" : "text-navy/70 hover:text-navy"
           }`}
         >
-          {viewAllLabel} <ArrowRight className="h-4 w-4" />
+          {viewAllLabel} <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       )}
     </div>

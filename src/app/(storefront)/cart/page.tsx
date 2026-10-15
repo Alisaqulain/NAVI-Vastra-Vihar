@@ -79,9 +79,10 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 lg:py-12">
+    <div className="min-h-screen bg-gradient-to-b from-neutral-50 to-white">
+    <div className="container-premium py-6 lg:py-10">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Cart" }]} />
-      <h1 className="font-serif text-3xl text-navy mt-4 mb-8">Shopping Cart</h1>
+      <h1 className="font-serif text-2xl sm:text-3xl text-navy mt-4 mb-8">Shopping cart</h1>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
@@ -193,6 +194,7 @@ export default function CartPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

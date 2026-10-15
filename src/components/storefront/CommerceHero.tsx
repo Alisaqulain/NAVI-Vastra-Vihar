@@ -28,7 +28,7 @@ export function CommerceHero() {
       onTouchEnd={() => setPaused(false)}
       aria-label="Store highlights"
     >
-      <div className="relative h-[min(88dvh,640px)] sm:h-[min(85vh,720px)] lg:h-[min(90vh,820px)]">
+      <div className="relative h-[min(72dvh,520px)] sm:h-[min(68vh,580px)] lg:h-[min(72vh,640px)]">
         {HERO_SLIDES.map((s, i) => (
           <div
             key={s.id}

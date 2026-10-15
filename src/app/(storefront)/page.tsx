@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Category } from "@/lib/models";
-import { productRepository, categoryRepository, reviewRepository } from "@/lib/repositories";
+import { categoryRepository, reviewRepository } from "@/lib/repositories";
+import { storefrontProductRepository } from "@/lib/repositories/product-storefront.server";
 import { CommerceHero } from "@/components/storefront/CommerceHero";
+import { PothysOurCollections } from "@/components/storefront/PothysOurCollections";
+import { ExploreCollectionsArched } from "@/components/storefront/ExploreCollectionsArched";
 import { StoreTrustBar } from "@/components/storefront/StoreTrustBar";
 import { CategoryShopGrid } from "@/components/storefront/CategoryShopGrid";
 import { DealStrip } from "@/components/storefront/DealStrip";
+import { ShopByPriceStrip } from "@/components/storefront/ShopByPriceStrip";
 import { WeddingSeasonGrid } from "@/components/storefront/WeddingSeasonGrid";
 import { ScrollReveal } from "@/components/storefront/ScrollReveal";
 import { SectionHeading } from "@/components/storefront/SectionHeading";
@@ -30,11 +34,11 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [newArrivals, bestSellers, featured, categories, allHighlight] = await Promise.all([
-    productRepository.findAll({ newArrival: true, limit: 8 }),
-    productRepository.findAll({ bestseller: true, limit: 8 }),
-    productRepository.findAll({ featured: true, limit: 8 }),
+    storefrontProductRepository.findAll({ newArrival: true, limit: 8 }),
+    storefrontProductRepository.findAll({ bestseller: true, limit: 8 }),
+    storefrontProductRepository.findAll({ featured: true, limit: 8 }),
     categoryRepository.findAll(),
-    productRepository.findAll({ limit: 12 }),
+    storefrontProductRepository.findAll({ limit: 12 }),
   ]);
 
   const shopCategories = categories.filter(
@@ -50,8 +54,16 @@ export default async function HomePage() {
       <CommerceHero />
       <StoreTrustBar />
 
+      <PothysOurCollections
+        products={featured.data.length ? featured.data.slice(0, 12) : allHighlight.data.slice(0, 12)}
+      />
+
+      <ExploreCollectionsArched />
+
+      <ShopByPriceStrip />
+
       <ScrollReveal variant="fade-up">
-        <CategoryShopGrid categories={shopCategories} />
+        <CategoryShopGrid categories={shopCategories} title="Shop by category" />
       </ScrollReveal>
 
       <DealStrip />
@@ -61,7 +73,7 @@ export default async function HomePage() {
       </ScrollReveal>
 
       <ScrollReveal variant="fade-up" delayMs={60}>
-        <section className="section-padding-sm border-b border-beige/40">
+        <section className="section-padding-sm border-b border-neutral-100 bg-white">
           <div className="container-premium">
             <SectionHeading subtitle="Trending" title="Best Sellers" viewAllHref="/shop?category=best-sellers" />
             <ProductGrid products={bestSellers.data} columns={4} />
@@ -70,7 +82,7 @@ export default async function HomePage() {
       </ScrollReveal>
 
       <ScrollReveal variant="fade-up" delayMs={80}>
-        <section className="section-padding-sm bg-ivory-dark/35">
+        <section className="section-padding-sm bg-neutral-50 border-b border-neutral-100">
           <div className="container-premium">
             <SectionHeading subtitle="Fresh drops" title="New Arrivals" viewAllHref="/shop?category=new-arrivals" />
             <ProductGrid products={newArrivals.data} columns={4} />
@@ -102,7 +114,7 @@ export default async function HomePage() {
         <WhyNavi />
       </ScrollReveal>
 
-      <section className="section-padding-sm border-t border-beige/40 bg-cream-light/50">
+      <section className="section-padding-sm border-t border-neutral-100 bg-white">
         <div className="container-premium">
           <SectionHeading subtitle="Reviews" title="What customers say" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

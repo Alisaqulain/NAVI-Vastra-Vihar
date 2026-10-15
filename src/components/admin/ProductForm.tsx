@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Product, Category } from "@/lib/models";
-import { categoryRepository, productRepository } from "@/lib/repositories";
+import { categoryRepository } from "@/lib/repositories";
+import { createProductAction, updateProductAction } from "@/app/actions/products";
+import { getSession } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +15,9 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus, X } from "lucide-react";
+import { PRODUCT_COLOR_PRESETS } from "@/lib/constants/product-colors";
+import { ProductImageUpload } from "@/components/admin/ProductImageUpload";
 
 interface ProductFormProps {
   product?: Product;
@@ -31,7 +35,7 @@ const defaultValues = {
   salePrice: undefined as number | undefined,
   images: [""],
   sizes: ["Free Size"],
-  colors: [{ name: "Default", hex: "#1B2A4A" }],
+  colors: [{ name: "As shown", hex: "#EDE6D8" }],
   fabric: "Silk",
   sku: "",
   stockQuantity: 0,
@@ -75,12 +79,19 @@ export function ProductForm({ product, mode }: ProductFormProps) {
         images: form.images.filter(Boolean),
       };
 
+      const session = getSession(true);
+      if (!session?.token) {
+        toast.error("Admin session expired. Please sign in again.");
+        router.push("/admin/login");
+        return;
+      }
+
       if (mode === "create") {
-        await productRepository.create(payload as Omit<Product, "id" | "createdAt" | "updatedAt">);
-        toast.success("Product created successfully");
+        await createProductAction(session.token, payload as Omit<Product, "id" | "createdAt" | "updatedAt">);
+        toast.success("Product created — now live on the storefront");
       } else if (product) {
-        await productRepository.update(product.id, payload);
-        toast.success("Product updated successfully");
+        await updateProductAction(session.token, product.id, payload);
+        toast.success("Product updated on the storefront");
       }
       router.push("/admin/products");
     } catch {
@@ -261,17 +272,110 @@ export function ProductForm({ product, mode }: ProductFormProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Images & Specifications</CardTitle>
+          <CardTitle className="text-lg">Images, colour & specifications</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="space-y-2">
-            <Label>Image URLs (one per line)</Label>
+            <Label>Product images</Label>
+            <ProductImageUpload images={form.images} onChange={(images) => update("images", images.length ? images : [""])} />
+          </div>
+          <div className="space-y-2">
+            <Label>Or paste image URLs (one per line)</Label>
             <Textarea
               value={form.images.join("\n")}
               onChange={(e) => update("images", e.target.value.split("\n"))}
-              rows={3}
-              placeholder="https://..."
+              rows={2}
+              placeholder="/1750/NPD_7272.jpg"
             />
+          </div>
+
+          <div className="space-y-3">
+            <Label>Colour (shown on product page)</Label>
+            <p className="text-xs text-navy/45">Choose <strong>As shown</strong> when colour matches product photos (typical for sarees).</p>
+            <div className="flex flex-wrap gap-2">
+              {PRODUCT_COLOR_PRESETS.map((preset) => {
+                const active = form.colors[0]?.name === preset.name;
+                return (
+                  <button
+                    key={preset.name}
+                    type="button"
+                    onClick={() => update("colors", [{ name: preset.name, hex: preset.hex }])}
+                    className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      active ? "border-emerald bg-emerald/10 font-medium" : "border-beige hover:border-navy/30"
+                    }`}
+                  >
+                    {preset.name !== "As shown" && (
+                      <span className="h-4 w-4 rounded-full border border-neutral-300" style={{ backgroundColor: preset.hex }} />
+                    )}
+                    {preset.name}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex flex-wrap items-end gap-2 pt-2">
+              <div className="space-y-1">
+                <Label className="text-xs">Custom name</Label>
+                <Input
+                  value={form.colors[0]?.name ?? ""}
+                  onChange={(e) =>
+                    update("colors", [{ name: e.target.value, hex: form.colors[0]?.hex ?? "#EDE6D8" }])
+                  }
+                  placeholder="As shown"
+                  className="h-9 w-40"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Swatch (optional)</Label>
+                <Input
+                  type="color"
+                  value={form.colors[0]?.hex ?? "#EDE6D8"}
+                  onChange={(e) =>
+                    update("colors", [{ name: form.colors[0]?.name ?? "As shown", hex: e.target.value }])
+                  }
+                  className="h-9 w-14 p-1 cursor-pointer"
+                />
+              </div>
+            </div>
+            {form.colors.length > 1 && (
+              <div className="space-y-2 pt-2">
+                <Label className="text-xs">Additional colours</Label>
+                {form.colors.slice(1).map((c, idx) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <Input
+                      value={c.name}
+                      onChange={(e) => {
+                        const next = [...form.colors];
+                        next[idx + 1] = { ...c, name: e.target.value };
+                        update("colors", next);
+                      }}
+                      className="h-9 flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => update("colors", form.colors.filter((_, i) => i !== idx + 1))}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => update("colors", [...form.colors, { name: "As shown", hex: "#EDE6D8" }])}
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Add another colour
+            </Button>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="fabric">Fabric / material</Label>
+            <Input id="fabric" value={form.fabric} onChange={(e) => update("fabric", e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label>Sizes (comma-separated)</Label>

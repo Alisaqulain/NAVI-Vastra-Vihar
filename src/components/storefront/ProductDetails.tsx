@@ -2,61 +2,48 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ProductImage } from "@/components/ui/product-image";
-import {
-  Heart,
-  Minus,
-  Plus,
-  ShoppingBag,
-  Truck,
-  Package,
-  Shield,
-  Star,
-  Sparkles,
-  Banknote,
-  Gem,
-} from "lucide-react";
+import { Heart, Minus, Plus, ShoppingBag, Star, Truck, Banknote, ShieldCheck, Tag, Sparkles } from "lucide-react";
 import { Product, Review } from "@/lib/models";
-import { getDiscountPercent, cn } from "@/lib/utils";
+import { getDiscountPercent, cn, FREE_SHIPPING_THRESHOLD, formatPrice } from "@/lib/utils";
+import { isAsShownColor } from "@/lib/constants/product-colors";
 import { ProductPriceFromProduct, productHasDiscount } from "@/components/storefront/ProductPrice";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useCart } from "@/context/cart-context";
 import { useWishlist } from "@/context/wishlist-context";
-import { ReviewCard } from "./ReviewCard";
 import { toast } from "sonner";
+import { ProductGallery } from "@/components/storefront/product/ProductGallery";
+import { ProductPincodeChecker } from "@/components/storefront/product/ProductPincodeChecker";
+import { ProductDetailSections } from "@/components/storefront/product/ProductDetailSections";
+import { ProductMobileBuyBar } from "@/components/storefront/product/ProductMobileBuyBar";
 
 interface ProductDetailsProps {
   product: Product;
   reviews: Review[];
+  categoryName?: string;
 }
 
-const trustItems = [
-  { icon: Sparkles, title: "Artisan Crafted", desc: "Hand-finished with care" },
-  { icon: Shield, title: "Quality Checked", desc: "Inspected for flawless finish" },
-  { icon: Truck, title: "Insured Shipping", desc: "Secure delivery across India" },
-  { icon: Banknote, title: "COD Available", desc: "Pay on delivery" },
-  { icon: Gem, title: "Pure Fabric", desc: "Authentic handpicked weaves" },
-  { icon: Package, title: "Heirloom Quality", desc: "Made to be treasured" },
-];
-
-export function ProductDetails({ product, reviews }: ProductDetailsProps) {
-  const [selectedImage, setSelectedImage] = useState(0);
+export function ProductDetails({ product, reviews, categoryName }: ProductDetailsProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name ?? "");
   const [quantity, setQuantity] = useState(1);
+  const [adding, setAdding] = useState(false);
   const router = useRouter();
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
 
   const hasDiscount = productHasDiscount(product);
   const inStock = product.stockQuantity > 0;
+  const lowStock = inStock && product.stockQuantity <= 5;
 
-  const handleAddToCart = () => {
-    addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor });
-    toast.success("Added to bag", { description: `${quantity} × ${product.name}` });
+  const handleAddToCart = async () => {
+    setAdding(true);
+    try {
+      addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor });
+      toast.success("Added to bag", { description: `${quantity} × ${product.name}` });
+    } finally {
+      setAdding(false);
+    }
   };
 
   const handleBuyNow = () => {
@@ -68,190 +55,209 @@ export function ProductDetails({ product, reviews }: ProductDetailsProps) {
     ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
     : product.rating;
   const reviewCount = reviews.length || product.reviewCount;
+  const showRating = displayRating > 0 && reviewCount > 0;
 
   return (
-    <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-14 xl:gap-16">
-      {/* Gallery — Mehr-style */}
-      <div className="flex flex-col-reverse lg:flex-row gap-3 lg:gap-4">
-        <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible lg:w-20 shrink-0">
-          {product.images.map((img, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setSelectedImage(i)}
-              className={cn(
-                "relative h-16 w-14 lg:h-[72px] lg:w-full rounded-lg overflow-hidden shrink-0 border-2 transition-all",
-                selectedImage === i ? "border-emerald ring-1 ring-emerald/30" : "border-beige/60 opacity-80 hover:opacity-100"
-              )}
-            >
-              <ProductImage src={img} alt="" fill className="object-cover object-top" sizes="80px" />
-            </button>
-          ))}
-        </div>
-        <div className="relative flex-1 aspect-[3/4] max-h-[85vh] rounded-2xl overflow-hidden bg-cream-dark">
-          <ProductImage
-            src={product.images[selectedImage]}
-            alt={product.name}
-            fill
-            className="object-cover object-top"
-            priority
-            sizes="(max-width: 1024px) 100vw, 45vw"
-          />
-          <div className="absolute top-4 left-4 flex gap-2">
-            {product.newArrival && <Badge variant="emerald">New</Badge>}
-            {hasDiscount && <Badge variant="sale">{getDiscountPercent(product.price, product.salePrice!)}% OFF</Badge>}
+    <div className="w-full min-w-0 pb-24 lg:pb-0">
+      <div className="grid lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] gap-8 lg:gap-12 xl:gap-14 items-start">
+        <div className="min-w-0 relative">
+          <div className="flex flex-wrap gap-2 mb-3 lg:absolute lg:z-10 lg:top-4 lg:left-4 lg:pointer-events-none">
+            {product.newArrival && (
+              <Badge variant="emerald" className="rounded-full text-[10px] uppercase tracking-wide gap-1">
+                <Sparkles className="h-3 w-3" /> New
+              </Badge>
+            )}
+            {hasDiscount && (
+              <Badge variant="sale" className="rounded-full text-[10px] uppercase tracking-wide">
+                {getDiscountPercent(product.price, product.salePrice!)}% off
+              </Badge>
+            )}
           </div>
+          <ProductGallery images={product.images} productName={product.name} />
         </div>
-      </div>
 
-      {/* Buy box — sticky on desktop */}
-      <div className="lg:sticky lg:top-28 lg:self-start space-y-6">
-        <div>
-          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-navy leading-tight mb-2">{product.name}</h1>
-          {displayRating > 0 && (
-            <div className="flex items-center gap-2 text-sm text-navy/55 mb-3">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={cn("h-3.5 w-3.5", i < Math.round(displayRating) ? "fill-gold text-gold" : "text-beige")} />
-                ))}
-              </div>
-              <span>{displayRating.toFixed(1)} ({reviewCount} reviews)</span>
+        <div className="lg:sticky lg:top-[4.5rem] lg:self-start min-w-0">
+          <article className="rounded-2xl border border-neutral-200 bg-white shadow-[0_4px_32px_rgba(27,42,74,0.06)] p-5 sm:p-6 lg:p-7 space-y-5">
+            <header className="space-y-2">
+              {categoryName && (
+                <p className="text-[11px] uppercase tracking-[0.15em] text-emerald font-semibold">{categoryName}</p>
+              )}
+              <h1 className="font-serif text-2xl sm:text-[1.75rem] lg:text-3xl text-navy leading-snug text-balance">{product.name}</h1>
+              {showRating && (
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="flex" aria-hidden>
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={cn("h-4 w-4", i < Math.round(displayRating) ? "fill-gold text-gold" : "text-neutral-200")}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-navy/55">{displayRating.toFixed(1)} · {reviewCount} reviews</span>
+                </div>
+              )}
+            </header>
+
+            <div className="rounded-xl bg-neutral-50 border border-neutral-100 px-4 py-4">
+              <ProductPriceFromProduct product={product} size="lg" layout="pdp" />
+              <p className="text-[11px] text-navy/45 mt-2 flex items-center gap-1">
+                <Tag className="h-3 w-3" /> Inclusive of all taxes · MRP in ₹
+              </p>
             </div>
-          )}
-          <ProductPriceFromProduct product={product} size="lg" layout="stack" />
-          <p className="text-xs text-navy/45 mt-3">Inclusive of GST · Shipping at checkout</p>
-        </div>
 
-        <p className="text-sm text-navy/65 leading-relaxed border-l-2 border-gold/50 pl-4">{product.shortDescription}</p>
+            {product.shortDescription && (
+              <p className="text-sm text-navy/65 leading-relaxed border-l-2 border-gold/60 pl-4">{product.shortDescription}</p>
+            )}
 
-        {product.colors.length > 0 && (
-          <div>
-            <p className="text-xs uppercase tracking-wider text-navy/50 mb-2">Colour</p>
-            <div className="flex gap-2">
-              {product.colors.map((color) => (
-                <button
-                  key={color.name}
-                  type="button"
-                  onClick={() => setSelectedColor(color.name)}
-                  className={cn(
-                    "h-9 w-9 rounded-full border-2 transition-all",
-                    selectedColor === color.name ? "border-emerald scale-110" : "border-beige"
+            <div className="flex flex-wrap gap-2 text-xs">
+              {inStock ? (
+                <span className={cn("inline-flex items-center rounded-full px-3 py-1 font-medium", lowStock ? "bg-amber-50 text-amber-900" : "bg-emerald/10 text-emerald-dark")}>
+                  {lowStock ? `Only ${product.stockQuantity} left` : "In stock · Ready to ship"}
+                </span>
+              ) : (
+                <span className="inline-flex rounded-full px-3 py-1 font-medium bg-red-50 text-red-700">Out of stock</span>
+              )}
+              {product.fabric && (
+                <span className="inline-flex rounded-full px-3 py-1 bg-neutral-100 text-navy/70">{product.fabric}</span>
+              )}
+              {product.sku && (
+                <span className="inline-flex rounded-full px-3 py-1 bg-neutral-100 text-navy/50">SKU {product.sku}</span>
+              )}
+            </div>
+
+            {product.colors.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-navy/50 mb-2.5">
+                  Colour · <span className="text-navy normal-case tracking-normal font-medium">{selectedColor}</span>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {product.colors.map((color) =>
+                    isAsShownColor(color.name) ? (
+                      <button
+                        key={color.name}
+                        type="button"
+                        onClick={() => setSelectedColor(color.name)}
+                        className={cn(
+                          "px-4 py-2 text-xs font-medium rounded-full border-2 transition-all",
+                          selectedColor === color.name
+                            ? "border-navy bg-navy text-white"
+                            : "border-neutral-200 hover:border-gold/50"
+                        )}
+                        aria-pressed={selectedColor === color.name}
+                      >
+                        As shown
+                      </button>
+                    ) : (
+                      <button
+                        key={color.name}
+                        type="button"
+                        onClick={() => setSelectedColor(color.name)}
+                        className={cn(
+                          "h-9 w-9 rounded-full border-2 transition-all ring-offset-2",
+                          selectedColor === color.name ? "border-navy ring-2 ring-gold/40 scale-105" : "border-neutral-200"
+                        )}
+                        style={{ backgroundColor: color.hex }}
+                        title={color.name}
+                        aria-label={`Colour ${color.name}`}
+                        aria-pressed={selectedColor === color.name}
+                      />
+                    )
                   )}
-                  style={{ backgroundColor: color.hex }}
-                  title={color.name}
-                />
+                </div>
+              </div>
+            )}
+
+            {product.sizes.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-navy/50 mb-2.5">Size</p>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      type="button"
+                      onClick={() => setSelectedSize(size)}
+                      className={cn(
+                        "min-w-[3.25rem] px-4 py-2.5 text-sm rounded-full border-2 font-medium transition-all",
+                        selectedSize === size
+                          ? "bg-navy text-white border-navy"
+                          : "border-neutral-200 hover:border-navy/40"
+                      )}
+                      aria-pressed={selectedSize === size}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-navy/50 mb-2.5">Quantity</p>
+              <div className="inline-flex items-center rounded-full border-2 border-neutral-200 bg-white overflow-hidden">
+                <Button type="button" variant="ghost" size="icon" className="h-11 w-11 rounded-none" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={!inStock} aria-label="Decrease">
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="w-12 text-center font-semibold tabular-nums">{quantity}</span>
+                <Button type="button" variant="ghost" size="icon" className="h-11 w-11 rounded-none" onClick={() => setQuantity(Math.min(product.stockQuantity, quantity + 1))} disabled={!inStock} aria-label="Increase">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            <ProductPincodeChecker className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-4" />
+
+            <div className="flex flex-col gap-2.5 pt-1">
+              <Button
+                variant="emerald"
+                size="lg"
+                className="w-full h-12 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg shadow-emerald/20"
+                disabled={!inStock || adding}
+                onClick={handleAddToCart}
+              >
+                <ShoppingBag className="h-4 w-4 mr-2" />
+                {adding ? "Adding…" : "Add to cart"}
+              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 h-12 rounded-full font-semibold border-2 border-navy text-navy hover:bg-navy hover:text-white"
+                  disabled={!inStock}
+                  onClick={handleBuyNow}
+                >
+                  Buy now
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-12 w-12 shrink-0 rounded-full border-2"
+                  onClick={() => toggleItem(product.id)}
+                  aria-label="Wishlist"
+                >
+                  <Heart className={cn("h-5 w-5", isInWishlist(product.id) && "fill-emerald text-emerald")} />
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-neutral-100">
+              {[
+                { icon: Truck, text: `Free ship ${formatPrice(FREE_SHIPPING_THRESHOLD)}+` },
+                { icon: Banknote, text: "COD available" },
+                { icon: ShieldCheck, text: "Quality checked" },
+              ].map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-2 text-[11px] text-navy/55">
+                  <Icon className="h-4 w-4 text-emerald shrink-0" />
+                  {text}
+                </div>
               ))}
             </div>
-          </div>
-        )}
-
-        <div>
-          <p className="text-xs uppercase tracking-wider text-navy/50 mb-2">Size</p>
-          <div className="flex flex-wrap gap-2">
-            {product.sizes.map((size) => (
-              <button
-                key={size}
-                type="button"
-                onClick={() => setSelectedSize(size)}
-                className={cn(
-                  "px-4 py-2 text-sm rounded-full border transition-colors",
-                  selectedSize === size ? "bg-navy text-cream border-navy" : "border-beige hover:border-emerald"
-                )}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="flex items-center rounded-full border border-beige overflow-hidden">
-            <Button variant="ghost" size="icon" className="rounded-none" onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-              <Minus className="h-4 w-4" />
-            </Button>
-            <span className="w-10 text-center text-sm font-medium">{quantity}</span>
-            <Button variant="ghost" size="icon" className="rounded-none" onClick={() => setQuantity(Math.min(product.stockQuantity, quantity + 1))}>
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-          <span className={cn("text-sm", inStock ? "text-emerald" : "text-red-600")}>
-            {inStock ? `${product.stockQuantity} in stock` : "Out of stock"}
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button variant="emerald" size="lg" className="flex-1 rounded-full h-12 uppercase text-xs tracking-wider" disabled={!inStock} onClick={handleAddToCart}>
-            Add to Cart
-          </Button>
-          <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0 shrink-0 border-beige" onClick={() => toggleItem(product.id)} aria-label="Wishlist">
-            <Heart className={cn("h-4 w-4", isInWishlist(product.id) && "fill-emerald text-emerald")} />
-          </Button>
-        </div>
-        <Button variant="gold" size="lg" className="w-full rounded-full h-12 uppercase text-xs tracking-wider" disabled={!inStock} onClick={handleBuyNow}>
-          Buy Now
-        </Button>
-
-        {/* Delivery timeline */}
-        <div className="grid grid-cols-3 gap-2 py-4 border-y border-beige/80">
-          {["Ordered", "Shipped", "Delivered"].map((step, i) => (
-            <div key={step} className="text-center">
-              <div className={cn("h-2 w-2 rounded-full mx-auto mb-2", i === 0 ? "bg-emerald" : "bg-beige")} />
-              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-navy/50">{step}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center gap-2 text-xs text-navy/60">
-            <Truck className="h-4 w-4 text-emerald shrink-0" />
-            Free shipping above ₹5,000
-          </div>
-          <div className="flex items-center gap-2 text-xs text-navy/60">
-            <Banknote className="h-4 w-4 text-emerald shrink-0" />
-            COD available
-          </div>
-        </div>
-
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="desc">
-            <AccordionTrigger className="text-sm font-medium text-navy">Description</AccordionTrigger>
-            <AccordionContent className="text-sm text-navy/70 leading-relaxed">{product.description}</AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="material">
-            <AccordionTrigger className="text-sm font-medium text-navy">Material Used</AccordionTrigger>
-            <AccordionContent className="text-sm text-navy/70">{product.fabric}</AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="care">
-            <AccordionTrigger className="text-sm font-medium text-navy">Care Instructions</AccordionTrigger>
-            <AccordionContent className="text-sm text-navy/70 space-y-1">
-              <p>Dry clean recommended for silk and zari pieces.</p>
-              <p>Store in a muslin bag away from direct sunlight.</p>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="reviews">
-            <AccordionTrigger className="text-sm font-medium text-navy">Reviews ({reviews.length})</AccordionTrigger>
-            <AccordionContent className="space-y-4">
-              {reviews.length === 0 ? (
-                <p className="text-sm text-navy/50">No reviews yet.</p>
-              ) : (
-                reviews.map((r) => <ReviewCard key={r.id} review={r} />)
-              )}
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-
-        <Separator />
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {trustItems.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="text-center p-3 rounded-xl bg-cream-dark/40">
-              <Icon className="h-5 w-5 mx-auto text-emerald mb-2" strokeWidth={1.5} />
-              <p className="text-[11px] font-medium text-navy leading-tight">{title}</p>
-              <p className="text-[10px] text-navy/45 mt-0.5">{desc}</p>
-            </div>
-          ))}
+          </article>
         </div>
       </div>
+
+      <ProductDetailSections product={product} reviews={reviews} categoryName={categoryName} />
+
+      <ProductMobileBuyBar product={product} inStock={inStock} adding={adding} onAddToCart={handleAddToCart} />
     </div>
   );
 }

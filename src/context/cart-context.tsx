@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { CartItem, Product } from "@/lib/models";
-import { productRepository } from "@/lib/repositories";
+import { getProductByIdAction } from "@/app/actions/products";
 import { getEffectivePrice } from "@/lib/utils";
 
 const CART_STORAGE_KEY = "navi_cart";
@@ -55,7 +55,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   async function enrichItems(cartItems: CartItem[]): Promise<EnrichedCartItem[]> {
     const enriched = await Promise.all(
       cartItems.map(async (item) => {
-        const product = await productRepository.findById(item.productId);
+        const product = await getProductByIdAction(item.productId);
         return { ...item, product: product ?? undefined };
       })
     );
@@ -73,7 +73,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             : i
         );
       }
-      productRepository.findById(item.productId).then((product) => {
+      getProductByIdAction(item.productId).then((product) => {
         if (product) {
           setItems((current) => {
             if (current.some((i) => cartKey(i.productId, i.size, i.color) === key)) return current;
